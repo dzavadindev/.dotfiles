@@ -15,3 +15,15 @@ git clone https://github.com/dzavadindev/.dotfiles.git ~/dotfiles
 cd ~/dotfiles
 ./setup.sh
 ```
+
+## Another remarks
+
+### Tools Used
+
+
+
+### DE Settings
+
+On KDE Plasma:
+- Settings > Keyboard > Key Bindings
+- Caps Lock Behaviour > Make Caps Lock an additional Ctrl and Shift+Caps Lock the regular Caps Lock
