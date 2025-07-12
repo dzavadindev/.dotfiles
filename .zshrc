@@ -40,7 +40,7 @@ source $ZSH/oh-my-zsh.sh
 
 alias zshconfig="vim $HOME/.zshrc"
 alias docker="sudo docker"
-alias vim="nvim"
+alias v="nvim"
 alias dotfiles="cd ~/.dotfiles"
 alias sourcez="source ~/.zshrc"
 

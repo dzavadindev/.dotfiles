@@ -1,94 +1,10 @@
 vim.g.mapleader = ' '
 vim.g.maplocalleader = ' '
 
-vim.g.have_nerd_font = true
+require 'dzavadindev.config.options'
+require 'dzavadindev.config.mappings'
 
--- [[ --------------------- Setting options --------------------- ]]
-
--- Show relative line numbers
-vim.o.relativenumber = true
-
--- Enable mouse mode, can be useful for resizing splits for example!
-vim.o.mouse = 'a'
-
--- Don't show the mode, since it's already in the status line
-vim.o.showmode = false
-
--- Sync clipboard between OS and Neovim.
-vim.schedule(function()
-  vim.o.clipboard = 'unnamedplus'
-end)
-
--- Enable break indent
-vim.o.breakindent = true
-
--- Save undo history
-vim.o.undofile = true
-
--- Case-insensitive searching UNLESS \C or one or more capital letters in the search term
-vim.o.ignorecase = true
-vim.o.smartcase = true
-
--- Keep signcolumn on by default
-vim.o.signcolumn = 'yes'
-
--- Decrease update time
-vim.o.updatetime = 250
-
--- Decrease mapped sequence wait time
-vim.o.timeoutlen = 300
-
--- Configure how new splits should be opened
-vim.o.splitright = true
-vim.o.splitbelow = true
-
--- Sets how neovim will display certain whitespace characters in the editor.
-vim.o.list = true
-vim.opt.listchars = { tab = '» ', trail = '·', nbsp = '␣' }
-
--- Preview substitutions live, as you type!
-vim.o.inccommand = 'split'
-
--- Show which line your cursor is on
-vim.o.cursorline = true
-
--- Minimal number of screen lines to keep above and below the cursor.
-vim.o.scrolloff = 5
-
--- Raise a dialog asking if you wish to preform an operation
-vim.o.confirm = true
-
--- [[ --------------------- Basic Keymaps --------------------- ]]
-
--- jj to quit the insert mode
-vim.keymap.set('i', 'jk', '<Esc>', { noremap = false })
-
--- Move end-of-line and start-of-line
-vim.keymap.set({ 'x', 'n' }, 'E', '$') -- end
-vim.keymap.set('n', 'B', '^') -- start
-
--- Unmap the arrow keys in normal mode (pain)
-vim.keymap.set('n', '<Left>', '<cmd>Use h<CR>')
-vim.keymap.set('n', '<Right>', '<cmd>Use l<CR>')
-vim.keymap.set('n', '<Down>', '<cmd>Use j<CR>')
-vim.keymap.set('n', '<Up>', '<cmd>Use k<CR>')
-
--- Clear highlights on search when pressing <Esc> in normal mode
-vim.keymap.set('n', '<Esc>', '<cmd>nohlsearch<CR>')
-
--- Diagnostic keymaps
-vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist, { desc = 'Open diagnostic [Q]uickfix list' })
-
--- Exit terminal mode in the builtin terminal with a shortcut that is a bit easier
-vim.keymap.set('t', '<Esc><Esc>', '<C-\\><C-n>', { desc = 'Exit terminal mode' })
-
--- Keybinds to make split navigation easier.
-vim.keymap.set('n', '<C-h>', '<C-w><C-h>', { desc = 'Move focus to the left window' })
-vim.keymap.set('n', '<C-l>', '<C-w><C-l>', { desc = 'Move focus to the right window' })
-vim.keymap.set('n', '<C-j>', '<C-w><C-j>', { desc = 'Move focus to the lower window' })
-vim.keymap.set('n', '<C-k>', '<C-w><C-k>', { desc = 'Move focus to the upper window' })
-
--- Highlight when yanking (copying) text
+-- Highlight when yanking text
 vim.api.nvim_create_autocmd('TextYankPost', {
   desc = 'Highlight when yanking (copying) text',
   group = vim.api.nvim_create_augroup('kickstart-highlight-yank', { clear = true }),
@@ -117,10 +33,7 @@ rtp:prepend(lazypath)
 require('lazy').setup({
   'NMAC427/guess-indent.nvim', -- Detect tabstop and shiftwidth automatically
 
-  require 'dzavadindev.plugins.which-key',
-  require 'dzavadindev.plugins.lsp-config',
-  require 'dzavadindev.plugins.conform',
-  require 'dzavadindev.plugins.blinkcmp',
+  require 'dzavadindev.config.lsp-config',
 
   {
     -- To see what colorschemes are already installed, you can use `:Telescope colorscheme`.
@@ -142,6 +55,7 @@ require('lazy').setup({
 
   { -- Collection of various small independent plugins/modules
     'echasnovski/mini.nvim',
+    version = '*',
     config = function()
       require('mini.ai').setup { n_lines = 500 }
       require('mini.surround').setup()
@@ -156,16 +70,7 @@ require('lazy').setup({
       --  Check out: https://github.com/echasnovski/mini.nvim
     end,
   },
-
-  require 'dzavadindev.plugins.treesitter',
-  require 'dzavadindev.plugins.telescope',
-
-  require 'dzavadindev.plugins.debug',
-  require 'dzavadindev.plugins.indent_line',
-  require 'dzavadindev.plugins.lint',
-  require 'dzavadindev.plugins.autopairs',
-  require 'dzavadindev.plugins.neo-tree',
-  require 'dzavadindev.plugins.gitsigns',
+  { import = 'dzavadindev.plugins' },
 }, {
   ui = {
     icons = vim.g.have_nerd_font and {} or {
