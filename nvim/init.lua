@@ -31,7 +31,14 @@ rtp:prepend(lazypath)
 
 -- [[  --------------- Configure and install plugins  --------------- ]]
 require('lazy').setup({
-  'NMAC427/guess-indent.nvim', -- Detect tabstop and shiftwidth automatically
+  -- Detect tabstop and shiftwidth automatically
+  'NMAC427/guess-indent.nvim',
+  -- Close ", (, { and [ automatically
+  { 'windwp/nvim-autopairs', event = 'InsertEnter', opts = {} },
+  -- Nice indents for code blocks
+  { 'lukas-reineke/indent-blankline.nvim', main = 'ibl', opts = {} },
+  -- Highlight todo, notes, etc in comments
+  { 'folke/todo-comments.nvim', event = 'VimEnter', dependencies = { 'nvim-lua/plenary.nvim' }, opts = { signs = false } },
 
   require 'dzavadindev.config.lsp-config',
 
@@ -50,9 +57,6 @@ require('lazy').setup({
     end,
   },
 
-  -- Highlight todo, notes, etc in comments
-  { 'folke/todo-comments.nvim', event = 'VimEnter', dependencies = { 'nvim-lua/plenary.nvim' }, opts = { signs = false } },
-
   { -- Collection of various small independent plugins/modules
     'echasnovski/mini.nvim',
     version = '*',
@@ -67,9 +71,9 @@ require('lazy').setup({
       statusline.section_location = function()
         return '%2l:%-2v'
       end
-      --  Check out: https://github.com/echasnovski/mini.nvim
     end,
   },
+
   { import = 'dzavadindev.plugins' },
 }, {
   ui = {
