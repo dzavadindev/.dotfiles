@@ -46,7 +46,12 @@ vim.o.inccommand = 'split'
 vim.o.cursorline = true
 
 -- Minimal number of screen lines to keep above and below the cursor.
-vim.o.scrolloff = 5
+vim.o.scrolloff = 10
 
 -- Raise a dialog asking if you wish to preform an operation
 vim.o.confirm = true
+
+vim.o.expandtab = true
+vim.o.shiftwidth = 3
+vim.o.softtabstop = 3
+vim.o.tabstop = 3

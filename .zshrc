@@ -19,30 +19,24 @@ CASE_SENSITIVE="true"
 
 zstyle ':omz:update' frequency 13
 
-# Uncomment the following line if pasting URLs and other text is messed up.
-# DISABLE_MAGIC_FUNCTIONS="true"
-
 COMPLETION_WAITING_DOTS="true"
 
-# Uncomment the following line if you want to disable marking untracked files
-# under VCS as dirty. This makes repository status check for large repositories
-# much, much faster.
-# DISABLE_UNTRACKED_FILES_DIRTY="true"
-
 HIST_STAMPS="mm/dd/yyyy"
-
-# Would you like to use another custom folder than $ZSH/custom?
-# ZSH_CUSTOM=/path/to/new-custom-folder
 
 plugins=(git)
 
 source $ZSH/oh-my-zsh.sh
 
-alias zshconfig="vim $HOME/.zshrc"
-alias docker="sudo docker"
 alias v="nvim"
-alias dotfiles="cd ~/.dotfiles"
-alias sourcez="source ~/.zshrc"
 
-# eval "$(oh-my-posh init zsh --config "$POSH_THEMES_PATH/amro.omp.json")"
-eval "$(oh-my-posh init zsh --config "$POSH_THEMES_PATH/honukai.omp.json")"
+alias zshconf="nvim $HOME/.zshrc"
+alias tmuxconf="nvim $HOME/.tmux.conf"
+alias kittyconf="nvim $HOME/.config/kitty/kitty.conf"
+
+alias sourcez="source ~/.zshrc"
+alias dotfiles="cd ~/.dotfiles"
+
+eval "$(oh-my-posh init zsh --config "$POSH_THEMES_PATH/catppuccin_frappe.omp.json")"
+
+bindkey -r "^S"
+bindkey "^S" "no_op"
