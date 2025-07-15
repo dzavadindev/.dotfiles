@@ -51,7 +51,16 @@ vim.o.scrolloff = 10
 -- Raise a dialog asking if you wish to preform an operation
 vim.o.confirm = true
 
+-- Tabulation settings
 vim.o.expandtab = true
-vim.o.shiftwidth = 3
-vim.o.softtabstop = 3
-vim.o.tabstop = 3
+vim.o.shiftwidth = 2
+vim.o.softtabstop = 2
+vim.o.tabstop = 2
+
+-- Disable statusline highlighting for transparent bg
+vim.api.nvim_create_autocmd('ColorScheme', {
+  pattern = '*',
+  callback = function()
+    vim.cmd 'hi StatusLine guibg=NONE'
+  end,
+})
