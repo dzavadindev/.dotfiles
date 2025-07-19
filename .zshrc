@@ -8,8 +8,6 @@ export DOTNET_CLI_TELEMETRY_OPTOUT=1
 
 export STEAMAPPS="$HOME/.local/share/Steam/steamapps"
 
-export XDG_CONFIG_HOME="$HOME/.config"
-
 export LANG=en_US.UTF-8
 export LC_ALL=en_US.UTF-8
 export LC_NUMERIC=nl_NL.UTF-8
@@ -35,6 +33,8 @@ alias kittyconf="nvim $HOME/.config/kitty/kitty.conf"
 
 alias sourcez="source ~/.zshrc"
 alias dotfiles="cd ~/.dotfiles"
+
+alias clearvimswap='rm -v ~/.local/state/nvim/swap/*'
 
 eval "$(oh-my-posh init zsh --config "$POSH_THEMES_PATH/catppuccin_frappe.omp.json")"
 
