@@ -76,17 +76,17 @@
     "tooltip": false,
     "format": "{icon} {volume}%",
     "format-bluetooth": "{icon}  {volume}%",
-    "format-bluetooth-muted": " {icon} ",
-    "format-muted": "婢",
+    "format-bluetooth-muted": " {icon} ",
+    "format-muted": "",
     "format-icons": {
       "headphone": "",
-      "headset": "",
+      "headset": "",
       "default": [
-        "奄",
-        "奔",
-        "墳"
+        "",
+        ""
       ]
     },
+    "max-volume": 100,
     "on-click": "pavucontrol",
     "min-length": 3
   },

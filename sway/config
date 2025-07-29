@@ -21,7 +21,8 @@ set $ws5 '5'
 set $menu fuzzel
 
 # output configuration
-output eDP-1 resolution 1920x1080@60.008Hz position 0,0
+output eDP-1 resolution 1920x1080@60Hz position 0,0
+# output eDP-1 resolution 1920x1080@144Hz position 0,0
 
 # wallpaper
 output * bg /home/dan/.dotfiles/wpp/wpp2.jpg fill
@@ -123,6 +124,9 @@ $mod+Shift+c reload
 
 # exit sway (logs you out of your Wayland session)
 $mod+Shift+e exec /home/dan/.dotfiles/scripts/powermenu.sh
+
+# screenshotting
+$mod+Shift+s exec grim -g "$(slurp)" - | wl-copy && notify-send "Screenshot 📸" "Copied to clipboard"
 
 # move focus with vim navigation
 $mod+h focus left

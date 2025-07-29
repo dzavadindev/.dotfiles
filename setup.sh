@@ -2,7 +2,7 @@
 
 # Installing untilities **********************************
 
-tools=(git nvim tmux zsh kitty sway swaybg swayimg swaylock swayidle waybar fuzzel ttf-firacode-nerd dunst greetd-tuigreet xdg-utils)
+tools=(git yay nvim tmux zsh kitty sway swaybg swayimg swayidle waybar fuzzel ttf-firacode-nerd dunst greetd-tuigreet xdg-utils grim slurp)
 missing=()
 
 for tool in "${tools[@]}"; do
@@ -19,6 +19,10 @@ else
   echo "All required tools are installed."
 fi
 
+aur=(swaylock-effects)
+echo "Installing missing AUR packages"
+sudo yay -S --no-confirm "${aur[@]}"
+
 ln -s "${HOME}/.dotfiles/.electron-conf" "${HOME}/.electron-flags.conf"
 ln -s "${HOME}/.dotfiles/.gitconfig" "${HOME}/.gitconfig"
 ln -s "${HOME}/.dotfiles/.zshrc" "${HOME}/.zshrc"
@@ -31,8 +35,10 @@ ln -s "${HOME}/.dotfiles/sway" "${XDG_CONFIG_HOME}"
 ln -s "${HOME}/.dotfiles/waybar" "${XDG_CONFIG_HOME}"
 ln -s "${HOME}/.dotfiles/fuzzel" "${XDG_CONFIG_HOME}"
 ln -s "${HOME}/.dotfiles/xdg-desktop-portal-wlr" "${XDG_CONFIG_HOME}"
+ln -s "${HOME}/.dotfiles/swaylock" "${XDG_CONFIG_HOME}"
 
-ln -s "${HOME}/.dotfiles/greetd" "/etc"
+sudo rm -rf /etc/greetd
+sudo ln -s "${HOME}/.dotfiles/greetd" "/etc"
 
 # Setting up the environment **********************************
 

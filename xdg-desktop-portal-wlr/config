@@ -1,2 +1,3 @@
 [screencast]
-chooser-cmd = fuzzel
+chooser-type=dmenu
+chooser-cmd=fuzzel -d

@@ -5,7 +5,6 @@ CHOICE=$(printf "Shutdown\nReboot\nSuspend\nLogout\nLock" | fuzzel --dmenu --pro
 case "$CHOICE" in
 Shutdown) systemctl poweroff ;;
 Reboot) systemctl reboot ;;
-Suspend) systemctl suspend ;;
 Logout) swaymsg exit ;;
 Lock) swaylock ;;
 esac

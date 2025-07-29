@@ -1,0 +1,57 @@
+ignore-empty-password
+font="FiraCode Nerd Font"
+
+clock
+timestr=%R
+datestr=%a, %e of %B
+
+screenshots
+
+fade-in=0.1
+
+effect-blur=20x2
+effect-greyscale
+effect-scale=0.3
+
+indicator
+indicator-radius=240
+indicator-thickness=20
+indicator-caps-lock
+
+# Highlight colors
+key-hl-color=b4befeFF
+bs-hl-color=b4befeFF
+caps-lock-key-hl-color=b4befeFF
+caps-lock-bs-hl-color=b4befeFF
+
+# Separator
+separator-color=00000000
+
+# Inside colors
+inside-color=0f0f0fFF
+inside-clear-color=b4befe33
+inside-caps-lock-color=b4befe33
+inside-ver-color=b4befe33
+inside-wrong-color=b4befe33
+
+# Ring colors
+ring-color=0f0f0f80
+ring-clear-color=b4befeCC
+ring-caps-lock-color=b4befeCC
+ring-ver-color=b4befeCC
+ring-wrong-color=b4befeCC
+
+# Line colors
+line-color=0f0f0f80
+line-clear-color=b4befeFF
+line-caps-lock-color=b4befeFF
+line-ver-color=b4befeFF
+line-wrong-color=b4befeFF
+
+# Text colors (use high contrast)
+text-clear-color=b4befeFF
+text-ver-color=b4befeFF
+text-wrong-color=b4befeFF
+text-caps-lock-color=b4befeFF
+
+disable-caps-lock-text
