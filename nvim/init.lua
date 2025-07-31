@@ -33,6 +33,8 @@ rtp:prepend(lazypath)
 require('lazy').setup({
   -- Detect tabstop and shiftwidth automatically
   'NMAC427/guess-indent.nvim',
+  -- Yuck language support (eww widgets)
+  'elkowar/yuck.vim',
   -- Close ", (, { and [ automatically
   { 'windwp/nvim-autopairs', event = 'InsertEnter', opts = {} },
   -- Nice indents for code blocks

@@ -51,16 +51,17 @@
   // ---------------------------------- RIGHT
   //Bluetooth
   "bluetooth": {
-    "format": "{status}",
+    "format": "",
     "format-connected": " {device_alias}",
     "format-connected-battery": " {device_alias} {device_battery_percentage}%",
-    "on-click": "blueman-manager",
+    "on-click": "bzmenu -l fuzzel",
     "tooltip": false
   },
   //Clock
   "clock": {
     "format": "  {:%I:%M %p}",
-    "tooltip": false
+    "tooltip": true,
+    "tooltip-format": "{:%Y-%m-%d}"
   },
   //Network
   "network": {
@@ -69,7 +70,7 @@
     "format-disconnected": "No Network 󰤮 ",
     "interval": 1,
     "tooltip": false,
-    "on-click": "kitty --class nmwui nmtui"
+    "on-click": "iwmenu -l fuzzel"
   },
   //Sound
   "pulseaudio": {

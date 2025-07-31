@@ -1,28 +1,55 @@
-#!/bin/bash
+#!/usr/bin/env bash
+set -euo pipefail
+IFS=$'\n\t'
 
-# Installing untilities **********************************
+export DOTFILES="$HOME/.dotfiles"
+export XDG_CONFIG_HOME="${HOME}/.config"
 
-tools=(git yay nvim tmux zsh kitty sway swaybg swayimg swayidle waybar fuzzel ttf-firacode-nerd dunst greetd-tuigreet xdg-utils grim slurp)
-missing=()
+# --- 1. base system update & build tools ------------------------------
+sudo pacman -Syu --needed --noconfirm base-devel git
 
-for tool in "${tools[@]}"; do
-  if ! command -v "$tool" >/dev/null 2>&1; then
-    echo "$tool is not installed."
-    missing+=("$tool")
-  fi
-done
-
-if [ ${#missing[@]} -gt 0 ]; then
-  echo "Installing missing packages: ${missing[*]}"
-  sudo pacman -S --needed "${missing[@]}"
-else
-  echo "All required tools are installed."
+# --- 2. ensure yay is present -----------------------------------------
+if ! command -v yay >/dev/null 2>&1; then
+  echo ">> installing the yay AUR helper…"
+  git clone https://aur.archlinux.org/yay.git /tmp/yay
+  (cd /tmp/yay && makepkg -si --noconfirm)
 fi
 
-aur=(swaylock-effects)
-echo "Installing missing AUR packages"
-sudo yay -S --no-confirm "${aur[@]}"
+# --- 3. install repo & Wayland toolchain ------------------------------
+pac_pkgs=(
+  rustup neovim tmux zsh kitty sway swaybg swayimg swayidle waybar fuzzel
+  ttf-firacode-nerd dunst greetd-tuigreet xdg-utils grim slurp blueman iwd
+)
 
+missing=($(comm -23 <(printf '%s\n' "${pac_pkgs[@]}" | sort) \
+  <(pacman -Qq | sort)))
+if ((${#missing[@]})); then
+  echo ">> installing pacman packages: ${missing[*]}"
+  sudo pacman -S --needed --noconfirm "${missing[@]}"
+fi
+
+yay -S --needed --noconfirm swaylock-effects iwmenu bzmenu yolk
+
+# --- 4. network: switch to iwd ----------------------------------------
+sudo systemctl disable --now NetworkManager wpa_supplicant || true
+sudo install -Dm644 "$DOTFILES/iwd/main.conf" /etc/iwd/main.conf
+sudo systemctl enable --now iwd.service
+
+# clean DNS (iwd will populate /run/iwd/resolv.conf)
+sudo rm -f /etc/resolv.conf
+echo "nameserver 1.1.1.1" | sudo tee /etc/resolv.conf
+
+# --- 5. greetd ---------------------------------------------------------
+if ! id greeter &>/dev/null; then
+  sudo useradd -m -s /usr/bin/nologin greeter
+fi
+sudo ln -sfn "$DOTFILES/greetd" /etc/greetd
+sudo systemctl enable --now greetd.service
+
+# --- 6. shell ----------------------------------------------------------
+[[ $SHELL != */zsh ]] && chsh -s /bin/zsh || true
+
+# --- 7. symlink the configs into their place ---------------------------
 ln -s "${HOME}/.dotfiles/.electron-conf" "${HOME}/.electron-flags.conf"
 ln -s "${HOME}/.dotfiles/.gitconfig" "${HOME}/.gitconfig"
 ln -s "${HOME}/.dotfiles/.zshrc" "${HOME}/.zshrc"
@@ -36,24 +63,11 @@ ln -s "${HOME}/.dotfiles/waybar" "${XDG_CONFIG_HOME}"
 ln -s "${HOME}/.dotfiles/fuzzel" "${XDG_CONFIG_HOME}"
 ln -s "${HOME}/.dotfiles/xdg-desktop-portal-wlr" "${XDG_CONFIG_HOME}"
 ln -s "${HOME}/.dotfiles/swaylock" "${XDG_CONFIG_HOME}"
+ln -s "${HOME}/.dotfiles/eww" "${XDG_CONFIG_HOME}"
 
-sudo rm -rf /etc/greetd
-sudo ln -s "${HOME}/.dotfiles/greetd" "/etc"
+# --- 8. install scripts ------------------------------------------------
+install -Dm755 "$DOTFILES/scripts/powermenu.sh" /usr/local/bin/powermenu
+install -Dm755 "$DOTFILES/scripts/bluetooth-menu.sh" /usr/local/bin/bluetooth-menu
+install -Dm755 "$DOTFILES/scripts/install-zen.sh" /usr/local/bin/install-zen
 
-# Setting up the environment **********************************
-
-# Installing and setting the default browser
-sudo chmod u+x "${HOME}/.dotfiles/install-zen.sh"
-./install-zen.sh
-
-# Setting the deafult shell to ZSH
-if ! [[ "$SHELL" =~ zsh ]]; then
-  echo "Default shell is not zsh. Changing it..."
-  chsh -s /bin/zsh
-else
-  echo "Default shell is already zsh."
-fi
-
-# Creating the greeter user and enabling the login manager
-sudo useradd -m -s /usr/bin/nologin greeter
-sudo systemctl enable greetd
+echo -e "\n✅  Setup complete. Log out to start Sway with greetd."

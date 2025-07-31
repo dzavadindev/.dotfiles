@@ -14,7 +14,6 @@
 * {
     font-family: "FiraCode Nerd Font";
     font-size: 16px;
-    padding: 0px;
     background: transparent;
 }
 
@@ -73,6 +72,12 @@ window#waybar {
 /* Hide window module when no is in focus */
 window#waybar.empty #window {
     padding: 0;
+}
+
+/* Styles for bluetooth */
+#bluetooth.off {
+  background-color: @frame;
+  color: @accent;
 }
 
 /**************************************************************
