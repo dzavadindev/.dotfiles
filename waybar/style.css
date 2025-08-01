@@ -38,9 +38,6 @@ window#waybar {
 #bluetooth,
 #custom-pacman,
 #pulseaudio,
-#language,
-#workspaces,
-#window, 
 #clock
 {
     background: @module;
@@ -55,30 +52,11 @@ window#waybar {
   margin: 0 3px 0 0;
 }
 
-#language {
-  margin: 0 0 0 3px;
-}
 
 /**************************************************************
  * Special Cases Overrides
  **************************************************************/
 
-/* Window title (focused app name) */
-#window {
-    padding: 4px 16px;
-    color: @background;
-}
-
-/* Hide window module when no is in focus */
-window#waybar.empty #window {
-    padding: 0;
-}
-
-/* Styles for bluetooth */
-#bluetooth.off {
-  background-color: @frame;
-  color: @accent;
-}
 
 /**************************************************************
  * Hover Effects
@@ -88,9 +66,7 @@ window#waybar.empty #window {
 #pulseaudio:hover,
 #network:hover,
 #battery:hover,
-#language:hover,
 #bluetooth:hover,
-#window:hover,
 #custom-pacman:hover {
     background-color: @hover;
     transition-duration: 120ms;
@@ -99,33 +75,6 @@ window#waybar.empty #window {
 /**************************************************************
  * Workspaces
  **************************************************************/
-
-#workspaces button {
-    transition-duration: 100ms;
-    all: initial;
-    min-width: 10px;
-    margin: -2px 0;
-    padding: 0 5px;
-    color: @background;
-    border-radius: 4px;
-}
-
-#workspaces button:hover {
-    background-color: @hover;
-}
-
-#workspaces button.focused {
-    color: @module;
-    background-color: @background;
-}
-
-#workspaces button.active {
-    color: @background;
-}
-
-#workspaces button.urgent {
-    color: @highlight;
-}
 
 /**************************************************************
  * Battery Levels
@@ -136,13 +85,5 @@ window#waybar.empty #window {
 #battery.urgent {
     background-color: @battery_critical;
     color: @background;
-}
-
-/**************************************************************
- * Language Layout Indicator
- **************************************************************/
-
-#language {
-    font-weight: bold;
 }
 

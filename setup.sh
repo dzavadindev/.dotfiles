@@ -17,8 +17,9 @@ fi
 
 # --- 3. install repo & Wayland toolchain ------------------------------
 pac_pkgs=(
-  rustup neovim tmux zsh kitty sway swaybg swayimg swayidle waybar fuzzel
-  ttf-firacode-nerd dunst greetd-tuigreet xdg-utils grim slurp blueman iwd
+  rustup neovim tmux zsh kitty hyprland fuzzel ttf-firacode-nerd
+  dunst greetd-tuigreet xdg-utils grim slurp blueman iwd pipewire wireplumber
+  gtk-launch xdg-desktop-portal-hyprland xdg-desktop-portal-gtk swww hyprpolkitagent cliphist
 )
 
 missing=($(comm -23 <(printf '%s\n' "${pac_pkgs[@]}" | sort) \
@@ -28,7 +29,7 @@ if ((${#missing[@]})); then
   sudo pacman -S --needed --noconfirm "${missing[@]}"
 fi
 
-yay -S --needed --noconfirm swaylock-effects iwmenu bzmenu yolk
+yay -S --needed --noconfirm iwmenu bzmenu
 
 # --- 4. network: switch to iwd ----------------------------------------
 sudo systemctl disable --now NetworkManager wpa_supplicant || true
@@ -50,24 +51,24 @@ sudo systemctl enable --now greetd.service
 [[ $SHELL != */zsh ]] && chsh -s /bin/zsh || true
 
 # --- 7. symlink the configs into their place ---------------------------
-ln -s "${HOME}/.dotfiles/.electron-conf" "${HOME}/.electron-flags.conf"
+$DOTFILES
 ln -s "${HOME}/.dotfiles/.gitconfig" "${HOME}/.gitconfig"
 ln -s "${HOME}/.dotfiles/.zshrc" "${HOME}/.zshrc"
 ln -s "${HOME}/.dotfiles/.tmux.conf" "${HOME}/.tmux.conf"
 
 ln -s "${HOME}/.dotfiles/dunst" "${XDG_CONFIG_HOME}"
-ln -s "${HOME}/.dotfiles/nvim" "${XDG_CONFIG_HOME}"
-ln -s "${HOME}/.dotfiles/kitty" "${XDG_CONFIG_HOME}"
-ln -s "${HOME}/.dotfiles/sway" "${XDG_CONFIG_HOME}"
-ln -s "${HOME}/.dotfiles/waybar" "${XDG_CONFIG_HOME}"
 ln -s "${HOME}/.dotfiles/fuzzel" "${XDG_CONFIG_HOME}"
-ln -s "${HOME}/.dotfiles/xdg-desktop-portal-wlr" "${XDG_CONFIG_HOME}"
-ln -s "${HOME}/.dotfiles/swaylock" "${XDG_CONFIG_HOME}"
-ln -s "${HOME}/.dotfiles/eww" "${XDG_CONFIG_HOME}"
+ln -s "${HOME}/.dotfiles/hyprland" "${XDG_CONFIG_HOME}"
+ln -s "${HOME}/.dotfiles/kitty" "${XDG_CONFIG_HOME}"
+ln -s "${HOME}/.dotfiles/nvim" "${XDG_CONFIG_HOME}"
+ln -s "${HOME}/.dotfiles/waybar" "${XDG_CONFIG_HOME}"
+
+mkdir -p "${HOME}/Pictures/Wallpapers"
+cp "$DOTFILES/wpp/*" "${HOME}/Pictures/Wallpapers"
 
 # --- 8. install scripts ------------------------------------------------
 install -Dm755 "$DOTFILES/scripts/powermenu.sh" /usr/local/bin/powermenu
 install -Dm755 "$DOTFILES/scripts/bluetooth-menu.sh" /usr/local/bin/bluetooth-menu
 install -Dm755 "$DOTFILES/scripts/install-zen.sh" /usr/local/bin/install-zen
 
-echo -e "\n✅  Setup complete. Log out to start Sway with greetd."
+echo -e "\n✅  Setup complete. Log out to start Hyprland with greetd."

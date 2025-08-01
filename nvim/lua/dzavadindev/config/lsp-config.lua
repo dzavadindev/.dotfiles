@@ -156,6 +156,7 @@ return {
       local servers = {
         -- :help lspconfig-all
         rust_analyzer = {},
+        qmlls = {},
         omnisharp = {
           -- Force OmniSharp to run with the system dotnet SDK instead of Mono
           cmd = {

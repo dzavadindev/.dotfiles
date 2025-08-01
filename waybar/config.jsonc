@@ -9,8 +9,8 @@
   "margin-left": 15,
   "modules-left": [
     "custom/pacman",
-    "sway/workspaces",
-    "sway/window"
+    "hyprland/workspaces",
+    "hyprland/window"
   ],
   "modules-right": [
     "pulseaudio",
@@ -18,7 +18,7 @@
     "battery",
     "network",
     "clock",
-    "sway/language"
+    "hyprland/language"
   ],
   // ---------------------------------- LEFT
   //Check Update
@@ -32,7 +32,7 @@
     "tooltip": false
   },
   //Workspace
-  "sway/workspaces": {
+  "hyprland/workspaces": {
     "all-outputs": true,
     "disable-scroll": true,
     "tooltip": false,
@@ -41,7 +41,7 @@
   },
   // ---------------------------------- CENTER
   //Window
-  "sway/window": {
+  "hyprland/window": {
     "format": "{app_id}",
     "max-length": 40,
     "tooltip": false,
