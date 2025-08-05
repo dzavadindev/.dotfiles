@@ -1,13 +1,6 @@
 -- jj to quit the insert mode
 vim.keymap.set('i', 'jj', '<Esc>', { noremap = false })
 
--- Move end-of-line and start-of-line
-vim.keymap.set({ 'n', 'v' }, 'E', '$') -- end
-vim.keymap.set('n', 'dE', 'd$') -- delete until the end of line
-
-vim.keymap.set({ 'n', 'v' }, 'B', '^') -- start
-vim.keymap.set('n', 'dB', 'd0') -- delete until the start
-
 -- Unmap the arrow keys in normal mode (pain)
 vim.keymap.set('n', '<Left>', '<cmd>Use h<CR>')
 vim.keymap.set('n', '<Right>', '<cmd>Use l<CR>')
