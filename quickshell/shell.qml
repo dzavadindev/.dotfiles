@@ -2,6 +2,6 @@ import Quickshell
 
 import qs.modules.Bar
 
-Scope {
+ShellRoot {
     Bar {}
 }

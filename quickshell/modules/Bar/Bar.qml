@@ -1,37 +1,46 @@
 import QtQuick
+import Quickshell
 import qs.config
+import qs.components
 
 import "modules"
 
-Item {
-    id: root
+StyledWindow {
+    name: "bar"
+    // Made the height dynamic, based on how high the elements of the bar are + the padding
+    implicitHeight: child.implicitHeight + Appearance.padding.sm
 
-    // Set the bar to hug the bottom of the screen
-    anchors.bottom: parent.bottom
-    anchors.left: parent.left
-    anchors.right: parent.right
-
-    // Made the height dynamic, based on how high the elements of the bar are
-    implicitHeight: child.implicitHeight
+    // Hug the bottom
+    anchors.left: true
+    anchors.right: true
+    anchors.bottom: true
 
     Item {
         id: child
 
-        // Hug the bottom
-        anchors.left: parent.left
-        anchors.bottom: parent.bottom
-        // Make all bar elements center be on the center of the bar itself
+        // Make all bar elements center be on the center of the bar itself, this creates the padding effect
         anchors.verticalCenter: parent.verticalCenter
+        // Make the main wrapper span the whole panel
+        anchors.left: parent.left
+        anchors.right: parent.right
 
         // Determine the height based on what is the highest bar element
         implicitHeight: Math.max(clock.implicitHeight)
+
+        // Elements of the bar
+        Workspaces {
+            id: workspaces
+
+            anchors.verticalCenter: parent.verticalCenter
+            anchors.left: parent.left
+            anchors.leftMargin: Appearance.padding.md
+        }
 
         Clock {
             id: clock
 
             anchors.verticalCenter: parent.verticalCenter
-            anchors.left: parent.left
-            anchors.leftMargin: Appearance.padding.lg
+            anchors.centerIn: parent
         }
     }
 }
