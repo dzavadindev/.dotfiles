@@ -64,4 +64,7 @@ install -Dm755 "$DOTFILES/scripts/powermenu.sh" /usr/local/bin/powermenu
 install -Dm755 "$DOTFILES/scripts/bluetooth-menu.sh" /usr/local/bin/bluetooth-menu
 install -Dm755 "$DOTFILES/scripts/install-zen.sh" /usr/local/bin/install-zen
 
+# --- 8. install Material Symbols ---------------------------------------
+cp "$DOTFILES/fonts/MaterialSymbolsRounded.ttf" "$HOME/.local/share/fonts/MaterialDesign/"
+
 echo -e "\n✅  Setup complete. Log out to start Hyprland with greetd."

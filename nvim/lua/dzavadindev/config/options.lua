@@ -1,5 +1,10 @@
 vim.g.have_nerd_font = true
 
+-- default blend for new floating windows
+vim.opt.winblend = 0
+-- popup menu blend
+vim.opt.pumblend = 0
+
 -- Show relative line numbers
 vim.o.relativenumber = true
 
@@ -64,3 +69,25 @@ vim.api.nvim_create_autocmd('ColorScheme', {
     vim.cmd 'hi StatusLine guibg=NONE'
   end,
 })
+
+-- LSP-less formatting of .qml files
+
+-- vim.api.nvim_create_autocmd('BufWritePost', {
+--   group = vim.api.nvim_create_augroup('QmlAutoFormat', { clear = true }),
+--   pattern = '*.qml',
+--   callback = function(args)
+--     -- Format the just-saved file in-place
+--     vim.fn.jobstart({ 'qmlformat', '-i', args.file }, {
+--       on_exit = function(_, code, _)
+--         if code == 0 then
+--           -- Reload the buffer if the file changed
+--           vim.schedule(function()
+--             vim.cmd('checktime ' .. vim.fn.fnameescape(args.file))
+--           end)
+--         else
+--           vim.notify('qmlformat failed with exit code ' .. code, vim.log.levels.WARN)
+--         end
+--       end,
+--     })
+--   end,
+-- })

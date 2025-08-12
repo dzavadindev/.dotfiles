@@ -9,6 +9,7 @@ StyledWindow {
     name: "bar"
     // Made the height dynamic, based on how high the elements of the bar are + the padding
     implicitHeight: child.implicitHeight + Appearance.padding.sm
+    implicitWidth: child.implicitWidth
 
     // Hug the bottom
     anchors.left: true
@@ -25,7 +26,7 @@ StyledWindow {
         anchors.right: parent.right
 
         // Determine the height based on what is the highest bar element
-        implicitHeight: Math.max(clock.implicitHeight)
+        implicitHeight: Math.max(clock.implicitHeight, active_top_level.implicitHeight, clock.implicitHeight, battery.implicitHeight)
 
         // Elements of the bar
         Workspaces {
@@ -36,11 +37,35 @@ StyledWindow {
             anchors.leftMargin: Appearance.padding.md
         }
 
+        FocusedWindow {
+            id: active_top_level
+
+            anchors.verticalCenter: parent.verticalCenter
+            anchors.left: workspaces.right
+            anchors.leftMargin: Appearance.padding.sm
+        }
+
         Clock {
             id: clock
 
             anchors.verticalCenter: parent.verticalCenter
             anchors.centerIn: parent
+        }
+
+        Volume {
+            id: volume
+
+            anchors.verticalCenter: parent.verticalCenter
+            anchors.right: battery.left
+            anchors.rightMargin: Appearance.padding.sm
+        }
+
+        Battery {
+            id: battery
+
+            anchors.verticalCenter: parent.verticalCenter
+            anchors.right: parent.right
+            anchors.rightMargin: Appearance.padding.md
         }
     }
 }

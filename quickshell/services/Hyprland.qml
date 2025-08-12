@@ -15,7 +15,10 @@ Singleton {
     readonly property HyprlandWorkspace focusedWorkspace: Hyprland.focusedWorkspace
     readonly property HyprlandMonitor focusedMonitor: Hyprland.focusedMonitor
     readonly property int activeWsId: focusedWorkspace?.id ?? 1
+
     property string kbLayout: "?"
+
+    signal activeWindowChanged
 
     function dispatch(request: string): void {
         Hyprland.dispatch(request);
@@ -25,24 +28,24 @@ Singleton {
         target: Hyprland
 
         function onRawEvent(event: HyprlandEvent): void {
-            const n = event.name;
-            if (n.endsWith("v2"))
+            const name = event.name;
+
+            // ignore v2 events
+            if (name.endsWith("v2"))
                 return;
 
-            if (n === "activelayout") {
+            // get the active layout name to show
+            if (name === "activelayout") {
                 root.kbLayout = event.parse(2)[1].slice(0, 2).toLowerCase();
-            } else if (["workspace", "moveworkspace", "activespecial", "focusedmon"].includes(n)) {
+            }
+
+            // ensure that workspace list is refreshed after changes
+            if (name.includes("workspace")) {
                 Hyprland.refreshWorkspaces();
-                Hyprland.refreshMonitors();
-            } else if (["openwindow", "closewindow", "movewindow"].includes(n)) {
-                Hyprland.refreshToplevels();
-                Hyprland.refreshWorkspaces();
-            } else if (n.includes("mon")) {
-                Hyprland.refreshMonitors();
-            } else if (n.includes("workspace")) {
-                Hyprland.refreshWorkspaces();
-            } else if (n.includes("window") || n.includes("group") || ["pin", "fullscreen", "changefloatingmode", "minimize"].includes(n)) {
-                Hyprland.refreshToplevels();
+            }
+
+            if (name === "activewindow") {
+                root.activeWindowChanged();
             }
         }
     }

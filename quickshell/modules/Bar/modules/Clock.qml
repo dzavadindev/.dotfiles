@@ -14,13 +14,14 @@ Rectangle {
     Text {
         id: text
 
-        color: Appearance.colors.secondary
-
         anchors.horizontalCenter: parent.horizontalCenter
         anchors.verticalCenter: parent.verticalCenter
 
         text: Time.time
+
+        color: Appearance.colors.secondary
         font.pointSize: Appearance.font.size.sm
         font.family: Appearance.font.family.mono
+        font.bold: true
     }
 }

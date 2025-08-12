@@ -1,7 +1,14 @@
 import Quickshell
 
 import qs.modules.Bar
+import qs.modules.Drawers
 
 ShellRoot {
-    Bar {}
+    Drawers {
+        id: drawers
+        barHeight: bar.implicitHeight
+    }
+    Bar {
+        id: bar
+    }
 }

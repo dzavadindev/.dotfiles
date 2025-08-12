@@ -7,6 +7,11 @@ return {
       custom_theme.normal.c.bg = 'None'
       require('lualine').setup {
         options = {
+          disabled_filetypes = {
+            statusline = {
+              'neo-tree',
+            },
+          },
           theme = custom_theme,
         },
         sections = {

@@ -30,72 +30,74 @@ local rtp = vim.opt.rtp
 rtp:prepend(lazypath)
 
 -- [[  --------------- Configure and install plugins  --------------- ]]
-require('lazy').setup({
+require('lazy').setup {
+  -- Fine command line
   -- Detect tabstop and shiftwidth automatically
   'NMAC427/guess-indent.nvim',
-  -- Yuck language support (eww widgets)
-  'elkowar/yuck.vim',
-  -- Close ", (, { and [ automatically
-  { 'windwp/nvim-autopairs', event = 'InsertEnter', opts = {} },
   -- Nice indents for code blocks
-  { 'lukas-reineke/indent-blankline.nvim', main = 'ibl', opts = {} },
-  -- Highlight todo, notes, etc in comments
-  { 'folke/todo-comments.nvim', event = 'VimEnter', dependencies = { 'nvim-lua/plenary.nvim' }, opts = { signs = false } },
-
-  require 'dzavadindev.config.lsp-config',
-
   {
-    -- To see what colorschemes are already installed, you can use `:Telescope colorscheme`.
-    'folke/tokyonight.nvim',
-    priority = 1000, -- Load this before all the other start plugins.
+    'lukas-reineke/indent-blankline.nvim',
+    main = 'ibl',
     config = function()
-      ---@diagnostic disable-next-line: missing-fields
-      require('tokyonight').setup {
-        styles = {
-          comments = { italic = false }, -- Disable italics in comments
+      require('ibl').setup {
+        exclude = {
+          filetypes = {
+            'dashboard',
+          },
         },
       }
-      vim.cmd.colorscheme 'tokyonight-storm'
     end,
   },
-
-  { -- Collection of various small independent plugins/modules
+  -- Highlight todo, notes, etc in comments
+  { 'folke/todo-comments.nvim', event = 'VimEnter', dependencies = { 'nvim-lua/plenary.nvim' }, opts = { signs = false } },
+  -- A bunch of nice little things
+  {
     'echasnovski/mini.nvim',
     version = '*',
     config = function()
       require('mini.ai').setup { n_lines = 500 }
+      require('mini.pairs').setup {
+        mappings = {
+          ['('] = {},
+          ['['] = {},
+          ['{'] = {},
+
+          [')'] = {},
+          [']'] = {},
+          ['}'] = {},
+        },
+      }
       require('mini.surround').setup()
-
-      local statusline = require 'mini.statusline'
-      statusline.setup { use_icons = vim.g.have_nerd_font }
-
-      ---@diagnostic disable-next-line: duplicate-set-field
-      statusline.section_location = function()
-        return '%2l:%-2v'
-      end
+      require('mini.bufremove').setup()
+      require('mini.notify').setup {
+        window = {
+          winblend = 0,
+        },
+      }
     end,
   },
 
-  { import = 'dzavadindev.plugins' },
-}, {
-  ui = {
-    icons = vim.g.have_nerd_font and {} or {
-      cmd = '⌘',
-      config = '🛠',
-      event = '📅',
-      ft = '📂',
-      init = '⚙',
-      keys = '🗝',
-      plugin = '🔌',
-      runtime = '💻',
-      require = '🌙',
-      source = '📄',
-      start = '🚀',
-      task = '📌',
-      lazy = '💤 ',
-    },
-  },
-})
+  require 'dzavadindev.config.lsp-config',
 
--- The line beneath this is called `modeline`. See `:help modeline`
+  -- My color scheme
+  {
+    'ellisonleao/gruvbox.nvim',
+    priority = 1000, -- Load this before all the other start plugins.
+    config = function()
+      ---@diagnostic disable-next-line: missing-fields
+      require('gruvbox').setup {
+        transparent_mode = true,
+        terminal_colors = true,
+        overrides = {
+          ['@comment'] = { fg = '#836953' },
+        },
+      }
+      vim.cmd.colorscheme 'gruvbox'
+    end,
+  },
+
+  -- Rest of the plugins
+  { import = 'dzavadindev.plugins' },
+}
+
 -- vim: ts=2 sts=2 sw=2 et

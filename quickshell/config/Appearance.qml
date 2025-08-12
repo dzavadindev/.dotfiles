@@ -9,7 +9,7 @@ Singleton {
     readonly property Colors colors: Colors {}
     readonly property Rounding rounding: Rounding {}
     readonly property Padding padding: Padding {}
-    readonly property Font font: Font {}
+    readonly property FontProps font: FontProps {}
 
     component Colors: QtObject {
         readonly property string primary: "#0F3325"
@@ -24,9 +24,10 @@ Singleton {
         readonly property real lg: 30
         readonly property real md: 20
         readonly property real sm: 10
+        readonly property real xs: 5
     }
 
-    component Font: QtObject {
+    component FontProps: QtObject {
         readonly property FontFamily family: FontFamily {}
         readonly property FontSize size: FontSize {}
     }

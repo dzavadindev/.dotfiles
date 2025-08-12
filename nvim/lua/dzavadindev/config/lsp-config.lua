@@ -18,7 +18,7 @@ return {
       { 'mason-org/mason.nvim', opts = {} },
       'mason-org/mason-lspconfig.nvim',
       'WhoIsSethDaniel/mason-tool-installer.nvim',
-      { 'j-hui/fidget.nvim', opts = {} },
+      { 'j-hui/fidget.nvim', opts = { notification = { window = { winblend = 0 } } } },
       'saghen/blink.cmp',
     },
     config = function()
@@ -147,7 +147,21 @@ return {
       local servers = {
         -- :help lspconfig-all
         rust_analyzer = {},
-        qmlls = {},
+        qmlls = {
+          on_attach = function(client, bufnr)
+            -- Stop qmlls from publishing diagnostics (Quickshell ~_~)
+            client.handlers['textDocument/publishDiagnostics'] = function() end
+            -- Clear any diagnostics it may have already sent during initialize
+            local get_ns = vim.lsp.diagnostic and vim.lsp.diagnostic.get_namespace
+            local ns = get_ns and vim.lsp.diagnostic.get_namespace(client.id) or nil
+            if ns then
+              pcall(vim.diagnostic.reset, ns, bufnr) -- Neovim ≥0.10
+            else
+              -- fallback if API shape differs: clear once for this buffer
+              pcall(vim.diagnostic.reset, nil, bufnr)
+            end
+          end,
+        },
         omnisharp = {
           -- Force OmniSharp to run with the system dotnet SDK instead of Mono
           cmd = {
