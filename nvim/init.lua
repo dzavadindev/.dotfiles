@@ -1,5 +1,5 @@
 vim.g.mapleader = ' '
-vim.g.maplocalleader = ' '
+vim.g.maplocalleader = '\\'
 
 require 'dzavadindev.config.options'
 require 'dzavadindev.config.mappings'

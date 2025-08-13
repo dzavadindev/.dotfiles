@@ -10,28 +10,37 @@ Singleton {
 
     readonly property VolumeState volumeState: VolumeState {}
     readonly property PwNode defaultSink: Pipewire.defaultAudioSink
+    readonly property var nodes: Pipewire.nodes
 
+    property string volumeIcon: volumeState.mute
+    property int volume: Math.round(defaultSink.audio.volume * 100)
+    property bool isMuted: volume == 0 | defaultSink.audio.muted
+
+    // Bind the defaultSink prop to get access to all props
     property var pw: PwObjectTracker {
         objects: [root.defaultSink]
     }
 
-    property string volumeIcon: volumeState.high
-    property int volume: Math.round(defaultSink.audio.volume * 100)
-    property bool isMuted: false
-
     // Triggers every time the sink changes (plug/unplug headphones)
-    onDefaultSinkChanged: () => {}
+    onDefaultSinkChanged: () => updateAudioVolume()
 
-    onVolumeChanged: () => {
+    Connections {
+        target: root.defaultSink.audio
+        function onMutedChanged() {
+            root.updateAudioVolume();
+        }
+        function onVolumeChanged() {
+            root.updateAudioVolume();
+        }
+    }
+
+    function updateAudioVolume() {
         const volume = root.volume;
 
-        if (volume == 0) {
-            isMuted = true;
+        if (isMuted) {
             volumeIcon = volumeState.mute;
             return;
         }
-
-        isMuted = false;
 
         if (volume > 50) {
             volumeIcon = volumeState.high;

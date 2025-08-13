@@ -9,6 +9,11 @@ import qs.services
 
 import "panels"
 
+/*
+ TODO: Make a 0 width StyledWindow, then make all the popups part of a PopupWinow
+    then make the HyprlandFocusGrab based on the parent, not the actual PopupWindow
+    this will actually make the drawers "pop up" from the right side of screen
+*/
 StyledWindow {
     id: root
     name: "drawers"
@@ -22,6 +27,8 @@ StyledWindow {
     anchors.bottom: true
 
     exclusionMode: ExclusionMode.Ignore
+
+    implicitWidth: activePopup ? activePopup.implicitWidth : 0
 
     mask: Region {
         item: popup
