@@ -9,6 +9,7 @@ Singleton {
     id: root
 
     readonly property VolumeState volumeState: VolumeState {}
+
     readonly property PwNode defaultSink: Pipewire.defaultAudioSink
     readonly property var nodes: Pipewire.nodes
 
@@ -32,6 +33,14 @@ Singleton {
         function onVolumeChanged() {
             root.updateAudioVolume();
         }
+    }
+
+    function getNodeName(node: PwNode): string {
+        if (node.nickname)
+            return node.nickname;
+        if (node.description)
+            return node.description;
+        return node.name;
     }
 
     function updateAudioVolume() {

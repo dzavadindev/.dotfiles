@@ -12,16 +12,19 @@ Singleton {
     readonly property DrawerSize drawerSize: DrawerSize {}
     readonly property FontProps font: FontProps {}
 
+    // Colors -------------------------------------
     component Colors: QtObject {
         readonly property string primary: "#0F3325"
         readonly property string secondary: "#FFDCAB"
         readonly property string accent: "#18230F"
     }
 
+    // Rounding -----------------------------------
     component Rounding: QtObject {
         readonly property real full: 1000
     }
 
+    // Padding ------------------------------------
     component Padding: QtObject {
         readonly property real lg: 30
         readonly property real md: 20
@@ -29,12 +32,13 @@ Singleton {
         readonly property real xs: 5
     }
 
+    // Drawer Sizes -------------------------------
     component DrawerSize: QtObject {
-        readonly property real lg: 500
-        readonly property real md: 350
-        readonly property real sm: 400
+        readonly property vector2d tall: Qt.vector2d(300, 400)
+        readonly property vector2d wide: Qt.vector2d(500, 200)
     }
 
+    // Fonts --------------------------------------
     component FontProps: QtObject {
         readonly property FontFamily family: FontFamily {}
         readonly property FontSize size: FontSize {}

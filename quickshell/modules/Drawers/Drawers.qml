@@ -1,5 +1,6 @@
 import Quickshell
 import Quickshell.Hyprland
+import Quickshell.Wayland
 
 import QtQuick
 
@@ -7,68 +8,48 @@ import qs.components
 import qs.config
 import qs.services
 
-import "panels"
+import "panels/AudioMixer"
 
-/*
- TODO: Make a 0 width StyledWindow, then make all the popups part of a PopupWinow
-    then make the HyprlandFocusGrab based on the parent, not the actual PopupWindow
-    this will actually make the drawers "pop up" from the right side of screen
-*/
 StyledWindow {
     id: root
     name: "drawers"
 
     required property int barHeight
 
-    property Item activePopup
-
     anchors.top: true
     anchors.right: true
     anchors.bottom: true
 
+    implicitWidth: 0
+
     exclusionMode: ExclusionMode.Ignore
 
-    implicitWidth: activePopup ? activePopup.implicitWidth : 0
+    DrawerPopup {
+        id: audiomixer
 
-    mask: Region {
-        item: popup
-    }
+        grab: grab
+        parentWindow: root
+        barHeight: root.barHeight
 
-    Item {
-        id: popup
-
-        implicitWidth: root.activePopup.implicitWidth
-        implicitHeight: root.activePopup.implicitHeight
-
-        anchors.bottom: parent.bottom
-        anchors.bottomMargin: root.barHeight + Appearance.padding.md
+        implicitHeight: Appearance.drawerSize.tall.y
+        implicitWidth: Appearance.drawerSize.tall.x
 
         AudioMixer {
-            id: mixer
-            visible: false
+            id: audioMixerMenu
+
+            anchors.fill: parent
         }
 
-        // qmllint disable unqualified
         Connections {
             target: DrawersManager
             function onAudioMixerCalled() {
-                openPopup(mixer);
+                audiomixer.openPopup();
             }
         }
-        // qmllint enable unqualified
-    }
-
-    function openPopup(item: Item) {
-        grab.active = true;
-        root.activePopup = item;
-        root.activePopup.visible = true;
     }
 
     HyprlandFocusGrab {
         id: grab
-        windows: [root]
-        onCleared: () => {
-            root.activePopup.visible = false;
-        }
+        windows: [root, audiomixer]
     }
 }

@@ -1,15 +1,18 @@
 import QtQuick
 
 import Quickshell
+import Quickshell.Hyprland as HL
 
 import qs.services
 import qs.config
 
 Rectangle {
-    id: focused_window
+    id: root
 
     implicitHeight: app_id.implicitHeight + Appearance.padding.md / 2
     implicitWidth: app_id.implicitWidth + Appearance.padding.md
+
+    readonly property HL.HyprlandToplevel activeToplevel: Hyprland.activeToplevel
 
     color: Appearance.colors.secondary
     radius: Appearance.rounding.full
@@ -26,7 +29,7 @@ Rectangle {
         anchors.centerIn: parent
 
         color: Appearance.colors.primary
-        text: Hyprland.activeToplevel.wayland.appId
+        text: root.activeToplevel ? root.activeToplevel.wayland.appId : ""
         font.pointSize: Appearance.font.size.sm
         font.family: Appearance.font.family.mono
         font.bold: true
@@ -34,19 +37,19 @@ Rectangle {
 
     function hide() {
         if (Hyprland.focusedWorkspace.toplevels.values.length != 0) {
-            focused_window.opacity = 1;
+            root.opacity = 1;
             return;
         }
-        focused_window.opacity = 0;
+        root.opacity = 0;
     }
 
     Connections {
         target: Hyprland
         function onFocusedWorkspaceChanged() {
-            focused_window.hide();
+            root.hide();
         }
         function onActiveWindowChanged() {
-            focused_window.hide();
+            root.hide();
         }
     }
 }

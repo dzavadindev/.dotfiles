@@ -20,7 +20,7 @@ pac_pkgs=(
     rustup neovim tmux zsh kitty hyprland fuzzel ttf-firacode-nerd
     dunst greetd-tuigreet xdg-utils grim slurp blueman gtk-launch
     xdg-desktop-portal-hyprland xdg-desktop-portal-gtk swww
-    hyprpolkitagent cliphist
+    hyprpolkitagent cliphist flameshot
 )
 
 missing=($(comm -23 <(printf '%s\n' "${pac_pkgs[@]}" | sort) \
@@ -55,6 +55,7 @@ ln -s "$DOTFILES/kitty" "${XDG_CONFIG_HOME}"
 ln -s "$DOTFILES/nvim" "${XDG_CONFIG_HOME}"
 ln -s "$DOTFILES/waybar" "${XDG_CONFIG_HOME}"
 ln -s "$DOTFILES/quickshell" "${XDG_CONFIG_HOME}"
+ln -s "$DOTFILES/flameshot" "${XDG_CONFIG_HOME}"
 
 mkdir -p "${HOME}/Pictures/Wallpapers"
 cp "$DOTFILES/wpp/*" "${HOME}/Pictures/Wallpapers"

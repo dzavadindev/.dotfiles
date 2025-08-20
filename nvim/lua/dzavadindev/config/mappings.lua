@@ -11,10 +11,10 @@ vim.keymap.set('n', '<Up>', '<cmd>Use k<CR>')
 vim.keymap.set('n', '<Esc>', '<cmd>nohlsearch<CR>')
 
 -- Close buffer
-vim.keymap.set('n', 'C-c', '<cmd>bp | bd #<CR>', { desc = '[Q]uit currently focused buffer' })
+vim.keymap.set('n', '<C-c>', '<cmd>w | bp | bd #<CR>', { desc = '[Q]uit currently focused buffer' })
 
 -- Save
-vim.keymap.set('n', 'C-s', '<cmd>w<CR>', { desc = '[W]rite file' })
+vim.keymap.set('n', '<C-s>', '<cmd>w<CR>', { desc = '[W]rite file' })
 
 -- Diagnostic keymaps
 vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist, { desc = 'Open diagnostic [q]uickfix list' })
