@@ -5,8 +5,8 @@ import qs.config
 Item {
     id: root
 
-    property string name: "home"
-    property color color: "white"
+    required property string name
+    property color color: Appearance.colors.secondary
     property int size: Appearance.font.size.sm
     property int weight: Font.Normal
 

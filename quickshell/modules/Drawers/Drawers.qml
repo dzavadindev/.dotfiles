@@ -31,13 +31,12 @@ StyledWindow {
         parentWindow: root
         barHeight: root.barHeight
 
-        implicitHeight: Appearance.drawerSize.tall.y
-        implicitWidth: Appearance.drawerSize.tall.x
+        implicitHeight: audioMixerMenu.implicitHeight
+        implicitWidth: audioMixerMenu.implicitWidth
 
         AudioMixer {
             id: audioMixerMenu
-
-            anchors.fill: parent
+            anchors.centerIn: parent
         }
 
         Connections {

@@ -1,3 +1,5 @@
+pragma ComponentBehavior: Bound
+
 import Quickshell
 import Quickshell.Services.Pipewire as PW
 
@@ -6,6 +8,7 @@ import QtQuick.Controls
 
 import qs.services
 import qs.config
+import qs.components
 
 Rectangle {
     id: root
@@ -13,6 +16,64 @@ Rectangle {
     color: Appearance.colors.primary
 
     property string category: "playbacks"
+
+    implicitHeight: wrapper.implicitHeight
+    implicitWidth: wrapper.implicitWidth
+
+    Rectangle {
+        id: wrapper
+
+        implicitHeight: list.implicitHeight + tabs.implicitHeight + Appearance.padding.md
+        implicitWidth: list.implicitWidth + Appearance.padding.xl
+
+        color: Appearance.colors.primary
+
+        Component.onCompleted: () => {
+            console.log(list.implicitWidth);
+            console.log(tabs.implicitWidth);
+        }
+
+        Row {
+            id: tabs
+
+            spacing: Appearance.padding.sm
+
+            anchors.horizontalCenter: parent.horizontalCenter
+
+            AudioTab {
+                id: playbacks
+                name: "headphones"
+                group: "playbacks"
+            }
+
+            AudioTab {
+                id: apps
+                name: "ad"
+                group: "apps"
+            }
+
+            AudioTab {
+                id: mics
+                name: "mic"
+                group: "mics"
+            }
+        }
+
+        ListView {
+            id: list
+
+            model: root.category === "apps" ? appsModel : root.category === "playbacks" ? sinksModel : micsModel
+
+            anchors.top: tabs.bottom
+
+            implicitHeight: Appearance.elementSize.audioMixer_listHeight
+            implicitWidth: Appearance.elementSize.audioMixer_sliderWidth
+
+            delegate: AudioElement {}
+        }
+    }
+
+    // --------------------------- MODELS AND COMPONENTS -----------------------------------
 
     ScriptModel {
         id: appsModel
@@ -29,22 +90,13 @@ Rectangle {
         values: Pipewire.nodes.values.filter(n => n.audio && !n.isSink && !n.isStream)
     }
 
-    PW.PwObjectTracker {
-        id: binder
-        objects: [...appsModel.values.map(v => v.node), ...sinksModel.values.map(v => v.node), ...micsModel.values.map(v => v.node)]
-    }
-
     component AudioElement: Rectangle {
         id: audio_element
 
         required property var modelData
 
         color: "transparent"
-        implicitHeight: name.implicitHeight + vol.implicitHeight + Appearance.padding.md
-
-        Component.onCompleted: () => {
-            console.log(Pipewire.getNodeName(modelData), " ", PW.PwNodeType.toString(modelData.type));
-        }
+        implicitHeight: name.implicitHeight + slider.implicitHeight + Appearance.padding.md
 
         PW.PwObjectTracker {
             id: binder
@@ -54,65 +106,36 @@ Rectangle {
         Column {
             anchors.margins: 6
             anchors.fill: parent
+
             Text {
                 id: name
                 text: Pipewire.getNodeName(audio_element.modelData)
+                color: Appearance.colors.secondary
+                font.pointSize: Appearance.font.size.sm
+                font.family: Appearance.font.family.mono
             }
 
-            Row {
-                spacing: 8
-                Slider {
-                    id: vol
-                    from: 0.0
-                    to: 1.0
-                    value: audio_element.modelData.audio ? audio_element.modelData.audio.volume : 1.0
-                    onMoved: if (audio_element.modelData.audio)
-                        audio_element.modelData.audio.volume = value
-                    enabled: !!audio_element.modelData.audio
-                }
-                CheckBox {
-                    text: "Mute"
-                    checked: audio_element.modelData.audio ? audio_element.modelData.audio.muted : false
-                    onToggled: if (audio_element.modelData.audio)
-                        audio_element.modelData.audio.muted = checked
-                    enabled: !!audio_element.modelData.audio
-                }
+            VolumeSlider {
+                id: slider
+
+                audio: audio_element.modelData.audio
             }
         }
     }
-    // ------------------------------------------------------ VISUALS
 
-    Row {
-        id: tabs
+    component AudioTab: IconButton {
+        id: tab
 
-        spacing: Appearance.padding.sm
+        required property string name
+        required property string group
 
-        Button {
-            text: "Playbacks"
-            onClicked: root.category = "playbacks"
-        }
+        property bool selected: root.category === group
 
-        Button {
-            text: "Applications"
-            onClicked: root.category = "apps"
-        }
+        iconName: name
 
-        Button {
-            text: "Microphones"
-            onClicked: root.category = "mics"
-        }
-    }
+        mainColor: selected ? Appearance.colors.secondary : Appearance.colors.primary
+        iconColor: selected ? Appearance.colors.primary : Appearance.colors.secondary
 
-    ListView {
-        id: list
-
-        model: root.category === "apps" ? appsModel : root.category === "playbacks" ? sinksModel : micsModel
-
-        anchors.top: tabs.bottom
-        anchors.right: parent.right
-        anchors.bottom: parent.bottom
-        anchors.left: parent.left
-
-        delegate: AudioElement {}
+        onClicked: root.category = group
     }
 }

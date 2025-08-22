@@ -1,5 +1,8 @@
 import QtQuick
+
 import Quickshell
+import Quickshell.Wayland
+
 import qs.config
 import qs.components
 
@@ -7,6 +10,7 @@ import "modules"
 
 StyledWindow {
     name: "bar"
+    WlrLayershell.layer: WlrLayer.Bottom
     // Made the height dynamic, based on how high the elements of the bar are + the padding
     implicitHeight: child.implicitHeight + Appearance.padding.sm
     implicitWidth: child.implicitWidth
