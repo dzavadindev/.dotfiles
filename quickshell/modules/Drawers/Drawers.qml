@@ -1,6 +1,7 @@
+pragma ComponentBehavior: Bound
+
 import Quickshell
 import Quickshell.Hyprland
-import Quickshell.Wayland
 
 import QtQuick
 
@@ -14,41 +15,78 @@ StyledWindow {
     id: root
     name: "drawers"
 
-    required property int barHeight
+    anchors {
+        right: true
+        top: true
+        bottom: true
+    }
 
-    anchors.top: true
-    anchors.right: true
-    anchors.bottom: true
-
-    implicitWidth: 0
-
+    exclusiveZone: 0
     exclusionMode: ExclusionMode.Ignore
 
-    DrawerPopup {
-        id: audiomixer
+    implicitWidth: Math.max(audioMixerWrapper.implicitWidth)
 
-        grab: grab
-        parentWindow: root
-        barHeight: root.barHeight
+    mask: Region {
+        Region {
+            item: audioMixerWrapper
+        }
+    }
 
-        implicitHeight: audioMixerMenu.implicitHeight
-        implicitWidth: audioMixerMenu.implicitWidth
+    DrawerSlot {
+        id: audioMixerWrapper
+
+        implicitHeight: audioMixer.implicitHeight
+        implicitWidth: audioMixer.implicitWidth
 
         AudioMixer {
-            id: audioMixerMenu
-            anchors.centerIn: parent
+            id: audioMixer
         }
+    }
 
-        Connections {
-            target: DrawersManager
-            function onAudioMixerCalled() {
-                audiomixer.openPopup();
-            }
+    Connections {
+        target: DrawersManager
+        function onAudioMixerCalled() {
+            grab.active = true;
+            audioMixerWrapper.open();
         }
     }
 
     HyprlandFocusGrab {
         id: grab
-        windows: [root, audiomixer]
+        windows: [root]
+    }
+
+    component DrawerSlot: Item {
+        id: slot
+
+        anchors.bottom: parent.bottom
+        anchors.bottomMargin: Appearance.padding.md
+
+        x: implicitWidth
+
+        function open() {
+            this.x = 0;
+        }
+
+        function close() {
+            this.x = this.implicitWidth;
+        }
+
+        Connections {
+            target: grab
+            function onActiveChanged() {
+                if (grab.active)
+                    slot.open();
+                else
+                    slot.close();
+            }
+        }
+
+        Behavior on x {
+            NumberAnimation {
+                duration: 400
+                easing.type: Easing.OutQuad
+            }
+        }
     }
 }

@@ -24,9 +24,9 @@ Singleton {
     // ELEMENT SIZES -------------------------------
     component ElementSize: QtObject {
         readonly property int audioMixer_tabSize: 40
-        readonly property int audioMixer_sliderWidth: 250
-        readonly property int audioMixer_listHeight: 350
-        readonly property int audioMixer_sliderThickness: 5
+        readonly property int audioMixer_sliderWidth: 300
+        readonly property int audioMixer_listHeight: 200
+        readonly property int audioMixer_sliderThickness: 25
     }
 
     // Border Width -------------------------------
@@ -38,6 +38,7 @@ Singleton {
     // Rounding -----------------------------------
     component Rounding: QtObject {
         readonly property real full: 1000
+        readonly property real normal: 20
     }
 
     // Padding ------------------------------------

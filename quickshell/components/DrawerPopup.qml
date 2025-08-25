@@ -11,13 +11,16 @@ PopupWindow {
     required property HyprlandFocusGrab grab
     required property QsWindow parentWindow
     required property int barHeight
+    required property real popupWidth
 
-    anchor {
-        window: parentWindow
-        gravity: Edges.Top | Edges.Left
-        rect.x: 0
-        rect.y: screen.height - barHeight - Appearance.padding.sm
-    }
+    implicitWidth: root.popupWidth
+
+    anchor.window: parentWindow
+    anchor.gravity: Edges.Top | Edges.Left
+    anchor.rect.x: 0
+    anchor.rect.y: screen.height - barHeight - Appearance.padding.sm
+
+    color: "transparent"
 
     visible: grab.active
 

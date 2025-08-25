@@ -48,19 +48,19 @@ Rectangle {
             Behavior on width {
                 NumberAnimation {
                     duration: 160
-                    easing.type: Easing.OutCubic
+                    easing.type: Easing.OutQuad
                 }
             }
             Behavior on height {
                 NumberAnimation {
                     duration: 160
-                    easing.type: Easing.OutCubic
+                    easing.type: Easing.OutQuad
                 }
             }
             Behavior on opacity {
                 NumberAnimation {
                     duration: 160
-                    easing.type: Easing.OutCubic
+                    easing.type: Easing.OutQuad
                 }
             }
         }

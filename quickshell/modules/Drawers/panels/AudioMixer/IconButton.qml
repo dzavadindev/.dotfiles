@@ -26,7 +26,7 @@ Button {
     background: Rectangle {
         id: background
 
-        implicitWidth: root.buttonSize
+        implicitWidth: root.buttonSize * 2
         implicitHeight: root.buttonSize
 
         color: root.mainColor

@@ -1,6 +1,7 @@
 pragma ComponentBehavior: Bound
 
 import Quickshell
+import Quickshell.Widgets
 import Quickshell.Services.Pipewire as PW
 
 import QtQuick
@@ -17,26 +18,23 @@ Rectangle {
 
     property string category: "playbacks"
 
-    implicitHeight: wrapper.implicitHeight
-    implicitWidth: wrapper.implicitWidth
+    implicitHeight: layout.implicitHeight + Appearance.padding.lg
+    implicitWidth: layout.implicitWidth + Appearance.padding.lg
 
-    Rectangle {
-        id: wrapper
+    topLeftRadius: Appearance.rounding.normal
+    bottomLeftRadius: Appearance.rounding.normal
 
-        implicitHeight: list.implicitHeight + tabs.implicitHeight + Appearance.padding.md
-        implicitWidth: list.implicitWidth + Appearance.padding.xl
+    Column {
+        id: layout
 
-        color: Appearance.colors.primary
+        spacing: Appearance.padding.sm
 
-        Component.onCompleted: () => {
-            console.log(list.implicitWidth);
-            console.log(tabs.implicitWidth);
-        }
+        anchors.centerIn: parent
 
         Row {
             id: tabs
 
-            spacing: Appearance.padding.sm
+            spacing: Appearance.padding.md
 
             anchors.horizontalCenter: parent.horizontalCenter
 
@@ -64,10 +62,9 @@ Rectangle {
 
             model: root.category === "apps" ? appsModel : root.category === "playbacks" ? sinksModel : micsModel
 
-            anchors.top: tabs.bottom
-
             implicitHeight: Appearance.elementSize.audioMixer_listHeight
-            implicitWidth: Appearance.elementSize.audioMixer_sliderWidth
+            width: contentItem.childrenRect.width
+            clip: true
 
             delegate: AudioElement {}
         }
@@ -96,7 +93,8 @@ Rectangle {
         required property var modelData
 
         color: "transparent"
-        implicitHeight: name.implicitHeight + slider.implicitHeight + Appearance.padding.md
+        implicitHeight: name.implicitHeight + slider.implicitHeight + Appearance.padding.sm
+        implicitWidth: slider.implicitWidth
 
         PW.PwObjectTracker {
             id: binder
@@ -104,15 +102,14 @@ Rectangle {
         }
 
         Column {
-            anchors.margins: 6
-            anchors.fill: parent
+            id: column
 
-            Text {
+            MarqueeText {
                 id: name
+
+                maxWidth: slider.implicitWidth
+
                 text: Pipewire.getNodeName(audio_element.modelData)
-                color: Appearance.colors.secondary
-                font.pointSize: Appearance.font.size.sm
-                font.family: Appearance.font.family.mono
             }
 
             VolumeSlider {
