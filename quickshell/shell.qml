@@ -6,6 +6,7 @@ import qs.modules.Bar
 import qs.modules.Drawers
 
 import qs.components
+import qs.services
 
 ShellRoot {
     Drawers {

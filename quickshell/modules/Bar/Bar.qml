@@ -1,6 +1,5 @@
 import QtQuick
 
-import Quickshell
 import Quickshell.Wayland
 
 import qs.config
@@ -66,6 +65,14 @@ StyledWindow {
 
         Battery {
             id: battery
+
+            anchors.verticalCenter: parent.verticalCenter
+            anchors.right: notifications.left
+            anchors.rightMargin: Appearance.padding.sm
+        }
+
+        Notifications {
+            id: notifications
 
             anchors.verticalCenter: parent.verticalCenter
             anchors.right: parent.right

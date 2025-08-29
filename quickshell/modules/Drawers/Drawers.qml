@@ -10,6 +10,7 @@ import qs.config
 import qs.services
 
 import "panels/AudioMixer"
+import "panels/NotificationList"
 
 StyledWindow {
     id: root
@@ -24,11 +25,14 @@ StyledWindow {
     exclusiveZone: 0
     exclusionMode: ExclusionMode.Ignore
 
-    implicitWidth: Math.max(audioMixerWrapper.implicitWidth)
+    implicitWidth: Math.max(audioMixerWrapper.implicitWidth, notificationListWrapper.implicitWidth)
 
     mask: Region {
         Region {
             item: audioMixerWrapper
+        }
+        Region {
+            item: notificationListWrapper
         }
     }
 
@@ -38,8 +42,33 @@ StyledWindow {
         implicitHeight: audioMixer.implicitHeight
         implicitWidth: audioMixer.implicitWidth
 
+        anchors.bottom: parent.bottom
+        anchors.bottomMargin: Appearance.padding.md
+
+        x: root.implicitWidth
+
+        onOpen: () => this.x = root.implicitWidth - implicitWidth
+        onClose: () => this.x = root.implicitWidth
+
         AudioMixer {
             id: audioMixer
+        }
+    }
+
+    DrawerSlot {
+        id: notificationListWrapper
+
+        implicitHeight: notificationList.implicitHeight
+        implicitWidth: notificationList.implicitWidth + Appearance.padding.lg
+
+        anchors.top: parent.top
+        anchors.right: parent.right
+
+        onOpen: () => NotificationService.showNotificationCenter = true
+        onClose: () => NotificationService.showNotificationCenter = false
+
+        NotificationList {
+            id: notificationList
         }
     }
 
@@ -48,6 +77,10 @@ StyledWindow {
         function onAudioMixerCalled() {
             grab.active = true;
             audioMixerWrapper.open();
+        }
+        function onNotificationCenterCalled() {
+            grab.active = true;
+            notificationListWrapper.open();
         }
     }
 
@@ -59,30 +92,25 @@ StyledWindow {
     component DrawerSlot: Item {
         id: slot
 
-        anchors.bottom: parent.bottom
-        anchors.bottomMargin: Appearance.padding.md
-
-        x: implicitWidth
-
-        function open() {
-            this.x = 0;
-        }
-
-        function close() {
-            this.x = this.implicitWidth;
-        }
+        signal open
+        signal close
 
         Connections {
             target: grab
             function onActiveChanged() {
-                if (grab.active)
-                    slot.open();
-                else
+                if (!grab.active)
                     slot.close();
             }
         }
 
         Behavior on x {
+            NumberAnimation {
+                duration: 400
+                easing.type: Easing.OutQuad
+            }
+        }
+
+        Behavior on y {
             NumberAnimation {
                 duration: 400
                 easing.type: Easing.OutQuad
