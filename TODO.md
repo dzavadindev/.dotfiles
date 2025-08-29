@@ -3,10 +3,11 @@
 ## Fixes
 - [ ] Fix the workspaces switch focus flyoff (Rewrite to render all workspaces, set `visible`)
 - [X] Rewrite the right drawer to be a 0-width window panel and a bunch of PopupWinows that pop out of it
+- [ ] Add animations when switching tabs in the audiomixer 
 
 ## Features 
 
-- [ ] Audio mixer
+- [X] Audio mixer
 - [ ] Notifications center 
 - [ ] System tray integration
 - [ ] Bluetooth menu
