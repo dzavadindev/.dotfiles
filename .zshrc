@@ -39,7 +39,7 @@ alias dotfiles="cd ~/.dotfiles"
 
 alias clearvimswap='rm -v ~/.local/state/nvim/swap/*'
 
-eval "$(oh-my-posh init zsh --config "$POSH_THEMES_PATH/catppuccin_frappe.omp.json")"
+eval "$(oh-my-posh init zsh --config "$POSH_THEMES_PATH/theme.omp.json")"
 
 bindkey -r "^S"
 bindkey "^S" "no_op"

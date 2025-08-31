@@ -43,27 +43,43 @@ sudo systemctl enable --now greetd.service
 [[ $SHELL != */zsh ]] && chsh -s /bin/zsh || true
 
 # --- 6. symlink the configs into their place ---------------------------
-ln -s "$DOTFILES/.gitconfig" "${HOME}/.gitconfig"
-ln -s "$DOTFILES/.zshrc" "${HOME}/.zshrc"
-ln -s "$DOTFILES/.tmux.conf" "${HOME}/.tmux.conf"
+rm -rf "${HOME}/.gitconfig"
+rm -rf "${HOME}/.zshrc"
+rm -rf "${HOME}/.tmux.conf"
 
-ln -s "$DOTFILES/dunst" "${XDG_CONFIG_HOME}"
-ln -s "$DOTFILES/fuzzel" "${XDG_CONFIG_HOME}"
-ln -s "$DOTFILES/hyprland" "${XDG_CONFIG_HOME}"
-ln -s "$DOTFILES/kitty" "${XDG_CONFIG_HOME}"
-ln -s "$DOTFILES/nvim" "${XDG_CONFIG_HOME}"
-ln -s "$DOTFILES/quickshell" "${XDG_CONFIG_HOME}"
-ln -s "$DOTFILES/flameshot" "${XDG_CONFIG_HOME}"
+rm -rf "${XDG_CONFIG_HOME}/dunst"
+rm -rf "${XDG_CONFIG_HOME}/fuzzel"
+rm -rf "${XDG_CONFIG_HOME}/hypr"
+rm -rf "${XDG_CONFIG_HOME}/kitty"
+rm -rf "${XDG_CONFIG_HOME}/nvim"
+rm -rf "${XDG_CONFIG_HOME}/flameshot"
+rm -rf "${XDG_CONFIG_HOME}/quickshell"
+
+ln -sfn "$DOTFILES/.gitconfig" "${HOME}/.gitconfig"
+ln -sfn "$DOTFILES/.zshrc" "${HOME}/.zshrc"
+ln -sfn "$DOTFILES/.tmux.conf" "${HOME}/.tmux.conf"
+
+ln -sfn "$DOTFILES/dunst" "${XDG_CONFIG_HOME}"
+ln -sfn "$DOTFILES/fuzzel" "${XDG_CONFIG_HOME}"
+ln -sfn "$DOTFILES/hypr" "${XDG_CONFIG_HOME}"
+ln -sfn "$DOTFILES/kitty" "${XDG_CONFIG_HOME}"
+ln -sfn "$DOTFILES/nvim" "${XDG_CONFIG_HOME}"
+ln -sfn "$DOTFILES/flameshot" "${XDG_CONFIG_HOME}"
+ln -sfn "$DOTFILES/quickshell" "${XDG_CONFIG_HOME}"
 
 mkdir -p "${HOME}/Pictures/Wallpapers"
-cp "$DOTFILES/wpp/*" "${HOME}/Pictures/Wallpapers"
+cp $DOTFILES/wpp/* ${HOME}/Pictures/Wallpapers
 
 # --- 7. install scripts ------------------------------------------------
-install -Dm755 "$DOTFILES/scripts/powermenu.sh" /usr/local/bin/powermenu
-install -Dm755 "$DOTFILES/scripts/bluetooth-menu.sh" /usr/local/bin/bluetooth-menu
-install -Dm755 "$DOTFILES/scripts/install-zen.sh" /usr/local/bin/install-zen
+sudo install -Dm755 "$DOTFILES/scripts/powermenu.sh" /usr/local/bin/powermenu
+sudo install -Dm755 "$DOTFILES/scripts/bluetooth-menu.sh" /usr/local/bin/bluetooth-menu
+sudo install -Dm755 "$DOTFILES/scripts/install-zen.sh" /usr/local/bin/install-zen
 
 # --- 8. install Material Symbols ---------------------------------------
+mkdir -p $HOME/.local/share/fonts/MaterialDesign/
 cp "$DOTFILES/fonts/MaterialSymbolsRounded.ttf" "$HOME/.local/share/fonts/MaterialDesign/"
+
+# --- 9. install Oh My Posh ---------------------------------------------
+curl -s https://ohmyposh.dev/install.sh | bash -s
 
 echo -e "\n✅  Setup complete. Log out to start Hyprland with greetd."
