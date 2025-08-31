@@ -18,9 +18,9 @@ fi
 # --- 3. install repo & Wayland toolchain ------------------------------
 pac_pkgs=(
     rustup neovim tmux zsh kitty hyprland fuzzel ttf-firacode-nerd
-    dunst greetd-tuigreet xdg-utils grim slurp blueman gtk-launch
+    dunst greetd-tuigreet xdg-utils grim slurp flameshot blueman gtk-launch
     xdg-desktop-portal-hyprland xdg-desktop-portal-gtk swww
-    hyprpolkitagent cliphist flameshot
+    hyprpolkitagent cliphist
 )
 
 missing=($(comm -23 <(printf '%s\n' "${pac_pkgs[@]}" | sort) \
@@ -53,7 +53,6 @@ ln -s "$DOTFILES/fuzzel" "${XDG_CONFIG_HOME}"
 ln -s "$DOTFILES/hyprland" "${XDG_CONFIG_HOME}"
 ln -s "$DOTFILES/kitty" "${XDG_CONFIG_HOME}"
 ln -s "$DOTFILES/nvim" "${XDG_CONFIG_HOME}"
-ln -s "$DOTFILES/waybar" "${XDG_CONFIG_HOME}"
 ln -s "$DOTFILES/quickshell" "${XDG_CONFIG_HOME}"
 ln -s "$DOTFILES/flameshot" "${XDG_CONFIG_HOME}"
 
