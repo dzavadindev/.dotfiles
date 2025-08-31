@@ -1,5 +1,11 @@
 [user]
 	email = daniil.zavadin@gmail.com
 	name = dzavadindev
+[init]
+    defaultBranch = main
+[pull]
+    rebase = false
+[push]
+    autoSetupRemote = true
 [core]
-	editor = vim
+	editor = nvim

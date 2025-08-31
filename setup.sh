@@ -18,7 +18,7 @@ fi
 # --- 3. install repo & Wayland toolchain ------------------------------
 pac_pkgs=(
     rustup neovim tmux zsh kitty hyprland fuzzel ttf-firacode-nerd
-    dunst greetd-tuigreet xdg-utils grim slurp flameshot blueman gtk-launch
+    dunst greetd-tuigreet xdg-utils grim slurp flameshot blueman
     xdg-desktop-portal-hyprland xdg-desktop-portal-gtk swww
     hyprpolkitagent cliphist
 )
@@ -43,7 +43,6 @@ sudo systemctl enable --now greetd.service
 [[ $SHELL != */zsh ]] && chsh -s /bin/zsh || true
 
 # --- 6. symlink the configs into their place ---------------------------
-$DOTFILES
 ln -s "$DOTFILES/.gitconfig" "${HOME}/.gitconfig"
 ln -s "$DOTFILES/.zshrc" "${HOME}/.zshrc"
 ln -s "$DOTFILES/.tmux.conf" "${HOME}/.tmux.conf"

@@ -3,6 +3,8 @@ export POSH_THEMES_PATH="$HOME/.oh-my-posh/themes"
 export ZSH="$HOME/.oh-my-zsh"
 export XDG_CONFIG_HOME="$HOME/.config"
 
+export SSH_AUTH_SOCK="$XDG_RUNTIME_DIR/ssh-agent.socket"
+
 export ANDROID_HOME="/home/dan/Android/Sdk"
 export DOTNET_ROOT=$HOME/dotnet
 export DOTNET_CLI_TELEMETRY_OPTOUT=1
@@ -22,7 +24,7 @@ COMPLETION_WAITING_DOTS="true"
 
 HIST_STAMPS="mm/dd/yyyy"
 
-plugins=(git)
+plugins=(git fzf)
 
 source $ZSH/oh-my-zsh.sh
 
