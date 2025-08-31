@@ -81,5 +81,7 @@ cp "$DOTFILES/fonts/MaterialSymbolsRounded.ttf" "$HOME/.local/share/fonts/Materi
 
 # --- 9. install Oh My Posh ---------------------------------------------
 curl -s https://ohmyposh.dev/install.sh | bash -s
+mkdir -p $HOME/.oh-my-posh/themes
+cp $DOTFILES/oh-my-posh/custom_theme.omp.json $HOME/.oh-my-posh/themes
 
 echo -e "\n✅  Setup complete. Log out to start Hyprland with greetd."
