@@ -43,7 +43,6 @@ sudo systemctl enable --now greetd.service
 [[ $SHELL != */zsh ]] && chsh -s /bin/zsh || true
 
 # --- 6. symlink the configs into their place ---------------------------
-$DOTFILES
 ln -s "$DOTFILES/.gitconfig" "${HOME}/.gitconfig"
 ln -s "$DOTFILES/.zshrc" "${HOME}/.zshrc"
 ln -s "$DOTFILES/.tmux.conf" "${HOME}/.tmux.conf"
