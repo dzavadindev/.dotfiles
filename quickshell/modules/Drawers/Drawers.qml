@@ -10,7 +10,7 @@ import qs.config
 import qs.services
 
 import "panels/AudioMixer"
-import "panels/NotificationList"
+import "panels/Notifications"
 
 StyledWindow {
     id: root
@@ -67,7 +67,7 @@ StyledWindow {
         onOpen: () => NotificationService.showNotificationCenter = true
         onClose: () => NotificationService.showNotificationCenter = false
 
-        NotificationList {
+        NotificationPopup {
             id: notificationList
         }
     }

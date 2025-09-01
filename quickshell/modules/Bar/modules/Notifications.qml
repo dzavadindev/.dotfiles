@@ -38,7 +38,7 @@ Rectangle {
 
         name: "notifications"
         size: Appearance.font.size.md
-        color: active ? Appearance.colors.primary : Appearance.colors.secondary
+        color: notifications.active ? Appearance.colors.primary : Appearance.colors.secondary
         weight: Font.Bold
 
         Behavior on color {

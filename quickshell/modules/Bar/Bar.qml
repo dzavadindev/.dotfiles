@@ -55,28 +55,24 @@ StyledWindow {
             anchors.centerIn: parent
         }
 
-        Volume {
-            id: volume
-
-            anchors.verticalCenter: parent.verticalCenter
-            anchors.right: battery.left
-            anchors.rightMargin: Appearance.padding.sm
-        }
-
-        Battery {
-            id: battery
-
-            anchors.verticalCenter: parent.verticalCenter
-            anchors.right: notifications.left
-            anchors.rightMargin: Appearance.padding.sm
-        }
-
-        Notifications {
-            id: notifications
+        Row {
+            spacing: Appearance.padding.sm
 
             anchors.verticalCenter: parent.verticalCenter
             anchors.right: parent.right
             anchors.rightMargin: Appearance.padding.md
+
+            Volume {
+                id: volume
+            }
+
+            Battery {
+                id: battery
+            }
+
+            Notifications {
+                id: notifications
+            }
         }
     }
 }
