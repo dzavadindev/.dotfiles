@@ -36,7 +36,8 @@ yay -S --needed --noconfirm bzmenu quickshell
 if ! id greeter &>/dev/null; then
     sudo useradd -m -s /usr/bin/nologin greeter
 fi
-sudo ln -sfn "$DOTFILES/greetd" /etc/greetd
+sudo rm -rf /etc/greetd
+sudo ln -sfn "$DOTFILES/greetd" /etc
 sudo systemctl enable --now greetd.service
 
 # --- 5. shell ----------------------------------------------------------

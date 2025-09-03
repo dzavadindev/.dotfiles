@@ -25,14 +25,14 @@ StyledWindow {
     exclusiveZone: 0
     exclusionMode: ExclusionMode.Ignore
 
-    implicitWidth: Math.max(audioMixerWrapper.implicitWidth, notificationListWrapper.implicitWidth)
+    implicitWidth: Math.max(audioMixerWrapper.implicitWidth, notificationPopupWrapper.implicitWidth)
 
     mask: Region {
         Region {
             item: audioMixerWrapper
         }
         Region {
-            item: notificationListWrapper
+            item: notificationPopupWrapper
         }
     }
 
@@ -55,20 +55,18 @@ StyledWindow {
         }
     }
 
-    DrawerSlot {
-        id: notificationListWrapper
+    // The element to hold the notification that pop out at the top of the screen
+    Rectangle {
+        id: notificationPopupWrapper
 
-        implicitHeight: notificationList.implicitHeight
-        implicitWidth: notificationList.implicitWidth + Appearance.padding.lg
+        implicitHeight: notificationPopup.implicitHeight
+        implicitWidth: notificationPopup.implicitWidth + Appearance.padding.md * 2
 
         anchors.top: parent.top
         anchors.right: parent.right
 
-        onOpen: () => NotificationService.showNotificationCenter = true
-        onClose: () => NotificationService.showNotificationCenter = false
-
         NotificationPopup {
-            id: notificationList
+            id: notificationPopup
         }
     }
 
@@ -78,10 +76,10 @@ StyledWindow {
             grab.active = true;
             audioMixerWrapper.open();
         }
-        function onNotificationCenterCalled() {
-            grab.active = true;
-            notificationListWrapper.open();
-        }
+        // function onNotificationCenterCalled() {
+        //     grab.active = true;
+        //     notificationListWrapper.open();
+        // }
     }
 
     HyprlandFocusGrab {

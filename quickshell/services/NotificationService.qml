@@ -14,7 +14,6 @@ Singleton {
     readonly property real customExpireTime: 5000
 
     readonly property list<NotificationItem> notifs: []
-    readonly property list<NotificationItem> popups: notifs.filter(el => el.isPopup)
 
     NotificationServer {
         id: server
