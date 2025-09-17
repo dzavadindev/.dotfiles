@@ -56,17 +56,6 @@ require('lazy').setup {
     version = '*',
     config = function()
       require('mini.ai').setup { n_lines = 500 }
-      require('mini.pairs').setup {
-        mappings = {
-          ['('] = {},
-          ['['] = {},
-          ['{'] = {},
-
-          [')'] = {},
-          [']'] = {},
-          ['}'] = {},
-        },
-      }
       require('mini.surround').setup()
       require('mini.bufremove').setup()
       require('mini.notify').setup {
@@ -90,6 +79,7 @@ require('lazy').setup {
         terminal_colors = true,
         overrides = {
           ['@comment'] = { fg = '#836953' },
+          ['NormalFloat'] = { bg = require('gruvbox').palette.dark0_soft },
         },
       }
       vim.cmd.colorscheme 'gruvbox'

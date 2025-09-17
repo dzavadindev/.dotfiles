@@ -43,3 +43,10 @@ eval "$(oh-my-posh init zsh --config "$POSH_THEMES_PATH/custom_theme.omp.json")"
 
 bindkey -r "^S"
 bindkey "^S" "no_op"
+
+. "$HOME/.cargo/env"
+. "$HOME/export-esp.sh"
+
+export NVM_DIR="$HOME/.config/nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
