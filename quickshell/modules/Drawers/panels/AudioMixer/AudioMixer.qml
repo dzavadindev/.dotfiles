@@ -60,11 +60,12 @@ Rectangle {
         ListView {
             id: list
 
+            clip: true
+
             model: root.category === "apps" ? appsModel : root.category === "playbacks" ? sinksModel : micsModel
 
             implicitHeight: Appearance.elementSize.audioMixer_listHeight
             width: contentItem.childrenRect.width
-            clip: true
 
             delegate: AudioElement {}
         }

@@ -8,6 +8,7 @@ export SSH_AUTH_SOCK="$XDG_RUNTIME_DIR/ssh-agent.socket"
 export ANDROID_HOME="/home/dan/Android/Sdk"
 export DOTNET_ROOT=$HOME/dotnet
 export DOTNET_CLI_TELEMETRY_OPTOUT=1
+export MINICOM='-con'
 
 export STEAMAPPS="$HOME/.local/share/Steam/steamapps"
 
@@ -39,7 +40,7 @@ alias dotfiles="cd ~/.dotfiles"
 
 alias clearvimswap='rm -v ~/.local/state/nvim/swap/*'
 
-eval "$(oh-my-posh init zsh --config "$POSH_THEMES_PATH/custom_theme.omp.json")"
+eval "$(starship init zsh)"
 
 bindkey -r "^S"
 bindkey "^S" "no_op"

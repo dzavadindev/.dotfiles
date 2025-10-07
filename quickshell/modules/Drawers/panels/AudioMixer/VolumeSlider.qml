@@ -42,12 +42,13 @@ Row {
 
         implicitWidth: Appearance.elementSize.audioMixer_sliderWidth
 
-        from: 0.0
-        to: 1.2
+        from: 0
+        to: 1.0
 
         value: root.audio ? root.audio.volume : 1.0
 
         onMoved: {
+            console.log(value);
             if (root.audio)
                 root.audio.volume = value;
         }

@@ -44,10 +44,11 @@ sudo systemctl enable --now greetd.service
 [[ $SHELL != */zsh ]] && chsh -s /bin/zsh || true
 
 # --- 6. symlink the configs into their place ---------------------------
-rm -rf "${HOME}/.gitconfig"
-rm -rf "${HOME}/.zshrc"
-rm -rf "${HOME}/.tmux.conf"
+rm -f "${HOME}/.gitconfig"
+rm -f "${HOME}/.zshrc"
+rm -f "${HOME}/.tmux.conf"
 
+rm -f "${XDG_CONFIG_HOME}/starship.toml"
 rm -rf "${XDG_CONFIG_HOME}/dunst"
 rm -rf "${XDG_CONFIG_HOME}/fuzzel"
 rm -rf "${XDG_CONFIG_HOME}/hypr"
@@ -80,9 +81,8 @@ sudo install -Dm755 "$DOTFILES/scripts/install-zen.sh" /usr/local/bin/install-ze
 mkdir -p $HOME/.local/share/fonts/MaterialDesign/
 cp "$DOTFILES/fonts/MaterialSymbolsRounded.ttf" "$HOME/.local/share/fonts/MaterialDesign/"
 
-# --- 9. install Oh My Posh ---------------------------------------------
-curl -s https://ohmyposh.dev/install.sh | bash -s
-mkdir -p $HOME/.oh-my-posh/themes
-cp $DOTFILES/oh-my-posh/custom_theme.omp.json $HOME/.oh-my-posh/themes
+# --- 9. install Starship ---------------------------------------------
+curl -sS https://starship.rs/install.sh | sh
+ln -s "$DOTFILES/starship.toml" "$XDG_CONFIG_HOME"
 
 echo -e "\n✅  Setup complete. Log out to start Hyprland with greetd."
