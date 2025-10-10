@@ -11,7 +11,7 @@ Rectangle {
 
     visible: UPower.isLaptop
 
-    color: Appearance.colors.primary_dark
+    color: Appearance.colors.primary_light
 
     implicitWidth: contentRow.implicitWidth + Appearance.padding.sm * 2
     implicitHeight: contentRow.implicitHeight + Appearance.padding.sm
