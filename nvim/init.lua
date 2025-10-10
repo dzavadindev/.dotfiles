@@ -90,16 +90,4 @@ require('lazy').setup {
   { import = 'dzavadindev.plugins' },
 }
 
-
--- Load Arduino LSP configuration first
-require('arduino-nvim.lsp').setup()
-
--- Set up Arduino file type detection
-vim.api.nvim_create_autocmd('FileType', {
-  pattern = 'arduino',
-  callback = function()
-    require 'arduino-nvim'
-  end,
-})
-
 -- vim: ts=2 sts=2 sw=2 et

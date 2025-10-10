@@ -34,6 +34,7 @@ alias v="nvim"
 alias zshconf="nvim $HOME/.zshrc"
 alias tmuxconf="nvim $HOME/.tmux.conf"
 alias kittyconf="nvim $HOME/.config/kitty/kitty.conf"
+alias acli="arduino-cli"
 
 alias sourcez="source ~/.zshrc"
 alias dotfiles="cd ~/.dotfiles"
@@ -47,6 +48,8 @@ bindkey "^S" "no_op"
 
 . "$HOME/.cargo/env"
 . "$HOME/export-esp.sh"
+
+eval "$(luarocks --lua-version=5.1 path)"
 
 export NVM_DIR="$HOME/.config/nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
