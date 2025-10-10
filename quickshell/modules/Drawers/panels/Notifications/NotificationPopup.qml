@@ -11,7 +11,11 @@ Rectangle {
     id: root
 
     clip: true
+
+    property bool isEmpty: true
+
     implicitWidth: Appearance.elementSize.notificationList_width
+    implicitHeight: isEmpty ? popupList.implicitHeight + Appearance.padding.sm : 0
 
     color: "red"
 
@@ -23,50 +27,61 @@ Rectangle {
         values: NotificationService.notifs.filter(el => el.isPopup)
     }
 
-    Behavior on height {
+    Behavior on implicitHeight {
         NumberAnimation {
             duration: 400
             easing.type: Easing.OutQuad
         }
     }
 
-    Repeater {
+    ListView {
+        id: popupList
+
         model: popups
 
-        property real padding: Appearance.padding.md
+        property real padding: Appearance.padding.sm
 
-        onItemAdded: (index, item) => {
-            if (index !== 0) {
-                for (let i = count - 1; i >= 0; i--) {
-                    let curr = itemAt(i);
-                    curr.y = curr.y + curr.height + padding;
-                }
-            }
-            item.y = padding;
-            root.height = padding + (padding + item.height) * count;
-        }
+        verticalLayoutDirection: ListView.BottomToTop
 
-        onItemRemoved: (index, item) => {
-            item.removeAnim.running = true;
-            if (count === 0) {
-                root.height = 0;
-                return;
-            }
-            root.height = padding + (padding + item.height) * count;
-            item.y = root.height + item.height * 2;
-        }
+        implicitHeight: isEmpty ? contentHeight + padding : 0
+        implicitWidth: contentItem.childrenRect.width + padding
 
-        Rectangle {
+        anchors.horizontalCenter: root.horizontalCenter
+
+        spacing: padding
+
+        onContentHeightChanged: () => root.isEmpty = contentHeight != 0
+
+        // displaced: Transition {
+        //     NumberAnimation {
+        //         properties: "y"
+        //         duration: 400
+        //     }
+        // }
+        //
+        // add: Transition {
+        //     NumberAnimation {
+        //         property: "y"
+        //         from: -popupList.implicitHeight - 100
+        //         duration: 400
+        //     }
+        // }
+        //
+        // remove: Transition {
+        //     NumberAnimation {
+        //         properties: "y"
+        //         from: 4000
+        //         duration: 400
+        //     }
+        // }
+
+        delegate: Rectangle {
             id: popup
 
             required property var modelData
             property alias removeAnim: removeAnim
 
             color: "green"
-
-            y: -implicitHeight * 2
-
-            anchors.horizontalCenter: root.horizontalCenter
 
             radius: Appearance.rounding.normal
 
@@ -78,12 +93,12 @@ Rectangle {
                 target: popup
                 property: "y"
                 to: root.height + popup.height
-                duration: 500
+                duration: 400
             }
 
             Behavior on y {
                 NumberAnimation {
-                    duration: 500
+                    duration: 400
                     easing.type: Easing.OutQuad
                 }
             }

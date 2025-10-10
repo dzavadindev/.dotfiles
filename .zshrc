@@ -8,6 +8,7 @@ export SSH_AUTH_SOCK="$XDG_RUNTIME_DIR/ssh-agent.socket"
 export ANDROID_HOME="/home/dan/Android/Sdk"
 export DOTNET_ROOT=$HOME/dotnet
 export DOTNET_CLI_TELEMETRY_OPTOUT=1
+export MINICOM='-con'
 
 export STEAMAPPS="$HOME/.local/share/Steam/steamapps"
 
@@ -33,19 +34,22 @@ alias v="nvim"
 alias zshconf="nvim $HOME/.zshrc"
 alias tmuxconf="nvim $HOME/.tmux.conf"
 alias kittyconf="nvim $HOME/.config/kitty/kitty.conf"
+alias acli="arduino-cli"
 
 alias sourcez="source ~/.zshrc"
 alias dotfiles="cd ~/.dotfiles"
 
 alias clearvimswap='rm -v ~/.local/state/nvim/swap/*'
 
-eval "$(oh-my-posh init zsh --config "$POSH_THEMES_PATH/custom_theme.omp.json")"
+eval "$(starship init zsh)"
 
 bindkey -r "^S"
 bindkey "^S" "no_op"
 
 . "$HOME/.cargo/env"
 . "$HOME/export-esp.sh"
+
+eval "$(luarocks --lua-version=5.1 path)"
 
 export NVM_DIR="$HOME/.config/nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm

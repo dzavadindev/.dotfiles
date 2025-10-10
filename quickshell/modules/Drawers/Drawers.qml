@@ -55,12 +55,12 @@ StyledWindow {
         }
     }
 
-    // The element to hold the notification that pop out at the top of the screen
-    Rectangle {
+    // The element to hold the notifications that pop out at the top of the screen
+    Item {
         id: notificationPopupWrapper
 
         implicitHeight: notificationPopup.implicitHeight
-        implicitWidth: notificationPopup.implicitWidth + Appearance.padding.md * 2
+        implicitWidth: notificationPopup.implicitWidth + Appearance.padding.md
 
         anchors.top: parent.top
         anchors.right: parent.right

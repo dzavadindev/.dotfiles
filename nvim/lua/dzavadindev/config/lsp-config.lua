@@ -147,6 +147,8 @@ return {
       local servers = {
         -- :help lspconfig-all
         rust_analyzer = {},
+        arduino_language_server = {},
+        clangd = {},
         qmlls = {
           on_attach = function(client, bufnr)
             -- Stop qmlls from publishing diagnostics (Quickshell ~_~)
@@ -215,7 +217,7 @@ return {
             -- by the server configuration above. Useful when disabling
             -- certain features of an LSP (for example, turning off formatting for ts_ls)
             server.capabilities = vim.tbl_deep_extend('force', {}, capabilities, server.capabilities or {})
-            require('lspconfig')[server_name].setup(server)
+            vim.lsp.config(server_name, server)
           end,
         },
       }
