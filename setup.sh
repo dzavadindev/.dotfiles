@@ -17,8 +17,8 @@ fi
 
 # --- 3. install repo & Wayland toolchain ------------------------------
 pac_pkgs=(
-    rustup neovim tmux zsh kitty hyprland fuzzel ttf-firacode-nerd
-    dunst greetd-tuigreet xdg-utils grim slurp flameshot blueberry
+    neovim tmux zsh kitty hyprland fuzzel ttf-firacode-nerd
+    greetd-tuigreet xdg-utils grim slurp flameshot blueman
     xdg-desktop-portal-hyprland xdg-desktop-portal-gtk swww
     hyprpolkitagent cliphist
 )
@@ -49,19 +49,19 @@ rm -f "${HOME}/.zshrc"
 rm -f "${HOME}/.tmux.conf"
 
 rm -f "${XDG_CONFIG_HOME}/starship.toml"
-rm -rf "${XDG_CONFIG_HOME}/dunst"
 rm -rf "${XDG_CONFIG_HOME}/fuzzel"
 rm -rf "${XDG_CONFIG_HOME}/hypr"
 rm -rf "${XDG_CONFIG_HOME}/kitty"
 rm -rf "${XDG_CONFIG_HOME}/nvim"
 rm -rf "${XDG_CONFIG_HOME}/flameshot"
 rm -rf "${XDG_CONFIG_HOME}/quickshell"
+rm -rf "${XDG_CONFIG_HOME}/yazi"
 
 ln -sfn "$DOTFILES/.gitconfig" "${HOME}/.gitconfig"
 ln -sfn "$DOTFILES/.zshrc" "${HOME}/.zshrc"
 ln -sfn "$DOTFILES/.tmux.conf" "${HOME}/.tmux.conf"
 
-ln -sfn "$DOTFILES/dunst" "${XDG_CONFIG_HOME}"
+ln -sfn "$DOTFILES/yazi" "${XDG_CONFIG_HOME}"
 ln -sfn "$DOTFILES/fuzzel" "${XDG_CONFIG_HOME}"
 ln -sfn "$DOTFILES/hypr" "${XDG_CONFIG_HOME}"
 ln -sfn "$DOTFILES/kitty" "${XDG_CONFIG_HOME}"
@@ -74,7 +74,6 @@ cp $DOTFILES/wpp/* ${HOME}/Pictures/Wallpapers
 
 # --- 7. install scripts ------------------------------------------------
 sudo install -Dm755 "$DOTFILES/scripts/powermenu.sh" /usr/local/bin/powermenu
-sudo install -Dm755 "$DOTFILES/scripts/bluetooth-menu.sh" /usr/local/bin/bluetooth-menu
 sudo install -Dm755 "$DOTFILES/scripts/install-zen.sh" /usr/local/bin/install-zen
 
 # --- 8. install Material Symbols ---------------------------------------
