@@ -30,10 +30,13 @@ if ((${#missing[@]})); then
     sudo pacman -S --needed --noconfirm "${missing[@]}"
 fi
 
-yay -S --needed --noconfirm quickshell
+yay -S --needed --noconfirm quickshell-git opentabletdriver
 
 # --- 4. shell ----------------------------------------------------------
 [[ $SHELL != */zsh ]] && chsh -s /bin/zsh || true
+
+# Together with OMZ
+sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
 
 # --- 5. symlink the configs into their place ---------------------------
 rm -rf "${HOME}/.gitconfig"
@@ -72,26 +75,32 @@ sudo install -Dm755 "$DOTFILES/scripts/install-zen.sh" /usr/local/bin/install-ze
 mkdir -p $HOME/.local/share/fonts/MaterialDesign/
 cp "$DOTFILES/fonts/MaterialSymbolsRounded.ttf" "$HOME/.local/share/fonts/MaterialDesign/"
 
-# --- 9. install Starship ---------------------------------------------
+# --- 8. install Starship ---------------------------------------------
 curl -sS https://starship.rs/install.sh | sh
 ln -s "$DOTFILES/starship.toml" "$XDG_CONFIG_HOME"
 
-# --- 10. apps and stuff ----------------------------------------------
+# --- 9. apps and stuff ----------------------------------------------
 
-sudo pacman -S stlink steam arduino-cli arduino-language-server arm-none-eabi-gdb bat bitwarden bashtop discord fastfetch lua lua51 luarocks obs-studio opentabletdriver solaar vlc yazi ffmpeg jq poppler fd rg fzf zoxide resvg imagemagik
+sudo pacman -S  --needed --noconfirm stlink steam arduino-cli arduino-language-server arm-none-eabi-gdb bat bitwarden bashtop discord fastfetch lua lua51 luarocks obs-studio solaar vlc yazi ffmpeg jq poppler fd ripgrep fzf zoxide resvg imagemagick
+
+# install pipewire graph GUI here ......
 
 sudo systemctl enable --now bluetooth.service
 
-echo -e "\n✅  Setup complete. Log out to start Hyprland with greetd."
+# --- 11. rustup  -------------------------------------------------------
+curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
 
-# --- 10. greetd ---------------------------------------------------------
+# --- 12. greetd ---------------------------------------------------------
 if ! id greeter &>/dev/null; then
     sudo useradd -m -s /usr/bin/nologin greeter
 fi
 sudo rm -rf /etc/greetd
+
 sudo ln -sfn "$DOTFILES/greetd" /etc
-sudo systemctl disable display-manager
+if systemctl is-active --quiet display-server; then
+	sudo systemctl disable --now display-manager
+fi
+
 sudo systemctl enable --now greetd.service
 
-# --- 11. rustup  -------------------------------------------------------
-curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+echo -e "\n✅  Setup complete. Log out to start Hyprland with greetd."
