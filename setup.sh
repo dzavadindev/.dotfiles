@@ -17,10 +17,10 @@ fi
 
 # --- 3. install repo & Wayland toolchain ------------------------------
 pac_pkgs=(
-    rustup neovim tmux zsh kitty hyprland fuzzel ttf-firacode-nerd
+    neovim tmux zsh kitty hyprland fuzzel ttf-firacode-nerd
     dunst greetd-tuigreet xdg-utils grim slurp flameshot blueman
     xdg-desktop-portal-hyprland xdg-desktop-portal-gtk swww
-    hyprpolkitagent cliphist
+    hyprpolkitagent cliphist unzip
 )
 
 missing=($(comm -23 <(printf '%s\n' "${pac_pkgs[@]}" | sort) \
@@ -30,20 +30,12 @@ if ((${#missing[@]})); then
     sudo pacman -S --needed --noconfirm "${missing[@]}"
 fi
 
-yay -S --needed --noconfirm bzmenu quickshell
+yay -S --needed --noconfirm quickshell
 
-# --- 4. greetd ---------------------------------------------------------
-if ! id greeter &>/dev/null; then
-    sudo useradd -m -s /usr/bin/nologin greeter
-fi
-sudo rm -rf /etc/greetd
-sudo ln -sfn "$DOTFILES/greetd" /etc
-sudo systemctl enable --now greetd.service
-
-# --- 5. shell ----------------------------------------------------------
+# --- 4. shell ----------------------------------------------------------
 [[ $SHELL != */zsh ]] && chsh -s /bin/zsh || true
 
-# --- 6. symlink the configs into their place ---------------------------
+# --- 5. symlink the configs into their place ---------------------------
 rm -rf "${HOME}/.gitconfig"
 rm -rf "${HOME}/.zshrc"
 rm -rf "${HOME}/.tmux.conf"
@@ -71,18 +63,30 @@ ln -sfn "$DOTFILES/quickshell" "${XDG_CONFIG_HOME}"
 mkdir -p "${HOME}/Pictures/Wallpapers"
 cp $DOTFILES/wpp/* ${HOME}/Pictures/Wallpapers
 
-# --- 7. install scripts ------------------------------------------------
+# --- 6. install scripts ------------------------------------------------
 sudo install -Dm755 "$DOTFILES/scripts/powermenu.sh" /usr/local/bin/powermenu
 sudo install -Dm755 "$DOTFILES/scripts/bluetooth-menu.sh" /usr/local/bin/bluetooth-menu
 sudo install -Dm755 "$DOTFILES/scripts/install-zen.sh" /usr/local/bin/install-zen
 
-# --- 8. install Material Symbols ---------------------------------------
+# --- 7. install Material Symbols ---------------------------------------
 mkdir -p $HOME/.local/share/fonts/MaterialDesign/
 cp "$DOTFILES/fonts/MaterialSymbolsRounded.ttf" "$HOME/.local/share/fonts/MaterialDesign/"
 
-# --- 9. install Oh My Posh ---------------------------------------------
+# --- 8. install Oh My Posh ---------------------------------------------
 curl -s https://ohmyposh.dev/install.sh | bash -s
 mkdir -p $HOME/.oh-my-posh/themes
 cp $DOTFILES/oh-my-posh/custom_theme.omp.json $HOME/.oh-my-posh/themes
 
 echo -e "\n✅  Setup complete. Log out to start Hyprland with greetd."
+
+# --- 9. greetd ---------------------------------------------------------
+if ! id greeter &>/dev/null; then
+    sudo useradd -m -s /usr/bin/nologin greeter
+fi
+sudo rm -rf /etc/greetd
+sudo ln -sfn "$DOTFILES/greetd" /etc
+sudo systemctl disable display-manager
+sudo systemctl enable --now greetd.service
+
+# --- 10. rustup  -------------------------------------------------------
+curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
