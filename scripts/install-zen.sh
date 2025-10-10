@@ -11,7 +11,7 @@ ZEN_ICON_URL="https://github.com/zen-browser/branding/blob/main/Official/SVG/Zen
 echo "[+] Downloading Zen Browser..."
 mkdir -p "$INSTALL_DIR"
 curl -L "$ZEN_URL" | tar -xJ -C "$INSTALL_DIR" --strip-components=1
-curl -L "$ZEN_ICON_URL" --output "$INSTALL_DIR/icons"
+curl -L "$ZEN_ICON_URL" --output "$INSTALL_DIR/icons/icon.svg"
 
 echo "[+] Creating desktop entry..."
 
