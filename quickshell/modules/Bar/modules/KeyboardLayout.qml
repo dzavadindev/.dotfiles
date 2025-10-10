@@ -1,6 +1,7 @@
 import QtQuick
 
 import Quickshell
+import Quickshell.Widgets
 
 import qs.config
 import qs.components
@@ -9,9 +10,7 @@ import qs.services
 Rectangle {
     id: root
 
-    visible: UPower.isLaptop
-
-    color: Appearance.colors.primary_dark
+    color: Appearance.colors.primary_light
 
     implicitWidth: contentRow.implicitWidth + Appearance.padding.sm * 2
     implicitHeight: contentRow.implicitHeight + Appearance.padding.sm
@@ -24,16 +23,15 @@ Rectangle {
         MaterialIcon {
             id: icon
 
-            name: UPower.batteryIcon
+            name: "keyboard"
             color: Appearance.colors.secondary
             size: Appearance.font.size.md
-            weight: Font.Bold
         }
 
         Text {
             id: charge
 
-            text: UPower.rounded_percentage + "%"
+            text: Hyprland.kbLayout
 
             anchors.verticalCenter: parent.verticalCenter
 

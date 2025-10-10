@@ -14,8 +14,7 @@ Rectangle {
 
     readonly property HL.HyprlandToplevel activeToplevel: Hyprland.activeToplevel
 
-    color: Appearance.colors.secondary
-    radius: Appearance.rounding.full
+    color: Appearance.colors.primary_light
 
     Behavior on opacity {
         NumberAnimation {
@@ -28,7 +27,7 @@ Rectangle {
 
         anchors.centerIn: parent
 
-        color: Appearance.colors.primary
+        color: Appearance.colors.secondary
         text: root.activeToplevel ? root.activeToplevel.wayland.appId : ""
         font.pointSize: Appearance.font.size.sm
         font.family: Appearance.font.family.mono

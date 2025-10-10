@@ -8,8 +8,7 @@ Rectangle {
     implicitHeight: text.implicitHeight + Appearance.padding.md / 2
     implicitWidth: text.implicitWidth + Appearance.padding.md
 
-    color: Appearance.colors.primary
-    radius: Appearance.rounding.full
+    color: "transparent"
 
     Text {
         id: text

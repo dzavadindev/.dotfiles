@@ -11,12 +11,10 @@ Rectangle {
 
     readonly property bool active: NotificationService.showNotificationCenter
 
-    color: active ? Appearance.colors.secondary : Appearance.colors.primary
+    color: active ? Appearance.colors.secondary : Appearance.colors.primary_light
 
     implicitWidth: notificationsIcon.implicitWidth + Appearance.padding.sm * 2
     implicitHeight: notificationsIcon.implicitHeight + Appearance.padding.sm
-
-    radius: Appearance.rounding.full
 
     MouseArea {
         anchors.fill: parent

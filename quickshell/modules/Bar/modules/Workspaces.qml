@@ -15,11 +15,10 @@ import qs.services
 
 Rectangle {
     id: root
-    color: Appearance.colors.primary
-    radius: Appearance.rounding.full
+    color: "transparent"
 
     implicitHeight: layoutWrapper.implicitHeight + Appearance.padding.md / 2
-    implicitWidth: layoutWrapper.implicitWidth + Appearance.padding.lg
+    implicitWidth: layoutWrapper.implicitWidth + Appearance.padding.sm
 
     // Wrap the layout so that I can put the background outside of the layout
     Item {
@@ -34,9 +33,7 @@ Rectangle {
         Rectangle {
             id: focusBackground
             z: -1
-            radius: Appearance.rounding.full
             color: Appearance.colors.secondary
-            visible: width > 0 && height > 0 // prevent flickers
 
             // Animations trigger on property change
             Behavior on x {
@@ -45,18 +42,21 @@ Rectangle {
                     easing.type: Easing.OutBack
                 }
             }
+
             Behavior on width {
                 NumberAnimation {
                     duration: 160
                     easing.type: Easing.OutQuad
                 }
             }
+
             Behavior on height {
                 NumberAnimation {
                     duration: 160
                     easing.type: Easing.OutQuad
                 }
             }
+
             Behavior on opacity {
                 NumberAnimation {
                     duration: 160
@@ -72,25 +72,35 @@ Rectangle {
 
             Repeater {
                 id: workspaces
-                model: Hyprland.workspaces
+                model: Config.worspacesCount
 
                 // One rectangle per workspace
                 Rectangle {
                     id: ws
-                    required property HL.HyprlandWorkspace modelData
+                    required property var modelData
 
-                    Layout.preferredWidth: number.implicitWidth + Appearance.padding.md
-                    Layout.preferredHeight: number.implicitHeight
                     color: "transparent"
-                    radius: Appearance.rounding.full
 
-                    readonly property bool isFocused: Hyprland.activeWsId === modelData.id
+                    Layout.preferredWidth: number.implicitWidth + Appearance.padding.xs
+                    Layout.preferredHeight: number.implicitHeight
+
+                    readonly property bool isFocused: Hyprland.activeWsId === modelData + 1
 
                     Text {
                         id: number
                         anchors.centerIn: parent
-                        text: ws.modelData.name
-                        color: ws.isFocused ? Appearance.colors.primary : Appearance.colors.secondary
+                        text: ws.modelData + 1
+                        color: {
+                            let color = "";
+                            if (ws.isFocused) {
+                                color = Appearance.colors.primary;
+                            } else if (Hyprland.workspaces.values.find(el => el.id == modelData + 1)) {
+                                color = Appearance.colors.secondary;
+                            } else {
+                                color = Appearance.colors.primary_dark;
+                            }
+                            return color;
+                        }
                         font.pointSize: Appearance.font.size.sm
                         font.family: Appearance.font.family.mono
                     }
@@ -104,7 +114,7 @@ Rectangle {
         // Walk the actual created items to avoid guessing the model shape
         for (let i = 0; i < workspaces.count; ++i) {
             const item = workspaces.itemAt(i);
-            if (item && item.modelData && item.modelData.id === Hyprland.activeWsId)
+            if (item.modelData + 1 === Hyprland.activeWsId)
                 return item;
         }
         return null;

@@ -10,8 +10,9 @@ import "modules"
 StyledWindow {
     name: "bar"
     WlrLayershell.layer: WlrLayer.Bottom
+
     // Made the height dynamic, based on how high the elements of the bar are + the padding
-    implicitHeight: child.implicitHeight + Appearance.padding.sm
+    implicitHeight: child.implicitHeight
     implicitWidth: child.implicitWidth
 
     // Hug the bottom
@@ -19,8 +20,10 @@ StyledWindow {
     anchors.right: true
     anchors.bottom: true
 
-    Item {
+    Rectangle {
         id: child
+
+        color: Appearance.colors.primary
 
         // Make all bar elements center be on the center of the bar itself, this creates the padding effect
         anchors.verticalCenter: parent.verticalCenter
@@ -61,6 +64,10 @@ StyledWindow {
             anchors.verticalCenter: parent.verticalCenter
             anchors.right: parent.right
             anchors.rightMargin: Appearance.padding.md
+
+            KeyboardLayout {
+                id: layout
+            }
 
             Volume {
                 id: volume

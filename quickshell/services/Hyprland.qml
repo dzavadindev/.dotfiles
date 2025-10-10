@@ -54,7 +54,7 @@ Singleton {
         running: true
         command: ["hyprctl", "-j", "devices"]
         stdout: StdioCollector {
-            onStreamFinished: root.kbLayout = JSON.parse(text).keyboards.find(k => k.main).active_keymap.slice(0, 2).toLowerCase()
+            onStreamFinished: root.kbLayout = JSON.parse(text).keyboards.find(k => k.main).active_keymap.slice(0, 2).toUpperCase()
         }
     }
 }

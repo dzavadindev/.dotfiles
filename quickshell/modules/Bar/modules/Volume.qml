@@ -16,8 +16,7 @@ WrapperMouseArea {
     Rectangle {
         id: root
 
-        color: Appearance.colors.primary
-        radius: Appearance.rounding.full
+        color: Appearance.colors.primary_light
 
         implicitWidth: contentRow.implicitWidth + Appearance.padding.sm * 2
         implicitHeight: contentRow.implicitHeight + Appearance.padding.sm

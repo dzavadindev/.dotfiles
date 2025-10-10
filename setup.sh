@@ -18,7 +18,7 @@ fi
 # --- 3. install repo & Wayland toolchain ------------------------------
 pac_pkgs=(
     rustup neovim tmux zsh kitty hyprland fuzzel ttf-firacode-nerd
-    dunst greetd-tuigreet xdg-utils grim slurp flameshot blueman
+    dunst greetd-tuigreet xdg-utils grim slurp flameshot blueberry
     xdg-desktop-portal-hyprland xdg-desktop-portal-gtk swww
     hyprpolkitagent cliphist
 )
@@ -84,5 +84,11 @@ cp "$DOTFILES/fonts/MaterialSymbolsRounded.ttf" "$HOME/.local/share/fonts/Materi
 # --- 9. install Starship ---------------------------------------------
 curl -sS https://starship.rs/install.sh | sh
 ln -s "$DOTFILES/starship.toml" "$XDG_CONFIG_HOME"
+
+# --- 10. apps and stuff ----------------------------------------------
+
+sudo pacman -S stlink steam arduino-cli arduino-language-server arm-none-eabi-gdb bat bitwarden bashtop discord fastfetch lua lua51 luarocks obs-studio opentabletdriver solaar vlc yazi ffmpeg jq poppler fd rg fzf zoxide resvg imagemagik
+
+sudo systemctl enable --now bluetooth.service
 
 echo -e "\n✅  Setup complete. Log out to start Hyprland with greetd."
