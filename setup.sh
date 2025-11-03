@@ -70,6 +70,8 @@ cp $DOTFILES/wpp/* ${HOME}/Pictures/Wallpapers
 # --- 6. install scripts ------------------------------------------------
 sudo install -Dm755 "$DOTFILES/scripts/powermenu.sh" /usr/local/bin/powermenu
 sudo install -Dm755 "$DOTFILES/scripts/install-zen.sh" /usr/local/bin/install-zen
+sudo install -Dm755 "$DOTFILES/scripts/load_noisetorch.sh" /usr/local/bin/load-noisetorch
+sudo install -Dm755 "$DOTFILES/scripts/custom_krita_launucher.sh" /usr/local/bin/custom-krita-launcher
 
 # --- 7. install Material Symbols ---------------------------------------
 mkdir -p $HOME/.local/share/fonts/MaterialDesign/

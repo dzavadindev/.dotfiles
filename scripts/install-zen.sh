@@ -6,12 +6,12 @@ ZEN_URL="https://github.com/zen-browser/desktop/releases/latest/download/zen.lin
 INSTALL_DIR="$HOME/zen-browser"
 DESKTOP_FILE="$HOME/.local/share/applications/zen-browser.desktop"
 EXEC_PATH="$INSTALL_DIR/zen"
-ZEN_ICON_URL="https://github.com/zen-browser/branding/blob/main/Official/SVG/Zen-Dark-Coral.svg"
+ZEN_ICON_URL="https://github.com/zen-browser/branding/blob/main/Official/SVG/Zen-Dark-Coral.png"
 
 echo "[+] Downloading Zen Browser..."
 mkdir -p "$INSTALL_DIR"
 curl -L "$ZEN_URL" | tar -xJ -C "$INSTALL_DIR" --strip-components=1
-curl -L "$ZEN_ICON_URL" --output "$INSTALL_DIR/icons/icon.svg"
+curl -L "$ZEN_ICON_URL" --output "$INSTALL_DIR/icons/icon.png"
 
 echo "[+] Creating desktop entry..."
 
@@ -21,7 +21,7 @@ cat >"$DESKTOP_FILE" <<EOF
 [Desktop Entry]
 Name=Zen Browser
 Exec=$EXEC_PATH %U
-Icon=$INSTALL_DIR/icons/icon.svg
+Icon=$INSTALL_DIR/icons/icon.png
 Type=Application
 StartupNotify=true
 Categories=Network;WebBrowser;

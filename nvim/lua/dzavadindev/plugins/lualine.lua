@@ -23,7 +23,17 @@ return {
               end,
             },
           },
-          lualine_b = { 'branch', 'diagnostics' },
+          lualine_b = {
+            'branch',
+            'diagnostics',
+            {
+              function()
+                return vim.g.remote_neovim_host and ('Remote: %s'):format(vim.uv.os_gethostname()) or ''
+              end,
+              padding = { right = 1, left = 1 },
+              separator = { left = '', right = '' },
+            },
+          },
           lualine_c = { 'filename' },
           lualine_y = { 'lsp_status' },
           lualine_z = { 'progress', 'location' },

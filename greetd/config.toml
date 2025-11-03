@@ -2,5 +2,5 @@
 vt = 1
 
 [default_session]
-command = "tuigreet --user-menu --time --cmd hyprland"
+command = "tuigreet --user-menu --time --cmd /home/dan/.dotfiles/scripts/login.sh"
 user = "greeter"
