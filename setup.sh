@@ -20,7 +20,7 @@ pac_pkgs=(
     neovim tmux zsh kitty hyprland fuzzel ttf-firacode-nerd
     greetd-tuigreet xdg-utils grim slurp flameshot blueman
     xdg-desktop-portal-hyprland xdg-desktop-portal-gtk swww
-    hyprpolkitagent cliphist unzip
+    hyprpolkitagent cliphist unzip quickshell
 )
 
 missing=($(comm -23 <(printf '%s\n' "${pac_pkgs[@]}" | sort) \
@@ -30,7 +30,7 @@ if ((${#missing[@]})); then
     sudo pacman -S --needed --noconfirm "${missing[@]}"
 fi
 
-yay -S --needed --noconfirm quickshell-git opentabletdriver
+yay -S --needed --noconfirm opentabletdriver
 
 # --- 4. shell ----------------------------------------------------------
 [[ $SHELL != */zsh ]] && chsh -s /bin/zsh || true
@@ -82,10 +82,9 @@ curl -sS https://starship.rs/install.sh | sh
 ln -s "$DOTFILES/starship.toml" "$XDG_CONFIG_HOME"
 
 # --- 9. apps and stuff ----------------------------------------------
-
 sudo pacman -S  --needed --noconfirm stlink steam arduino-cli arduino-language-server arm-none-eabi-gdb bat bitwarden bashtop discord fastfetch lua lua51 luarocks obs-studio solaar vlc yazi ffmpeg jq poppler fd ripgrep fzf zoxide resvg imagemagick
 
-# install pipewire graph GUI here ......
+# TODO: install pipewire graph GUI here ......
 
 sudo systemctl enable --now bluetooth.service
 

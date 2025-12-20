@@ -56,6 +56,10 @@ vim.o.scrolloff = 10
 -- Raise a dialog asking if you wish to preform an operation
 vim.o.confirm = true
 
+-- Enable spellcheck
+vim.opt.spell = true
+vim.opt.spelllang = { 'en_gb' }
+
 -- Tabulation settings
 vim.o.expandtab = true
 vim.o.shiftwidth = 4

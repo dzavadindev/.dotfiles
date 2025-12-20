@@ -9,6 +9,7 @@ export ANDROID_HOME="/home/dan/Android/Sdk"
 export DOTNET_ROOT=$HOME/dotnet
 export DOTNET_CLI_TELEMETRY_OPTOUT=1
 export MINICOM='-con'
+export ARDUINO_CONFIG_FILE='/home/dan/.arduino15/arduino-cli.yaml'
 
 export STEAMAPPS="$HOME/.local/share/Steam/steamapps"
 

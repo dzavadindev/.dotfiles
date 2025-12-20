@@ -147,8 +147,8 @@ return {
       local servers = {
         -- :help lspconfig-all
         rust_analyzer = {},
-        arduino_language_server = {},
         clangd = {},
+        arduino_language_server = {},
         qmlls = {
           on_attach = function(client, bufnr)
             -- Stop qmlls from publishing diagnostics (Quickshell ~_~)

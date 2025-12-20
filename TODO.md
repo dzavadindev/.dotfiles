@@ -1,14 +1,12 @@
 # Main things to still tackle
 
 ## Fixes
-- [ ] Fix the workspaces switch focus flyoff (Rewrite to render all workspaces, set `visible`)
-- [X] Rewrite the right drawer to be a 0-width window panel and a bunch of PopupWinows that pop out of it
 - [ ] Add animations when switching tabs in the audiomixer 
 - [ ] Manipulations with implicit and factual width/height. Deal with things like hidder drawer element being briefly in view when the Drawers wrapper expands beyond their size
+- [ ] Fix empty audio mixer being not stuck to the side of the screen
 
 ## Features 
 
-- [X] Audio mixer
 - [ ] Notifications center 
 - [ ] System tray integration
 - [ ] Bluetooth menu
