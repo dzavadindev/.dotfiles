@@ -1,6 +1,7 @@
 pragma ComponentBehavior: Bound
 
 import Quickshell
+import Quickshell.Widgets
 
 import QtQuick
 
@@ -10,102 +11,133 @@ import qs.services
 Rectangle {
     id: root
 
-    clip: true
+    property bool isEmpty: popupList.count == 0
 
-    property bool isEmpty: true
+    color: "transparent"
 
-    implicitWidth: Appearance.elementSize.notificationList_width
-    implicitHeight: isEmpty ? popupList.implicitHeight + Appearance.padding.sm : 0
-
-    color: "red"
-
-    bottomLeftRadius: Appearance.rounding.normal
-    bottomRightRadius: Appearance.rounding.normal
+    implicitHeight: viewport.implicitHeight
+    implicitWidth: {
+        let size = Appearance.elementSize.notificationListItem_width;
+        let h_pad = Appearance.padding.md;
+        return size + h_pad;
+    }
 
     ScriptModel {
         id: popups
-        values: NotificationService.notifs.filter(el => el.isPopup)
+        values: NotificationService.notifs.filter(el => el.isPopup).reverse()
     }
 
-    Behavior on implicitHeight {
-        NumberAnimation {
-            duration: 400
-            easing.type: Easing.OutQuad
-        }
-    }
+    Rectangle {
+        id: viewport
+        clip: true
 
-    ListView {
-        id: popupList
+        property real animatedHeight: popupList.contentHeight
 
-        model: popups
+        color: Appearance.colors.primary
+        bottomLeftRadius: Appearance.rounding.normal
+        bottomRightRadius: Appearance.rounding.normal
 
-        property real padding: Appearance.padding.sm
+        anchors.horizontalCenter: parent.horizontalCenter
 
-        verticalLayoutDirection: ListView.BottomToTop
+        implicitWidth: parent.width
+        implicitHeight: animatedHeight
 
-        implicitHeight: isEmpty ? contentHeight + padding : 0
-        implicitWidth: contentItem.childrenRect.width + padding
+        ListView {
+            id: popupList
 
-        anchors.horizontalCenter: root.horizontalCenter
+            model: popups
+            anchors.fill: parent
 
-        spacing: padding
+            spacing: Appearance.padding.sm
 
-        onContentHeightChanged: () => root.isEmpty = contentHeight != 0
-
-        // displaced: Transition {
-        //     NumberAnimation {
-        //         properties: "y"
-        //         duration: 400
-        //     }
-        // }
-        //
-        // add: Transition {
-        //     NumberAnimation {
-        //         property: "y"
-        //         from: -popupList.implicitHeight - 100
-        //         duration: 400
-        //     }
-        // }
-        //
-        // remove: Transition {
-        //     NumberAnimation {
-        //         properties: "y"
-        //         from: 4000
-        //         duration: 400
-        //     }
-        // }
-
-        delegate: Rectangle {
-            id: popup
-
-            required property var modelData
-            property alias removeAnim: removeAnim
-
-            color: "green"
-
-            radius: Appearance.rounding.normal
-
-            implicitHeight: Appearance.elementSize.notificationList_height
-            implicitWidth: root.width - Appearance.padding.sm * 2
-
-            PropertyAnimation {
-                id: removeAnim
-                target: popup
-                property: "y"
-                to: root.height + popup.height
-                duration: 400
-            }
-
-            Behavior on y {
+            displaced: Transition {
                 NumberAnimation {
+                    properties: "y"
                     duration: 400
                     easing.type: Easing.OutQuad
                 }
             }
 
-            Text {
-                text: parent.modelData.body + " " + parent.modelData.summary
+            delegate: NotificationItem {}
+        }
+    }
+
+    component NotificationItem: Rectangle {
+        id: popup
+
+        required property var modelData
+        required property int index
+
+        color: Appearance.colors.secondary
+        radius: Appearance.rounding.normal
+
+        implicitHeight: Appearance.elementSize.notificationListItem_height
+        implicitWidth: root.width - Appearance.padding.sm * 2
+
+        transform: Translate {
+            id: t
+            y: 0
+        }
+
+        SequentialAnimation {
+            id: addAnim
+
+            PropertyAction {
+                target: t
+                property: "y"
+                value: -popup.height
             }
+
+            NumberAnimation {
+                target: t
+                property: "y"
+                to: 0
+                duration: 400
+                easing.type: Easing.OutQuad
+            }
+        }
+
+        SequentialAnimation {
+            id: removeAnim
+
+            PropertyAction {
+                target: popup
+                property: "ListView.delayRemove"
+                value: true
+            }
+
+            ParallelAnimation {
+                NumberAnimation {
+                    target: t
+                    property: "y"
+                    to: viewport.height + popup.height
+                    duration: 400
+                    easing.type: Easing.OutQuad
+                }
+
+                NumberAnimation {
+                    target: viewport
+                    property: "animatedHeight"
+                    to: viewport.animatedHeight - popup.implicitHeight - popupList.spacing
+                    duration: 400
+                    easing.type: Easing.OutQuad
+                }
+            }
+
+            PropertyAction {
+                target: popup
+                property: "ListView.delayRemove"
+                value: false
+            }
+        }
+
+        ListView.onRemove: () => removeAnim.start()
+        ListView.onAdd: () => addAnim.start()
+
+        Text {
+            anchors.centerIn: parent
+            color: Appearance.colors.primary
+            text: parent.modelData.body + " " + parent.modelData.summary
         }
     }
 }

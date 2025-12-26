@@ -29,8 +29,8 @@ Singleton {
         readonly property int audioMixer_sliderWidth: 300
         readonly property int audioMixer_listHeight: 200
         readonly property int audioMixer_sliderThickness: 25
-        readonly property int notificationList_width: 400
-        readonly property int notificationList_height: 100
+        readonly property int notificationListItem_width: 400
+        readonly property int notificationListItem_height: 100
     }
 
     // Border Width -------------------------------

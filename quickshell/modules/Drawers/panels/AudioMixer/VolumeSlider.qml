@@ -48,7 +48,6 @@ Row {
         value: root.audio ? root.audio.volume : 1.0
 
         onMoved: {
-            console.log(value);
             if (root.audio)
                 root.audio.volume = value;
         }
