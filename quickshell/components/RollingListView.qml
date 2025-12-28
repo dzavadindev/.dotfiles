@@ -5,26 +5,27 @@ import Quickshell.Widgets
 
 import QtQuick
 
-import qs.config
-import qs.services
 import qs.components
 
 Rectangle {
     id: root
 
+    required property var model
+
+    required property DelegateComponent delegate
+
+    property real wrapperWidth: 100
+    property real wrapperYPadding: 10
+
+    property real wrapperBottomRadius: 10
+    property string wrapperColor: "transparent"
+
+    property real spacing: 10
+
     color: "transparent"
 
-    implicitHeight: rollingList.implicitHeight
-    implicitWidth: {
-        let size = Appearance.elementSize.notificationListItem_width;
-        let h_pad = Appearance.padding.md;
-        return size + h_pad;
-    }
-
-    ScriptModel {
-        id: popups
-        values: NotificationService.notifs.filter(el => el.isPopup).reverse()
-    }
+    implicitHeight: viewport.animatedHeight
+    implicitWidth: popupList.contentItem.width
 
     Rectangle {
         id: viewport
@@ -32,22 +33,25 @@ Rectangle {
 
         property real animatedHeight
 
-        color: Appearance.colors.primary
-        bottomLeftRadius: Appearance.rounding.normal
-        bottomRightRadius: Appearance.rounding.normal
+        color: root.wrapperColor
+        bottomLeftRadius: root.wrapperBottomRadius
+        bottomRightRadius: root.wrapperBottomRadius
 
         anchors.horizontalCenter: parent.horizontalCenter
 
-        implicitWidth: parent.width
+        implicitWidth: root.wrapperWidth
         implicitHeight: animatedHeight
 
         ListView {
-            id: rollingList
+            id: popupList
 
-            model: popups
+            model: root.model
             anchors.fill: parent
 
-            spacing: Appearance.padding.sm
+            anchors.topMargin: root.wrapperYPadding
+            anchors.bottomMargin: root.wrapperYPadding
+
+            spacing: root.spacing
 
             displaced: Transition {
                 NumberAnimation {
@@ -57,21 +61,36 @@ Rectangle {
                 }
             }
 
-            delegate: NotificationItem {}
+            delegate: DelegateAnimationHandler {
+                delegate: root.delegate
+            }
         }
     }
 
-    component NotificationItem: Rectangle {
-        id: popup
+    component DelegateAnimationHandler: Item {
+        id: animationHandler
 
-        required property var modelData
-        required property int index
+        property var modelData
+        property Component delegate
 
-        color: Appearance.colors.secondary
-        radius: Appearance.rounding.normal
+        implicitWidth: loader.item ? loader.item.implicitWidth : 0
+        implicitHeight: loader.item ? loader.item.implicitHeight : 0
 
-        implicitHeight: Appearance.elementSize.notificationListItem_height
-        implicitWidth: root.width - Appearance.padding.sm * 2
+        Loader {
+            id: loader
+            anchors.fill: parent
+
+            sourceComponent: animationHandler.delegate
+
+            property var modelData: animationHandler.modelData
+
+            Binding {
+                target: loader.item
+                property: "modelData"
+                value: loader.modelData
+                when: loader.item !== null
+            }
+        }
 
         transform: Translate {
             id: t
@@ -84,7 +103,7 @@ Rectangle {
             PropertyAction {
                 target: t
                 property: "y"
-                value: -popup.height
+                value: -animationHandler.height
             }
 
             ParallelAnimation {
@@ -98,7 +117,7 @@ Rectangle {
                 NumberAnimation {
                     target: viewport
                     property: "animatedHeight"
-                    to: rollingList.contentHeight
+                    to: popupList.contentHeight + root.wrapperYPadding * 2
                     duration: 400
                     easing.type: Easing.OutQuad
                 }
@@ -109,7 +128,7 @@ Rectangle {
             id: removeAnim
 
             PropertyAction {
-                target: popup
+                target: animationHandler
                 property: "ListView.delayRemove"
                 value: true
             }
@@ -118,7 +137,7 @@ Rectangle {
                 NumberAnimation {
                     target: t
                     property: "y"
-                    to: viewport.height + popup.height
+                    to: viewport.height + animationHandler.height
                     duration: 400
                     easing.type: Easing.OutQuad
                 }
@@ -126,26 +145,20 @@ Rectangle {
                 NumberAnimation {
                     target: viewport
                     property: "animatedHeight"
-                    to: viewport.animatedHeight - popup.implicitHeight - rollingList.spacing
+                    to: viewport.animatedHeight - animationHandler.implicitHeight - popupList.spacing
                     duration: 400
                     easing.type: Easing.OutQuad
                 }
             }
 
             PropertyAction {
-                target: popup
+                target: animationHandler
                 property: "ListView.delayRemove"
                 value: false
             }
         }
 
-        ListView.onRemove: () => removeAnim.start()
-        ListView.onAdd: () => addAnim.start()
-
-        Text {
-            anchors.centerIn: parent
-            color: Appearance.colors.primary
-            text: parent.modelData.body + " " + parent.modelData.summary
-        }
+        ListView.onRemove: removeAnim.start()
+        ListView.onAdd: addAnim.start()
     }
 }
