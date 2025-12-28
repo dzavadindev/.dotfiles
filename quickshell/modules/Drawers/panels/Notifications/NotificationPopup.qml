@@ -9,143 +9,39 @@ import qs.config
 import qs.services
 import qs.components
 
-Rectangle {
+RollingListView {
     id: root
 
-    color: "transparent"
+    ScriptModel {
+        id: notificationsModel
+        values: NotificationService.notifs.filter(el => el.isPopup).reverse()
+    }
 
-    implicitHeight: rollingList.implicitHeight
-    implicitWidth: {
+    model: notificationsModel
+
+    wrapperWidth: {
         let size = Appearance.elementSize.notificationListItem_width;
         let h_pad = Appearance.padding.md;
         return size + h_pad;
     }
+    wrapperColor: Appearance.colors.primary
+    wrapperBottomRadius: Appearance.rounding.normal
 
-    ScriptModel {
-        id: popups
-        values: NotificationService.notifs.filter(el => el.isPopup).reverse()
-    }
+    delegate: Rectangle {
+        id: notificationItem
 
-    Rectangle {
-        id: viewport
-        clip: true
-
-        property real animatedHeight
-
-        color: Appearance.colors.primary
-        bottomLeftRadius: Appearance.rounding.normal
-        bottomRightRadius: Appearance.rounding.normal
-
-        anchors.horizontalCenter: parent.horizontalCenter
-
-        implicitWidth: parent.width
-        implicitHeight: animatedHeight
-
-        ListView {
-            id: rollingList
-
-            model: popups
-            anchors.fill: parent
-
-            spacing: Appearance.padding.sm
-
-            displaced: Transition {
-                NumberAnimation {
-                    properties: "y"
-                    duration: 400
-                    easing.type: Easing.OutQuad
-                }
-            }
-
-            delegate: NotificationItem {}
-        }
-    }
-
-    component NotificationItem: Rectangle {
-        id: popup
-
-        required property var modelData
-        required property int index
+        property var modelData
 
         color: Appearance.colors.secondary
         radius: Appearance.rounding.normal
 
         implicitHeight: Appearance.elementSize.notificationListItem_height
-        implicitWidth: root.width - Appearance.padding.sm * 2
-
-        transform: Translate {
-            id: t
-            y: 0
-        }
-
-        SequentialAnimation {
-            id: addAnim
-
-            PropertyAction {
-                target: t
-                property: "y"
-                value: -popup.height
-            }
-
-            ParallelAnimation {
-                NumberAnimation {
-                    target: t
-                    property: "y"
-                    to: 0
-                    duration: 400
-                    easing.type: Easing.OutQuad
-                }
-                NumberAnimation {
-                    target: viewport
-                    property: "animatedHeight"
-                    to: rollingList.contentHeight
-                    duration: 400
-                    easing.type: Easing.OutQuad
-                }
-            }
-        }
-
-        SequentialAnimation {
-            id: removeAnim
-
-            PropertyAction {
-                target: popup
-                property: "ListView.delayRemove"
-                value: true
-            }
-
-            ParallelAnimation {
-                NumberAnimation {
-                    target: t
-                    property: "y"
-                    to: viewport.height + popup.height
-                    duration: 400
-                    easing.type: Easing.OutQuad
-                }
-
-                NumberAnimation {
-                    target: viewport
-                    property: "animatedHeight"
-                    to: viewport.animatedHeight - popup.implicitHeight - rollingList.spacing
-                    duration: 400
-                    easing.type: Easing.OutQuad
-                }
-            }
-
-            PropertyAction {
-                target: popup
-                property: "ListView.delayRemove"
-                value: false
-            }
-        }
-
-        ListView.onRemove: () => removeAnim.start()
-        ListView.onAdd: () => addAnim.start()
+        implicitWidth: root.width
 
         Text {
             anchors.centerIn: parent
             color: Appearance.colors.primary
-            text: parent.modelData.body + " " + parent.modelData.summary
+            text: notificationItem.modelData.body
         }
     }
 }
