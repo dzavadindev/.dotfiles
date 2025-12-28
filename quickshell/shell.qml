@@ -51,10 +51,15 @@ ShellRoot {
             id: testModel
         }
 
+        ScriptModel {
+            id: testNotifModel
+            values: NotificationService.notifs.filter(el => el.isPopup).reverse()
+        }
+
         RollingListView {
             id: testListView
 
-            model: testModel
+            model: testNotifModel
 
             wrapperWidth: {
                 let size = Appearance.elementSize.notificationListItem_width;
@@ -65,6 +70,8 @@ ShellRoot {
             wrapperBottomRadius: Appearance.rounding.normal
 
             delegate: Rectangle {
+                id: testRect
+                property var modelData
 
                 color: Appearance.colors.secondary
                 radius: Appearance.rounding.normal
@@ -75,7 +82,7 @@ ShellRoot {
                 Text {
                     anchors.centerIn: parent
                     color: Appearance.colors.primary
-                    text: parent.modelData.number
+                    text: testRect.modelData.body
                 }
             }
         }

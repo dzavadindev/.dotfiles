@@ -12,7 +12,7 @@ Rectangle {
 
     required property var model
 
-    required property DelegateComponent delegate
+    required property Component delegate
 
     property real wrapperWidth: 100
     property real wrapperYPadding: 10
@@ -62,7 +62,16 @@ Rectangle {
             }
 
             delegate: DelegateAnimationHandler {
-                delegate: root.delegate
+                id: wrapper
+
+                required property var modelData
+
+                Binding {
+                    target: wrapper.contentDelegate
+                    property: wrapper.modelData
+                }
+
+                contentDelegate: root.delegate
             }
         }
     }
@@ -70,8 +79,7 @@ Rectangle {
     component DelegateAnimationHandler: Item {
         id: animationHandler
 
-        property var modelData
-        property Component delegate
+        property Component contentDelegate
 
         implicitWidth: loader.item ? loader.item.implicitWidth : 0
         implicitHeight: loader.item ? loader.item.implicitHeight : 0
@@ -80,7 +88,7 @@ Rectangle {
             id: loader
             anchors.fill: parent
 
-            sourceComponent: animationHandler.delegate
+            sourceComponent: animationHandler.contentDelegate
 
             property var modelData: animationHandler.modelData
 
