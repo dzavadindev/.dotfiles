@@ -60,10 +60,10 @@ StyledWindow {
         id: notificationPopupWrapper
 
         implicitHeight: notificationPopup.implicitHeight
-        implicitWidth: notificationPopup.implicitWidth + Appearance.padding.md
+        implicitWidth: notificationPopup.implicitWidth + Appearance.padding.lg
 
         anchors.top: parent.top
-        anchors.right: parent.right
+        anchors.left: parent.left
 
         NotificationPopup {
             id: notificationPopup
@@ -103,14 +103,14 @@ StyledWindow {
 
         Behavior on x {
             NumberAnimation {
-                duration: 400
+                duration: 200
                 easing.type: Easing.OutQuad
             }
         }
 
         Behavior on y {
             NumberAnimation {
-                duration: 400
+                duration: 200
                 easing.type: Easing.OutQuad
             }
         }

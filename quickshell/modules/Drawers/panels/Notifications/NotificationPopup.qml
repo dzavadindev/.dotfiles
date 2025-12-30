@@ -19,13 +19,10 @@ RollingListView {
 
     model: notificationsModel
 
-    wrapperWidth: {
-        let size = Appearance.elementSize.notificationListItem_width;
-        let h_pad = Appearance.padding.md;
-        return size + h_pad;
-    }
     wrapperColor: Appearance.colors.primary
     wrapperBottomRadius: Appearance.rounding.normal
+
+    implicitWidth: Appearance.elementSize.notificationListItem_width
 
     delegate: Rectangle {
         id: notificationItem
@@ -36,12 +33,24 @@ RollingListView {
         radius: Appearance.rounding.normal
 
         implicitHeight: Appearance.elementSize.notificationListItem_height
-        implicitWidth: root.width
 
-        Text {
-            anchors.centerIn: parent
-            color: Appearance.colors.primary
-            text: notificationItem.modelData.body
+        Row {
+            anchors.fill: parent
+
+            leftPadding: 10
+            topPadding: 10
+
+            spacing: Appearance.padding.md
+
+            Rectangle {
+                implicitHeight: notificationItem.implicitHeight - Appearance.padding.sm
+                implicitWidth: implicitHeight
+            }
+
+            Text {
+                color: Appearance.colors.primary
+                text: notificationItem.modelData.body + " " + notificationItem.modelData.summary + " " + notificationItem.modelData.timeStr
+            }
         }
     }
 }

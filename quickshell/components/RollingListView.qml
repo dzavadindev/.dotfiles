@@ -5,8 +5,15 @@ import Quickshell.Widgets
 
 import QtQuick
 
-import qs.components
-
+/*
+ * Rolling List View
+ * A simple wrapper around the ListView component that adds FIFO slide animation
+ *
+ * - The width of the RollingListView determines the width of the delegates
+ *   Default `implicitWidth` is 100, and should be modified to your needs
+ *   If you wish to add padding, use wrapperYPadding and wrapperXPadding
+ *
+ */
 Rectangle {
     id: root
 
@@ -14,18 +21,19 @@ Rectangle {
 
     required property Component delegate
 
-    property real wrapperWidth: 100
-    property real wrapperYPadding: 10
-
-    property real wrapperBottomRadius: 10
     property string wrapperColor: "transparent"
 
+    property real wrapperYPadding: 10
+    property real wrapperXPadding: 10
+    property real wrapperBottomRadius: 10
     property real spacing: 10
+
+    property bool isEmpty: rollingList.count == 0
 
     color: "transparent"
 
-    implicitHeight: viewport.animatedHeight
-    implicitWidth: popupList.contentItem.width
+    implicitHeight: isEmpty ? viewport.animatedHeight : 0
+    implicitWidth: 100 // DEFAULT VALUE
 
     Rectangle {
         id: viewport
@@ -37,19 +45,19 @@ Rectangle {
         bottomLeftRadius: root.wrapperBottomRadius
         bottomRightRadius: root.wrapperBottomRadius
 
-        anchors.horizontalCenter: parent.horizontalCenter
-
-        implicitWidth: root.wrapperWidth
+        implicitWidth: root.implicitWidth + root.wrapperXPadding * 2
         implicitHeight: animatedHeight
 
         ListView {
-            id: popupList
+            id: rollingList
 
             model: root.model
-            anchors.fill: parent
 
-            anchors.topMargin: root.wrapperYPadding
-            anchors.bottomMargin: root.wrapperYPadding
+            implicitWidth: root.implicitWidth
+
+            anchors.horizontalCenter: parent.horizontalCenter
+            anchors.top: parent.top
+            anchors.bottom: parent.bottom
 
             spacing: root.spacing
 
@@ -65,6 +73,8 @@ Rectangle {
                 id: wrapper
 
                 required property var modelData
+
+                implicitWidth: ListView.view.width
 
                 Binding {
                     target: wrapper.contentDelegate
@@ -125,7 +135,7 @@ Rectangle {
                 NumberAnimation {
                     target: viewport
                     property: "animatedHeight"
-                    to: popupList.contentHeight + root.wrapperYPadding * 2
+                    to: rollingList.contentHeight + root.wrapperYPadding
                     duration: 400
                     easing.type: Easing.OutQuad
                 }
@@ -153,7 +163,11 @@ Rectangle {
                 NumberAnimation {
                     target: viewport
                     property: "animatedHeight"
-                    to: viewport.animatedHeight - animationHandler.implicitHeight - popupList.spacing
+                    to: {
+                        if (root.isEmpty)
+                            return 0;
+                        return viewport.animatedHeight - animationHandler.implicitHeight - rollingList.spacing;
+                    }
                     duration: 400
                     easing.type: Easing.OutQuad
                 }
