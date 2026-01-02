@@ -40,6 +40,7 @@ Rectangle {
         clip: true
 
         property real animatedHeight
+        property real targetHeight
 
         color: root.wrapperColor
         bottomLeftRadius: root.wrapperBottomRadius
@@ -47,6 +48,15 @@ Rectangle {
 
         implicitWidth: root.implicitWidth + root.wrapperXPadding * 2
         implicitHeight: animatedHeight
+
+        onTargetHeightChanged: animatedHeight = targetHeight
+
+        Behavior on animatedHeight {
+            NumberAnimation {
+                duration: 400
+                easing.type: Easing.OutQuad
+            }
+        }
 
         ListView {
             id: rollingList
@@ -75,12 +85,6 @@ Rectangle {
                 required property var modelData
 
                 implicitWidth: ListView.view.width
-
-                Binding {
-                    target: wrapper.contentDelegate
-                    property: wrapper.modelData
-                }
-
                 contentDelegate: root.delegate
             }
         }
@@ -102,11 +106,10 @@ Rectangle {
 
             property var modelData: animationHandler.modelData
 
-            Binding {
-                target: loader.item
-                property: "modelData"
-                value: loader.modelData
-                when: loader.item !== null
+            onLoaded: {
+                if (!item)
+                    return;
+                item.modelData = animationHandler.modelData;
             }
         }
 
@@ -124,21 +127,12 @@ Rectangle {
                 value: -animationHandler.height
             }
 
-            ParallelAnimation {
-                NumberAnimation {
-                    target: t
-                    property: "y"
-                    to: 0
-                    duration: 400
-                    easing.type: Easing.OutQuad
-                }
-                NumberAnimation {
-                    target: viewport
-                    property: "animatedHeight"
-                    to: rollingList.contentHeight + root.wrapperYPadding
-                    duration: 400
-                    easing.type: Easing.OutQuad
-                }
+            NumberAnimation {
+                target: t
+                property: "y"
+                to: 0
+                duration: 400
+                easing.type: Easing.OutQuad
             }
         }
 
@@ -151,26 +145,12 @@ Rectangle {
                 value: true
             }
 
-            ParallelAnimation {
-                NumberAnimation {
-                    target: t
-                    property: "y"
-                    to: viewport.height + animationHandler.height
-                    duration: 400
-                    easing.type: Easing.OutQuad
-                }
-
-                NumberAnimation {
-                    target: viewport
-                    property: "animatedHeight"
-                    to: {
-                        if (root.isEmpty)
-                            return 0;
-                        return viewport.animatedHeight - animationHandler.implicitHeight - rollingList.spacing;
-                    }
-                    duration: 400
-                    easing.type: Easing.OutQuad
-                }
+            NumberAnimation {
+                target: t
+                property: "y"
+                to: viewport.height + animationHandler.height
+                duration: 400
+                easing.type: Easing.OutQuad
             }
 
             PropertyAction {
@@ -180,7 +160,14 @@ Rectangle {
             }
         }
 
-        ListView.onRemove: removeAnim.start()
-        ListView.onAdd: addAnim.start()
+        ListView.onRemove: {
+            removeAnim.start();
+            viewport.targetHeight = viewport.targetHeight - (implicitHeight + root.wrapperYPadding);
+        }
+
+        ListView.onAdd: {
+            addAnim.start();
+            viewport.targetHeight = viewport.targetHeight + implicitHeight + root.wrapperYPadding;
+        }
     }
 }

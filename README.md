@@ -1,6 +1,10 @@
 # My Dotfiles
 
-This repository contains my personal configuration files (dotfiles) for ZSH, Neovim, and more.
+This repository contains my personal configuration files (dotfiles) for ZSH, Neovim, Quickshell and more.
+
+THE SETUP SCRIPT LITERALLY DELETES ALL THE LISTED EXISTING CONFIGURATION FILES FROM YOUR `.config` BEFORE INSTALLING THE NEW ONES. I ONLY USE IT ON FRESH INSTALLS AND WHEN I HAVE ALREADY RAN IT ONCE AND KEEP UPDATING MY CONFIGS. 
+
+IF FOR WHATEVER REASON YOU WANT TO USE THIS, MAKE BACKUPS OF ANY TOOLS YOU ARE INSTALLING (SEE BELOW, CHECK THE `./install.sh` SCRIPT).
 
 ## How to Use
 
@@ -11,9 +15,6 @@ git clone https://github.com/dzavadindev/.dotfiles.git ~/dotfiles
 ```
 
 2. Run the setup script. 
-
-THE SETUP SCRIPT LITERALLY DELETES ALL THE RELEVANT EXISTING CONFIGURATION FILES FROM YOUR `.config` BEFORE INSTALLING THE UNEW ONES. I ONLY USE IT ON FRESH INSTALLS. MAKE BACKUPS OF ANY TOOLS YOU ARE USING (SEE BELOW, CHECK THE `./install.sh` SCRIPT).
-
 
 ```bash
 cd ~/dotfiles

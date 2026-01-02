@@ -3,6 +3,7 @@ import QtQuick
 import Quickshell.Wayland
 
 import qs.config
+import qs.services
 import qs.components
 
 import "modules"
@@ -12,13 +13,29 @@ StyledWindow {
     WlrLayershell.layer: WlrLayer.Bottom
 
     // Made the height dynamic, based on how high the elements of the bar are + the padding
-    implicitHeight: child.implicitHeight
+    implicitHeight: Hyprland.focusedWorkspace.hasFullscreen ? 0 : child.implicitHeight
     implicitWidth: child.implicitWidth
 
     // Hug the bottom
     anchors.left: true
     anchors.right: true
     anchors.bottom: true
+
+    Behavior on implicitHeight {
+        NumberAnimation {
+            duration: 100
+            easing.type: Easing.OutQuad
+        }
+    }
+
+    Rectangle {
+        id: fill
+
+        anchors.fill: parent
+
+        color: Appearance.colors.primary
+        visible: Hyprland.focusedWorkspace.hasFullscreen
+    }
 
     Rectangle {
         id: child

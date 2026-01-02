@@ -28,7 +28,7 @@ Rectangle {
         anchors.centerIn: parent
 
         color: Appearance.colors.secondary
-        text: root.activeToplevel ? root.activeToplevel.wayland.appId : ""
+        text: root.activeToplevel.wayland ? root.activeToplevel.wayland.appId : ""
         font.pointSize: Appearance.font.size.sm
         font.family: Appearance.font.family.mono
         font.bold: true

@@ -11,7 +11,7 @@ Singleton {
 
     property bool showNotificationCenter: false
 
-    readonly property real customExpireTime: 5000
+    readonly property real customExpireTime: 2300
 
     readonly property list<NotificationItem> notifs: []
 
@@ -23,7 +23,7 @@ Singleton {
         bodyHyperlinksSupported: false
         bodyImagesSupported: false
         bodyMarkupSupported: false
-        imageSupported: false
+        imageSupported: true
 
         onNotification: notification => {
             notification.tracked = true;
@@ -50,21 +50,14 @@ Singleton {
         readonly property int urgency: notification.urgency
         readonly property list<NotificationAction> actions: notification.actions
 
-        readonly property string timeStr: {
-            const diff = Time.date.getTime() - time.getTime();
-            const m = Math.floor(diff / 60000);
-            const h = Math.floor(m / 60);
-
-            if (h < 1 && m < 1)
-                return "now";
-            if (h < 1)
-                return `${m}m`;
-            return `${h}h`;
-        }
-
         readonly property Timer timer: Timer {
             running: true
-            interval: notificationItem.notification.expireTimeout > 0 ? notificationItem.notification.expireTimeout : root.customExpireTime
+            // interval: {
+            //     if (notificationItem.notification.expireTimeout > 0)
+            //         return notificationItem.notification.expireTimeout;
+            //     return root.customExpireTime;
+            // }
+            interval: root.customExpireTime
             onTriggered: {
                 notificationItem.isPopup = false;
             }
@@ -80,6 +73,21 @@ Singleton {
             function onAboutToDestroy(): void {
                 notificationItem.destroy();
             }
+        }
+
+        function getTimeElapsed() {
+            const diff = Time.date.getTime() - time.getTime();
+
+            const m = Math.floor(diff / 60000);
+            const h = Math.floor(m / 60);
+
+            if (h < 1 && m < 1)
+                return "now";
+
+            if (h < 1)
+                return `${m}m`;
+
+            return `${h}h`;
         }
     }
 
