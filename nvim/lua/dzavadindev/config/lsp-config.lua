@@ -149,6 +149,7 @@ return {
         rust_analyzer = {},
         clangd = {},
         arduino_language_server = {},
+        pylsp = {},
         qmlls = {
           on_attach = function(client, bufnr)
             -- Stop qmlls from publishing diagnostics (Quickshell ~_~)

@@ -18,6 +18,10 @@ export LC_ALL=en_US.UTF-8
 export LC_NUMERIC=nl_NL.UTF-8
 export LC_TIME=nl_NL.UTF-8
 
+export NVM_DIR="$HOME/.config/nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
+
 CASE_SENSITIVE="true"
 
 zstyle ':omz:update' frequency 13
