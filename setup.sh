@@ -51,6 +51,7 @@ rm -rf "${XDG_CONFIG_HOME}/nvim"
 rm -rf "${XDG_CONFIG_HOME}/flameshot"
 rm -rf "${XDG_CONFIG_HOME}/quickshell"
 rm -rf "${XDG_CONFIG_HOME}/yazi"
+rm -rf "${XDG_CONFIG_HOME}/hamr"
 
 ln -sfn "$DOTFILES/.gitconfig" "${HOME}/.gitconfig"
 ln -sfn "$DOTFILES/.zshrc" "${HOME}/.zshrc"
@@ -63,6 +64,7 @@ ln -sfn "$DOTFILES/kitty" "${XDG_CONFIG_HOME}"
 ln -sfn "$DOTFILES/nvim" "${XDG_CONFIG_HOME}"
 ln -sfn "$DOTFILES/flameshot" "${XDG_CONFIG_HOME}"
 ln -sfn "$DOTFILES/quickshell" "${XDG_CONFIG_HOME}"
+ln -sfn "$DOTFILES/hamr" "${XDG_CONFIG_HOME}"
 
 mkdir -p "${HOME}/Pictures/Wallpapers"
 cp $DOTFILES/wpp/* ${HOME}/Pictures/Wallpapers
