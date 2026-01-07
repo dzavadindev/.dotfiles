@@ -4,7 +4,7 @@
         "contentTransparency": 0.2,
         "launcherXRatio": 0.5,
         "launcherYRatio": 0.5,
-        "fontScale": 1.5
+        "fontScale": 1
     },
     "apps": {
         "shell": "zsh",
@@ -71,13 +71,13 @@
     },
     "sizes": {
         "imageBrowserGridHeight": 600,
-        "imageBrowserGridWidth": 900,
+        "imageBrowserGridWidth": 1000,
         "imageBrowserHeight": 690,
         "imageBrowserWidth": 1200,
-        "maxResultsHeight": 600,
+        "maxResultsHeight": 400,
         "resultIconSize": 40,
-        "searchInputHeight": 40,
-        "searchWidth": 1000,
+        "searchInputHeight": 60,
+        "searchWidth": 650,
         "windowPickerMaxHeight": 220,
         "windowPickerMaxWidth": 350
     }
