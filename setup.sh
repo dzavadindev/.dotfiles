@@ -43,7 +43,7 @@ rm -rf "${HOME}/.gitconfig"
 rm -rf "${HOME}/.zshrc"
 rm -rf "${HOME}/.tmux.conf"
 
-rm -f "${XDG_CONFIG_HOME}/starship.toml"
+rm -rf "${XDG_CONFIG_HOME}/starship.toml"
 rm -rf "${XDG_CONFIG_HOME}/fuzzel"
 rm -rf "${XDG_CONFIG_HOME}/hypr"
 rm -rf "${XDG_CONFIG_HOME}/kitty"
@@ -56,6 +56,7 @@ rm -rf "${XDG_CONFIG_HOME}/hamr"
 ln -sfn "$DOTFILES/.gitconfig" "${HOME}/.gitconfig"
 ln -sfn "$DOTFILES/.zshrc" "${HOME}/.zshrc"
 ln -sfn "$DOTFILES/.tmux.conf" "${HOME}/.tmux.conf"
+ln -sfn "$DOTFILES/.zephyrrc" "${HOME}/.zephyrrc"
 
 ln -sfn "$DOTFILES/yazi" "${XDG_CONFIG_HOME}"
 ln -sfn "$DOTFILES/fuzzel" "${XDG_CONFIG_HOME}"
@@ -84,7 +85,7 @@ curl -sS https://starship.rs/install.sh | sh
 ln -s "$DOTFILES/starship.toml" "$XDG_CONFIG_HOME"
 
 # --- 9. apps and stuff ----------------------------------------------
-sudo pacman -S  --needed --noconfirm stlink steam arduino-cli arduino-language-server arm-none-eabi-gdb bat bitwarden bashtop discord fastfetch lua lua51 luarocks obs-studio solaar vlc yazi ffmpeg jq poppler fd ripgrep fzf zoxide resvg imagemagick
+sudo pacman -S --needed --noconfirm stlink steam arduino-cli arduino-language-server arm-none-eabi-gdb bat bitwarden bashtop discord fastfetch lua lua51 luarocks obs-studio solaar vlc ffmpeg jq poppler fd ripgrep fzf zoxide resvg imagemagick dolphin
 
 # TODO: install pipewire graph GUI here ......
 

@@ -45,6 +45,7 @@ alias sourcez="source ~/.zshrc"
 alias dotfiles="cd ~/.dotfiles"
 
 alias clearvimswap='rm -v ~/.local/state/nvim/swap/*'
+alias zephyr="source $HOME/zephyrproject/zephyr/zephyr-env.sh"
 
 eval "$(starship init zsh)"
 

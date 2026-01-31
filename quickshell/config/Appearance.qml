@@ -72,7 +72,7 @@ Singleton {
     }
 
     component FontSize: QtObject {
-        readonly property real sm: 12
+        readonly property real sm: 13
         readonly property real md: 15
         readonly property real lg: 17
     }

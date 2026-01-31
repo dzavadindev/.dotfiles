@@ -96,6 +96,7 @@ RollingListView {
 
                 color: Appearance.colors.primary
                 text: notificationItem.modelData.body
+                font.pointSize: Appearance.font.size.sm
             }
         }
     }
