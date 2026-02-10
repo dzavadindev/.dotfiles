@@ -1,4 +1,4 @@
-export PATH=$PATH:$HOME/bin:$HOME/.local/bin:/usr/local/bin:$HOME/flutter-sdk/flutter/bin:/usr/local/android-studio/android-studio:$HOME/dotnet:$HOME/.dotnet/tools
+export PATH=$PATH:$HOME/bin:$HOME/.local/bin:/usr/local/bin:$HOME/flutter-sdk/flutter/bin:/usr/local/android-studio/android-studio:$HOME/dotnet:$HOME/.dotnet/tools:$HOME/.opencode/bin/
 export POSH_THEMES_PATH="$HOME/.oh-my-posh/themes"
 export ZSH="$HOME/.oh-my-zsh"
 export XDG_CONFIG_HOME="$HOME/.config"
@@ -17,6 +17,9 @@ export LANG=en_US.UTF-8
 export LC_ALL=en_US.UTF-8
 export LC_NUMERIC=nl_NL.UTF-8
 export LC_TIME=nl_NL.UTF-8
+
+export VISUAL="nvim"
+export EDITOR="nvim"
 
 export NVM_DIR="$HOME/.config/nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"

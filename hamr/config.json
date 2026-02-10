@@ -5,5 +5,17 @@
   },
   "apps": {
     "terminal": "kitty"
+  },
+  "sizes": {
+    "searchInputHeight": 50,
+    "searchWidth": 600,
+    "maxResultsHeight": 500
+  },
+  "appearance": {
+    "launcherYRatio": 0.1,
+    "contentTransparency": 0.25,
+    "backgroundTransparency": 0.25,
+    "compactMode": 0.0,
+    "fontScale": 1.0
   }
 }
