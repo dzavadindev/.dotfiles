@@ -1,6 +1,7 @@
 */**/.qmlls.ini
 hamr/plugin-indexes.json
 hamr/search-history.json
+hamr/config.json
 
 opencode/node_modules
 opencode/bun.lock
