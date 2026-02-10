@@ -17,6 +17,8 @@ if [[ "$CONNECTIVITY" == "portal" ]]; then
     fi
     touch "$LOCK"
 
+    notify-send "Network login required" "Opening captive portal"
+
     # Force a HTTP request to trigger redirect
     xdg-open "http://neverssl.com" >/dev/null 2>&1 &
 fi
