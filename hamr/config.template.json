@@ -1,85 +1,23 @@
 {
-    // Change to config.json to apply to hamr
-    "appearance": {
-        "backgroundTransparency": 0.2,
-        "contentTransparency": 0.2,
-        "fontScale": 1.4,
-        "launcherXRatio": 0.5,
-        "launcherYRatio": 0.5
-    },
-    "apps": {
-        "shell": "zsh",
-        "terminal": "kitty",
-        "terminalArgs": "--class=floating.terminal"
-    },
-    "behavior": {
-        "clickOutsideAction": "intuitive",
-        "stateRestoreWindowMs": 30000
-    },
-    "fonts": {
-        "icon": "Material Symbols Rounded",
-        "main": "Google Sans Flex",
-        "monospace": "FiraCode Mono",
-        "reading": "Readex Pro"
-    },
-    "imageBrowser": {
-        "cellAspectRatio": 1.333,
-        "columns": 4,
-        "sidebarWidth": 140,
-        "useSystemFileDialog": false
-    },
-    "paths": {
-        "colorsJson": "",
-        "wallpaperDir": ""
-    },
-    "search": {
-        "actionBarHintsJson": "[{\"prefix\":\"~\",\"icon\":\"folder\",\"label\":\"Files\",\"plugin\":\"files\"},{\"prefix\":\"/\",\"icon\":\"extension\",\"label\":\"Plugins\",\"plugin\":\"action\"}]",
-        "actionKeys": [
-            "u",
-            "i",
-            "o",
-            "p"
-        ],
-        "debounceMs": 50,
-        "engineBaseUrl": "https://www.google.com/search?q=",
-        "excludedSites": [
-            "quora.com",
-            "facebook.com"
-        ],
-        "maxDisplayedResults": 16,
-        "maxHistoryItems": 500,
-        "maxRecentItems": 20,
-        "nonAppResultDelay": 30,
-        "pluginDebounceMs": 150,
-        "prefix": {
-            "action": "/",
-            "app": ">",
-            "clipboard": ";",
-            "emojis": ":",
-            "file": "~",
-            "math": "=",
-            "shellCommand": "$",
-            "shellHistory": "!",
-            "webSearch": "?"
-        },
-        "shellHistory": {
-            "customHistoryPath": "",
-            "enable": true,
-            "maxEntries": 500,
-            "shell": "auto"
-        },
-        "shellHistoryLimit": 50
-    },
-    "sizes": {
-        "imageBrowserGridHeight": 600,
-        "imageBrowserGridWidth": 1000,
-        "imageBrowserHeight": 690,
-        "imageBrowserWidth": 1200,
-        "maxResultsHeight": 400,
-        "resultIconSize": 40,
-        "searchInputHeight": 60,
-        "searchWidth": 650,
-        "windowPickerMaxHeight": 220,
-        "windowPickerMaxWidth": 350
-    }
+  "search": {
+    "diversityDecay": 0.2,
+    "engineBaseUrl": "https://www.duckduckgo.com/?q="
+  },
+  "apps": {
+    "terminal": "kitty"
+  },
+  "sizes": {
+    "searchInputHeight": "CHANGE",
+    "searchWidth": "CHANGE",
+    "maxResultsHeight": "CHANGE"
+  },
+  "appearance": {
+    "launcherXRatio": 0.5
+    "launcherYRatio": 0.5,
+    "contentTransparency": 0.25,
+    "backgroundTransparency": 0.25,
+    "compactMode": 0.0,
+    "fontScale": 1.1,
+    "uiScale": "CHANGE",
+  }
 }
