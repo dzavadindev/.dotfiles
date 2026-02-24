@@ -22,6 +22,8 @@ return {
         source = 'cmp',
       },
 
+      tmp_dir = '~/.99-prompts',
+
       md_files = {
         'AGENT.md',
       },

@@ -60,11 +60,6 @@ require('lazy').setup {
       require('mini.ai').setup { n_lines = 500 }
       require('mini.surround').setup()
       require('mini.bufremove').setup()
-      require('mini.notify').setup {
-        window = {
-          winblend = 0,
-        },
-      }
     end,
   },
 
