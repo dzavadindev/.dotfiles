@@ -1,4 +1,4 @@
-export PATH=$PATH:$HOME/bin:$HOME/.local/bin:/usr/local/bin:$HOME/flutter-sdk/flutter/bin:/usr/local/android-studio/android-studio:$HOME/dotnet:$HOME/.dotnet/tools:$HOME/.opencode/bin/
+export PATH=$PATH:$HOME/bin:$HOME/.local/bin:/usr/local/bin:$HOME/flutter-sdk/flutter/bin:/usr/local/android-studio/android-studio:$HOME/dotnet:$HOME/.dotnet/tools
 export POSH_THEMES_PATH="$HOME/.oh-my-posh/themes"
 export ZSH="$HOME/.oh-my-zsh"
 export XDG_CONFIG_HOME="$HOME/.config"
