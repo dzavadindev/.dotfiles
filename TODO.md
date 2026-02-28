@@ -8,17 +8,11 @@
 
 - The fullscreen hiding of the bar smears the elements inside it. Would have been nice to achieve a sort of "per workspace" bar effect, where together with the Hyprland workspace slide animation the bar slided in and out. Kinda like switching screens
 
-
 ## Features 
 
 - Add animations when switching tabs in the audiomixer 
 
-- Install hamr launcher (bye bye fuzzel)
-
 ## Milestones
-
-
-- Notifications center 
 
 - System tray integration
 
@@ -29,7 +23,6 @@
 - Lockscreen (Learn shaders to do something cool with it?)
 
 - Wifi menu
-
 
 ## Learning
 
