@@ -2,6 +2,27 @@
 set -euo pipefail
 IFS=$'\n\t'
 
+if [[ ! -f $HOME/.ssh/id_rsa && ! -f $HOME/.ssh/id_rsa.pub ]]; then
+    echo "0\;31First matter is to get your RSA key, muchacho. Don't forget to add that to GitHub or whatever0\;32"
+    exit 1
+fi
+
+# Ask for sudo once up front
+sudo -v
+
+# Keep sudo alive until this script exits
+while true; do
+  sudo -n true
+  sleep 50
+  kill -0 "$$" || exit
+done 2>/dev/null &
+SUDO_KEEPALIVE_PID=$!
+
+cleanup() {
+  kill "$SUDO_KEEPALIVE_PID" 2>/dev/null || true
+}
+trap cleanup EXIT
+
 export DOTFILES="$HOME/.dotfiles"
 export XDG_CONFIG_HOME="${HOME}/.config"
 
@@ -18,12 +39,7 @@ if ! command -v paru >/dev/null 2>&1; then
     (cd /tmp/paru && makepkg -si --noconfirm)
 fi
 
-# --- 4. shell -----------------------------------------------------------
-git clone --depth=1 https://github.com/mattmc3/antidote.git $HOME/.antidote
-
-[[ $SHELL != */zsh ]] && chsh -s /bin/zsh || true
-
-# --- 5. symlink the configs into their place ----------------------------
+# --- 4. symlink the configs into their place ----------------------------
 
 # Get dbdm onto the system first
 echo "Installing dbdm for dotfile management . . ."
@@ -49,24 +65,24 @@ dbdm sync
 mkdir -p "${HOME}/Pictures/Wallpapers"
 cp $DOTFILES/wpp/* ${HOME}/Pictures/Wallpapers
 
-# --- 6. install scripts -------------------------------------------------
+# --- 5. install scripts -------------------------------------------------
 sudo install -Dm755 "$DOTFILES/scripts/powermenu.sh" /usr/local/bin/powermenu
 sudo install -Dm755 "$DOTFILES/scripts/install-zen.sh" /usr/local/bin/install-zen
 sudo install -Dm755 "$DOTFILES/scripts/load_noisetorch.sh" /usr/local/bin/load-noisetorch
 sudo install -Dm755 "$DOTFILES/scripts/custom_krita_launucher.sh" /usr/local/bin/custom-krita-launcher
 
-# --- 7. install Material Symbols ----------------------------------------
+# --- 6. install Material Symbols ----------------------------------------
 mkdir -p $HOME/.local/share/fonts/MaterialDesign/
 cp "$DOTFILES/fonts/MaterialSymbolsRounded.ttf" "$HOME/.local/share/fonts/MaterialDesign/"
 
-# --- 8. install Starship ------------------------------------------------
+# --- 7. install Starship ------------------------------------------------
 curl -sS https://starship.rs/install.sh | sh
 ln -s "$DOTFILES/starship.toml" "$XDG_CONFIG_HOME"
 
-# --- 9. apps and stuff --------------------------------------------------
+# --- 8. apps and stuff --------------------------------------------------
 sudo pacman -S --needed --noconfirm stlink steam arduino-cli \
 arduino-language-server arm-none-eabi-gdb bat bitwarden \
-bashtop discord fastfetch lua lua51 luarocks \
+bashtop discord fastfetch lua lua51 luarocks fzf \
 obs-studio solaar vlc ffmpeg dolphin neovim \
 zsh kitty hyprland ttf-firacode-nerd greetd-tuigreet \
 xdg-utils flameshot blueman xdg-desktop-portal-hyprland \
@@ -89,6 +105,18 @@ if [ -z "$(find $QPWGRAPH_PATH -mindepth 1 -maxdepth 1)" ]; then
 else
     echo "qpgraph is already installed";
 fi
+
+# --- 9. shell -----------------------------------------------------------
+[[ $SHELL != */zsh ]] && chsh -s /bin/zsh || true
+
+LINE='export ZDOTDIR="$HOME/.config/zsh"'
+FILE='/etc/zsh/zshenv'
+
+if ! grep -Fxq "$LINE" "$FILE" 2>/dev/null; then
+    echo "$LINE" | sudo tee -a "$FILE" > /dev/null
+fi
+
+sudo git clone https://github.com/zsh-users/zsh-syntax-highlighting.git /usr/share/zsh/plugins/zsh-syntax-highlighting
 
 # --- 10. opencode  ------------------------------------------------------
 curl -fsSL https://opencode.ai/install | bash
