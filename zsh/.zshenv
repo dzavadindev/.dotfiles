@@ -40,3 +40,9 @@ export LESS_TERMCAP_so=$'\e[01;44;33m'
 export LESS_TERMCAP_se=$'\e[0m'
 export LESS_TERMCAP_us=$'\e[1;32m'
 export LESS_TERMCAP_ue=$'\e[0m'
+
+# Opencode
+export PATH=/home/dan/.opencode/bin:$PATH
+
+# Source cargo env
+. "$HOME/.cargo/env"

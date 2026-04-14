@@ -1,10 +1,7 @@
 alias v="nvim"
-alias zshconf="nvim $HOME/.zshrc"
-alias tmuxconf="nvim $HOME/.tmux.conf"
-alias kittyconf="nvim $HOME/.config/kitty/kitty.conf"
 alias acli="arduino-cli"
-alias sourcez="source ~/.zshrc"
+alias sourcez="source ~/.config/zsh/.zshrc"
 alias dotfiles="cd ~/.dotfiles"
 alias clearvimswap='rm -v ~/.local/state/nvim/swap/*'
-alias zephyr="source $HOME/zephyrproject/zephyr/zephyr-env.sh"
 alias cd="z"
+alias ls="eza"

@@ -70,6 +70,11 @@ source <(fzf --zsh)
 
 # Keybinds
 # -----------------------------
+bindkey -e
+
+bindkey '^[[1;6D' backward-word
+bindkey '^[[1;6C' forward-word
+
 bindkey $'^[[1;5D' backward-word
 bindkey $'^[[1;5C' forward-word
 
