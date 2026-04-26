@@ -9,7 +9,7 @@ import qs.components
 Rectangle {
     id: notifications
 
-    readonly property bool active: NotificationService.showNotificationCenter
+    readonly property bool active: OverlayManager.isActive(OverlayManager.panel.notificationCenter)
 
     color: active ? Appearance.colors.secondary : Appearance.colors.primary_light
 
@@ -19,7 +19,7 @@ Rectangle {
     MouseArea {
         anchors.fill: parent
 
-        onClicked: DrawersManager.dispatch(DrawersManager.call.notificationCenter)
+        onClicked: OverlayManager.toggle(OverlayManager.panel.notificationCenter)
     }
 
     Behavior on color {

@@ -9,8 +9,6 @@ import QtQuick
 Singleton {
     id: root
 
-    property bool showNotificationCenter: false
-
     readonly property real customExpireTime: 2300
 
     readonly property list<NotificationItem> notifs: []

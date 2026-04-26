@@ -83,7 +83,7 @@ ln -s "$DOTFILES/starship.toml" "$XDG_CONFIG_HOME"
 sudo pacman -S --needed --noconfirm stlink steam arduino-cli \
 arduino-language-server arm-none-eabi-gdb bat bitwarden \
 bashtop discord fastfetch lua lua51 luarocks fzf \
-obs-studio solaar vlc ffmpeg dolphin neovim \
+obs-studio solaar vlc ffmpeg dolphin neovim pass \
 zsh kitty hyprland ttf-firacode-nerd greetd-tuigreet \
 xdg-utils flameshot blueman xdg-desktop-portal-hyprland \
 xdg-desktop-portal-gtk swww hyprpolkitagent cliphist unzip quickshell \

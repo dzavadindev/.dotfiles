@@ -44,5 +44,8 @@ export LESS_TERMCAP_ue=$'\e[0m'
 # Opencode
 export PATH=/home/dan/.opencode/bin:$PATH
 
+# API Keys
+export CONTEXT7_API_KEY=$(pass show context7-api-key)
+
 # Source cargo env
 . "$HOME/.cargo/env"
