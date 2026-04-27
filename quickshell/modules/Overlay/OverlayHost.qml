@@ -2,10 +2,12 @@ pragma ComponentBehavior: Bound
 
 import Quickshell
 import Quickshell.Hyprland
+import Quickshell.Wayland
 
 import QtQuick
 
 import qs.components
+import qs.components.surfaces
 import qs.config
 import qs.services
 
@@ -26,9 +28,31 @@ StyledWindow {
 
     exclusiveZone: 0
     exclusionMode: ExclusionMode.Ignore
+    focusable: OverlayManager.isOpen
+    WlrLayershell.keyboardFocus: OverlayManager.isOpen ? WlrKeyboardFocus.Exclusive : WlrKeyboardFocus.None
 
     readonly property bool audioMixerActive: OverlayManager.isActive(OverlayManager.panel.audioMixer)
     readonly property bool notificationCenterActive: OverlayManager.isActive(OverlayManager.panel.notificationCenter)
+    readonly property list<PanelSurface> managedSurfaces: [audioMixerSurface, notificationCenterSurface]
+    readonly property PanelSurface activeSurface: managedSurfaces.find(surface => surface.open) ?? null
+
+    FocusScope {
+        id: keyEventScope
+
+        anchors.fill: parent
+        focus: OverlayManager.isOpen
+
+        Keys.onPressed: event => {
+            if (!root.activeSurface || !root.activeSurface.closeOnAnyKeypress)
+                return;
+
+            if (!root.activeSurface.shouldCloseOnKeypress(event))
+                return;
+
+            OverlayManager.closeAll();
+            event.accepted = true;
+        }
+    }
 
     mask: Region {
         Region {
@@ -50,7 +74,9 @@ StyledWindow {
 
     EdgeSlideSurface {
         id: audioMixerSurface
+        managedPanelId: OverlayManager.panel.audioMixer
         open: root.audioMixerActive
+        closeOnAnyKeypress: true
         hostWidth: root.width
 
         anchors.bottom: parent.bottom
@@ -63,7 +89,9 @@ StyledWindow {
 
     EdgeSlideSurface {
         id: notificationCenterSurface
+        managedPanelId: OverlayManager.panel.notificationCenter
         open: root.notificationCenterActive
+        closeOnAnyKeypress: true
         hostWidth: root.width
 
         anchors.bottom: parent.bottom
@@ -80,7 +108,7 @@ StyledWindow {
         implicitWidth: notificationPopupSurface.implicitWidth + Appearance.padding.lg
 
         anchors.top: parent.top
-        anchors.left: parent.left
+        anchors.right: parent.right
 
         NotificationPopupSurface {
             id: notificationPopupSurface
@@ -97,6 +125,8 @@ StyledWindow {
 
         function onActiveChanged(_oldId, newId) {
             grab.active = newId !== "";
+            if (newId !== "")
+                keyEventScope.forceActiveFocus();
         }
     }
 
