@@ -62,12 +62,17 @@ Singleton {
             return;
 
         if (category === "playbacks") {
+            if (isDefaultNode(node, category))
+                return;
             QSPW.Pipewire.preferredDefaultAudioSink = node;
             return;
         }
 
-        if (category === "mics")
+        if (category === "mics") {
+            if (isDefaultNode(node, category))
+                return;
             QSPW.Pipewire.preferredDefaultAudioSource = node;
+        }
     }
 
     function updateAudioVolume() {

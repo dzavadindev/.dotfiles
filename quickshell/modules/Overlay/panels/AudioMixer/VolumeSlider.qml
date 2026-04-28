@@ -16,31 +16,43 @@ Row {
     required property string category
 
     readonly property bool supportsDefaultSelection: category === "playbacks" || category === "mics"
+    readonly property bool isDefaultNode: root.supportsDefaultSelection && AudioService.isDefaultNode(root.node, root.category)
+    property real pendingVolume: 0
+    property real lastSentVolume: -1
+    readonly property real volumeWriteEpsilon: 0.01
 
     spacing: Appearance.padding.sm
 
-    RadioButton {
+    Item {
         id: defaultSelector
-
         visible: root.supportsDefaultSelection
-        enabled: root.supportsDefaultSelection && !!root.node
-        checked: root.supportsDefaultSelection && AudioService.isDefaultNode(root.node, root.category)
+        enabled: !!root.node
 
-        onClicked: AudioService.setPreferredDefault(root.node, root.category)
+        implicitWidth: indicatorIcon.implicitWidth
+        implicitHeight: indicatorIcon.implicitHeight
 
-        background: MaterialIcon {
-            name: defaultSelector.checked ? "radio_button_checked" : "radio_button_unchecked"
+        MaterialIcon {
+            id: indicatorIcon
+
+            anchors.centerIn: parent
+
+            name: root.isDefaultNode ? "radio_button_checked" : "radio_button_unchecked"
             size: Appearance.font.size.lg
         }
 
-        contentItem: Item {}
-        indicator: Item {}
+        MouseArea {
+            anchors.fill: parent
+            enabled: parent.enabled
+
+            onClicked: AudioService.setPreferredDefault(root.node, root.category)
+        }
     }
 
     Slider {
         id: volume
 
         enabled: !!root.audio
+        live: true
 
         implicitWidth: Appearance.elementSize.audioMixer_sliderWidth
 
@@ -49,25 +61,61 @@ Row {
 
         value: root.audio ? root.audio.volume : 1.0
 
-        onMoved: {
-            if (root.audio)
-                root.audio.volume = value;
+        onValueChanged: {
+            if (!root.audio || !pressed)
+                return;
+
+            root.pendingVolume = value;
+            if (!volumeFlush.running)
+                volumeFlush.start();
         }
 
-        background: RevealTrack {
-            progress: volume.visualPosition
+        onPressedChanged: {
+            if (pressed || !root.audio)
+                return;
 
-            radius: Appearance.rounding.full
-
-            baseColor: Appearance.colors.accent
-            fillColor: Appearance.colors.secondary
+            volumeFlush.stop();
+            root.pendingVolume = value;
+            root.flushPendingVolume(true);
         }
 
-        handle: Rectangle {
+        background: Item {
             implicitHeight: Appearance.elementSize.audioMixer_sliderThickness
-            implicitWidth: Appearance.padding.xs
 
-            color: Appearance.colors.secondary
+            MaskedProgressTrack {
+                anchors.fill: parent
+
+                progress: volume.visualPosition
+                radius: Appearance.rounding.full
+                baseColor: Appearance.colors.accent
+                fillColor: Appearance.colors.secondary
+            }
         }
+
+        handle: Item {
+            implicitHeight: Appearance.elementSize.audioMixer_sliderThickness
+            implicitWidth: Appearance.elementSize.audioMixer_sliderThickness
+        }
+    }
+
+    Timer {
+        id: volumeFlush
+
+        interval: 30
+        repeat: true
+        running: false
+
+        onTriggered: root.flushPendingVolume(false)
+    }
+
+    function flushPendingVolume(force: bool) {
+        if (!root.audio)
+            return;
+
+        if (!force && Math.abs(root.pendingVolume - root.lastSentVolume) < root.volumeWriteEpsilon)
+            return;
+
+        root.audio.volume = root.pendingVolume;
+        root.lastSentVolume = root.pendingVolume;
     }
 }
