@@ -2,7 +2,6 @@ import QtQuick
 import QtQuick.Layouts
 
 import Quickshell
-import Quickshell.Hyprland as HL
 
 import qs.config
 import qs.services
@@ -84,7 +83,7 @@ Rectangle {
                     Layout.preferredWidth: number.implicitWidth + Appearance.padding.xs
                     Layout.preferredHeight: number.implicitHeight
 
-                    readonly property bool isFocused: Hyprland.activeWsId === modelData + 1
+                    readonly property bool isFocused: WMService.activeWsId === modelData + 1
 
                     Text {
                         id: number
@@ -94,7 +93,7 @@ Rectangle {
                             let color = "";
                             if (ws.isFocused) {
                                 color = Appearance.colors.primary;
-                            } else if (Hyprland.workspaces.values.find(el => el.id == modelData + 1)) {
+                            } else if (WMService.workspaces.values.find(el => el.id == modelData + 1)) {
                                 color = Appearance.colors.secondary;
                             } else {
                                 color = Appearance.colors.primary_dark;
@@ -109,12 +108,12 @@ Rectangle {
         }
     }
 
-    // Find the delegate whose modelData.id matches Hyprland.activeWsId
+    // Find the delegate whose modelData.id matches WMService.activeWsId
     function findFocusedItem() {
         // Walk the actual created items to avoid guessing the model shape
         for (let i = 0; i < workspaces.count; ++i) {
             const item = workspaces.itemAt(i);
-            if (item.modelData + 1 === Hyprland.activeWsId)
+            if (item.modelData + 1 === WMService.activeWsId)
                 return item;
         }
         return null;
@@ -139,9 +138,9 @@ Rectangle {
         focusBackground.height = item.height;
     }
 
-    // On Hyprland focus change
+    // On WM focus change
     Connections {
-        target: Hyprland
+        target: WMService
         function onActiveWsIdChanged() {
             root.updateFocusBg();
         }

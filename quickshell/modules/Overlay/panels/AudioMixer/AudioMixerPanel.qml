@@ -75,17 +75,17 @@ Rectangle {
 
     ScriptModel {
         id: appsModel
-        values: Pipewire.nodes.values.filter(n => n.audio && PW.PwNodeType.toString(n.type) === "AudioOutStream")
+        values: AudioService.nodes.values.filter(n => n.audio && PW.PwNodeType.toString(n.type) === "AudioOutStream")
     }
 
     ScriptModel {
         id: sinksModel
-        values: Pipewire.nodes.values.filter(n => n.audio && PW.PwNodeType.toString(n.type) === "AudioSink")
+        values: AudioService.nodes.values.filter(n => n.audio && PW.PwNodeType.toString(n.type) === "AudioSink")
     }
 
     ScriptModel {
         id: micsModel
-        values: Pipewire.nodes.values.filter(n => n.audio && !n.isSink && !n.isStream)
+        values: AudioService.nodes.values.filter(n => n.audio && !n.isSink && !n.isStream)
     }
 
     component AudioElement: Rectangle {
@@ -110,12 +110,14 @@ Rectangle {
 
                 maxWidth: slider.implicitWidth
 
-                text: Pipewire.getNodeName(audio_element.modelData)
+                text: AudioService.getNodeName(audio_element.modelData)
             }
 
             VolumeSlider {
                 id: slider
 
+                node: audio_element.modelData
+                category: root.category
                 audio: audio_element.modelData.audio
             }
         }

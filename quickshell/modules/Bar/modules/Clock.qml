@@ -17,7 +17,7 @@ Rectangle {
         anchors.horizontalCenter: parent.horizontalCenter
         anchors.verticalCenter: parent.verticalCenter
 
-        text: Time.time
+        text: TimeService.time
 
         color: Appearance.colors.secondary
         font.pointSize: Appearance.font.size.sm

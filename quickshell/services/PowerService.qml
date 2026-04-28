@@ -1,7 +1,7 @@
 pragma Singleton
 
 import Quickshell
-import Quickshell.Services.UPower
+import Quickshell.Services.UPower as QSUP
 
 import QtQuick
 
@@ -9,7 +9,7 @@ Singleton {
     id: root
 
     // Display device is the "main" device for the system
-    readonly property UPowerDevice displayDevice: UPower.displayDevice
+    readonly property QSUP.UPowerDevice displayDevice: QSUP.UPower.displayDevice
     readonly property real percentage: displayDevice.percentage
     readonly property bool isLaptop: displayDevice.isLaptopBattery
     readonly property var batteryState: displayDevice.state
@@ -22,7 +22,7 @@ Singleton {
     function updatePowerInfo() {
         rounded_percentage = Math.round(percentage * 100);
 
-        if (batteryState === UPowerDeviceState.Charging) {
+        if (batteryState === QSUP.UPowerDeviceState.Charging) {
             batteryIcon = batteryIcons.charging;
             return;
         }

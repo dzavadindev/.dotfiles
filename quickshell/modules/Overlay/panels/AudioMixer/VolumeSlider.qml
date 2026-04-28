@@ -1,38 +1,40 @@
 import Quickshell
-import Quickshell.Services.Pipewire
+import Quickshell.Services.Pipewire as PW
 
 import QtQuick
 import QtQuick.Controls
 
 import qs.config
 import qs.components
+import qs.services
 
 Row {
     id: root
 
-    required property PwNodeAudio audio
+    required property PW.PwNodeAudio audio
+    required property PW.PwNode node
+    required property string category
+
+    readonly property bool supportsDefaultSelection: category === "playbacks" || category === "mics"
 
     spacing: Appearance.padding.sm
 
-    CheckBox {
-        id: checkbox
+    RadioButton {
+        id: defaultSelector
 
-        enabled: !!root.audio
+        visible: root.supportsDefaultSelection
+        enabled: root.supportsDefaultSelection && !!root.node
+        checked: root.supportsDefaultSelection && AudioService.isDefaultNode(root.node, root.category)
+
+        onClicked: AudioService.setPreferredDefault(root.node, root.category)
 
         background: MaterialIcon {
-            name: checkbox.checked ? "volume_off" : "circle"
+            name: defaultSelector.checked ? "radio_button_checked" : "radio_button_unchecked"
             size: Appearance.font.size.lg
         }
 
         contentItem: Item {}
         indicator: Item {}
-
-        checked: root.audio ? root.audio.muted : false
-
-        onToggled: {
-            if (root.audio)
-                root.audio.muted = checked;
-        }
     }
 
     Slider {
@@ -52,23 +54,18 @@ Row {
                 root.audio.volume = value;
         }
 
-        background: Rectangle {
+        background: RevealTrack {
+            progress: volume.visualPosition
+
             radius: Appearance.rounding.full
 
-            color: Appearance.colors.accent
-
-            Rectangle {
-                implicitWidth: volume.visualPosition * parent.width
-                implicitHeight: parent.height
-
-                radius: Appearance.rounding.full
-
-                color: Appearance.colors.secondary
-            }
+            baseColor: Appearance.colors.accent
+            fillColor: Appearance.colors.secondary
         }
 
         handle: Rectangle {
             implicitHeight: Appearance.elementSize.audioMixer_sliderThickness
+            implicitWidth: Appearance.padding.xs
 
             color: Appearance.colors.secondary
         }

@@ -38,7 +38,7 @@ WrapperMouseArea {
             MaterialIcon {
                 id: icon
 
-                name: Pipewire.volumeIcon
+                name: AudioService.volumeIcon
                 color: root.active ? Appearance.colors.primary : Appearance.colors.secondary
                 size: Appearance.font.size.md
                 weight: Font.Bold
@@ -46,9 +46,9 @@ WrapperMouseArea {
 
             Text {
                 id: charge
-                visible: !Pipewire.isMuted
+                visible: !AudioService.isMuted
 
-                text: Pipewire.volume
+                text: AudioService.volume
 
                 anchors.verticalCenter: parent.verticalCenter
 

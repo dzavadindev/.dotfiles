@@ -1,19 +1,19 @@
 pragma Singleton
 
 import Quickshell
-import Quickshell.Hyprland
+import Quickshell.Hyprland as QSH
 import Quickshell.Io
 import QtQuick
 
 Singleton {
     id: root
 
-    readonly property var toplevels: Hyprland.toplevels
-    readonly property var workspaces: Hyprland.workspaces
-    readonly property var monitors: Hyprland.monitors
-    readonly property HyprlandToplevel activeToplevel: Hyprland.activeToplevel
-    readonly property HyprlandWorkspace focusedWorkspace: Hyprland.focusedWorkspace
-    readonly property HyprlandMonitor focusedMonitor: Hyprland.focusedMonitor
+    readonly property var toplevels: QSH.Hyprland.toplevels
+    readonly property var workspaces: QSH.Hyprland.workspaces
+    readonly property var monitors: QSH.Hyprland.monitors
+    readonly property QSH.HyprlandToplevel activeToplevel: QSH.Hyprland.activeToplevel
+    readonly property QSH.HyprlandWorkspace focusedWorkspace: QSH.Hyprland.focusedWorkspace
+    readonly property QSH.HyprlandMonitor focusedMonitor: QSH.Hyprland.focusedMonitor
     readonly property int activeWsId: focusedWorkspace?.id ?? 1
 
     property string kbLayout: "?"
@@ -21,13 +21,13 @@ Singleton {
     signal activeWindowChanged
 
     function dispatch(request: string): void {
-        Hyprland.dispatch(request);
+        QSH.Hyprland.dispatch(request);
     }
 
     Connections {
-        target: Hyprland
+        target: QSH.Hyprland
 
-        function onRawEvent(event: HyprlandEvent): void {
+        function onRawEvent(event: QSH.HyprlandEvent): void {
             const name = event.name;
 
             // ignore v2 events
@@ -41,7 +41,7 @@ Singleton {
 
             // ensure that workspace list is refreshed after changes
             if (name.includes("workspace")) {
-                Hyprland.refreshWorkspaces();
+                QSH.Hyprland.refreshWorkspaces();
             }
 
             if (name === "activewindow") {

@@ -9,7 +9,7 @@ import qs.services
 Rectangle {
     id: root
 
-    visible: UPower.isLaptop
+    visible: PowerService.isLaptop
 
     color: Appearance.colors.primary_light
 
@@ -24,7 +24,7 @@ Rectangle {
         MaterialIcon {
             id: icon
 
-            name: UPower.batteryIcon
+            name: PowerService.batteryIcon
             color: Appearance.colors.secondary
             size: Appearance.font.size.md
             weight: Font.Bold
@@ -33,7 +33,7 @@ Rectangle {
         Text {
             id: charge
 
-            text: UPower.rounded_percentage + "%"
+            text: PowerService.rounded_percentage + "%"
 
             anchors.verticalCenter: parent.verticalCenter
 

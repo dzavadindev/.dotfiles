@@ -74,7 +74,7 @@ Singleton {
         }
 
         function getTimeElapsed() {
-            const diff = Time.date.getTime() - time.getTime();
+            const diff = TimeService.date.getTime() - time.getTime();
 
             const m = Math.floor(diff / 60000);
             const h = Math.floor(m / 60);

@@ -1,7 +1,7 @@
 pragma Singleton
 
 import Quickshell
-import Quickshell.Services.Pipewire
+import Quickshell.Services.Pipewire as QSPW
 
 import QtQuick
 
@@ -10,15 +10,16 @@ Singleton {
 
     readonly property VolumeState volumeState: VolumeState {}
 
-    readonly property PwNode defaultSink: Pipewire.defaultAudioSink
-    readonly property var nodes: Pipewire.nodes
+    readonly property QSPW.PwNode defaultSink: QSPW.Pipewire.defaultAudioSink
+    readonly property QSPW.PwNode defaultSource: QSPW.Pipewire.defaultAudioSource
+    readonly property var nodes: QSPW.Pipewire.nodes
 
     property string volumeIcon: volumeState.mute
     property int volume: Math.round(defaultSink.audio.volume * 100)
     property bool isMuted: volume == 0 | defaultSink.audio.muted
 
     // Bind the defaultSink prop to get access to all props
-    property var pw: PwObjectTracker {
+    property var pw: QSPW.PwObjectTracker {
         objects: [root.defaultSink]
     }
 
@@ -35,12 +36,38 @@ Singleton {
         }
     }
 
-    function getNodeName(node: PwNode): string {
+    function getNodeName(node: QSPW.PwNode): string {
         if (node.nickname)
             return node.nickname;
         if (node.description)
             return node.description;
         return node.name;
+    }
+
+    function isDefaultNode(node: QSPW.PwNode, category: string): bool {
+        if (!node)
+            return false;
+
+        if (category === "playbacks")
+            return !!defaultSink && defaultSink.id === node.id;
+
+        if (category === "mics")
+            return !!defaultSource && defaultSource.id === node.id;
+
+        return false;
+    }
+
+    function setPreferredDefault(node: QSPW.PwNode, category: string) {
+        if (!node)
+            return;
+
+        if (category === "playbacks") {
+            QSPW.Pipewire.preferredDefaultAudioSink = node;
+            return;
+        }
+
+        if (category === "mics")
+            QSPW.Pipewire.preferredDefaultAudioSource = node;
     }
 
     function updateAudioVolume() {

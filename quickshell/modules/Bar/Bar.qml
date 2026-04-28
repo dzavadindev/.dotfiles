@@ -13,7 +13,7 @@ StyledWindow {
     WlrLayershell.layer: WlrLayer.Bottom
 
     // Made the height dynamic, based on how high the elements of the bar are + the padding
-    implicitHeight: Hyprland.focusedWorkspace.hasFullscreen ? 0 : child.implicitHeight
+    implicitHeight: WMService.focusedWorkspace.hasFullscreen ? 0 : child.implicitHeight
     implicitWidth: child.implicitWidth
 
     // Hug the bottom
@@ -34,7 +34,7 @@ StyledWindow {
         anchors.fill: parent
 
         color: Appearance.colors.primary
-        visible: Hyprland.focusedWorkspace.hasFullscreen
+        visible: WMService.focusedWorkspace.hasFullscreen
     }
 
     Rectangle {

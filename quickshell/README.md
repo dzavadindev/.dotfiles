@@ -13,7 +13,7 @@ This is my shell :D
 - `components/`: Shared reusable UI primitives.
   - `surfaces/`: Surface contracts and implementations.
   - Other shared widgets: icons, list helpers, window wrappers.
-- `services/`: App state and system integrations 
+- `services/`: App state and system integrations (`OverlayManager`, `WMService`, `AudioService`, `TimeService`, `PowerService`, `NotificationService`).
 - `config/`: Shared design/config constants.
 
 ## Implementation Details

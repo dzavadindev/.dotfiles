@@ -31,7 +31,7 @@ Rectangle {
         Text {
             id: charge
 
-            text: Hyprland.kbLayout
+            text: WMService.kbLayout
 
             anchors.verticalCenter: parent.verticalCenter
 

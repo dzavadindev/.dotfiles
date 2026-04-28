@@ -1,7 +1,6 @@
 import QtQuick
 
 import Quickshell
-import Quickshell.Hyprland as HL
 
 import qs.services
 import qs.config
@@ -12,7 +11,7 @@ Rectangle {
     implicitHeight: app_id.implicitHeight + Appearance.padding.md / 2
     implicitWidth: app_id.implicitWidth + Appearance.padding.md
 
-    readonly property HL.HyprlandToplevel activeToplevel: Hyprland.activeToplevel
+    readonly property var activeToplevel: WMService.activeToplevel
 
     color: Appearance.colors.primary_light
 
@@ -35,7 +34,7 @@ Rectangle {
     }
 
     function hide() {
-        if (Hyprland.focusedWorkspace.toplevels.values.length != 0) {
+        if (WMService.focusedWorkspace.toplevels.values.length != 0) {
             root.opacity = 1;
             return;
         }
@@ -43,7 +42,7 @@ Rectangle {
     }
 
     Connections {
-        target: Hyprland
+        target: WMService
         function onFocusedWorkspaceChanged() {
             root.hide();
         }
