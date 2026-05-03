@@ -47,5 +47,8 @@ export PATH=/home/dan/.opencode/bin:$PATH
 # API Keys
 export CONTEXT7_API_KEY=$(pass show context7-api-key)
 
+# GNUPG
+export GPG_TTY=$(tty)
+
 # Source cargo env
 . "$HOME/.cargo/env"

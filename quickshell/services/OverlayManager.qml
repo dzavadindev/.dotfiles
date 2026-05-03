@@ -1,16 +1,26 @@
 pragma Singleton
 
 import Quickshell
+import Quickshell.Io
 
 import QtQuick
 
 Singleton {
+    id: root
 
     readonly property Panel panel: Panel {}
     property string activePanelId: ""
     readonly property bool isOpen: activePanelId !== ""
 
     signal activeChanged(string oldId, string newId)
+
+    IpcHandler {
+        target: "overlay"
+
+        function togglePanel(id: string) {
+            root.open(id);
+        }
+    }
 
     function isActive(id: string): bool {
         return activePanelId === id;
@@ -46,11 +56,12 @@ Singleton {
     }
 
     function isKnownPanel(id: string): bool {
-        return id === panel.audioMixer || id === panel.notificationCenter;
+        return id === panel.audioMixer || id === panel.notificationCenter || id === panel.wallpaperCarousel;
     }
 
     component Panel: QtObject {
         readonly property string audioMixer: "audio_mixer"
         readonly property string notificationCenter: "notification_center"
+        readonly property string wallpaperCarousel: "wallpaper_carousel"
     }
 }

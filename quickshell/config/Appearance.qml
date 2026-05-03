@@ -16,11 +16,11 @@ Singleton {
 
     // Colors -------------------------------------
     component Colors: QtObject {
-        readonly property string primary: "#0d1b2a"
-        readonly property string primary_light: "#1b263b"
-        readonly property string primary_dark: "#0d2a1c"
-        readonly property string secondary: "#e0e1dd"
-        readonly property string accent: "#004080"
+        property string primary: "#0d1b2a"
+        property string primary_light: "#1b263b"
+        property string primary_dark: "#0d2a1c"
+        property string secondary: "#e0e1dd"
+        property string accent: "#004080"
     }
 
     // ELEMENT SIZES -------------------------------
@@ -31,6 +31,8 @@ Singleton {
         readonly property int audioMixer_sliderThickness: 25
         readonly property int notificationListItem_width: 400
         readonly property int notificationListItem_height: 100
+        readonly property int wallpaperCarousel_height: 110
+        readonly property int wallpaperCarousel_width: 500
     }
 
     // Border Width -------------------------------

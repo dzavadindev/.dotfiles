@@ -8,6 +8,10 @@ import qs.modules.Overlay
 import qs.services
 
 ShellRoot {
+    QtObject {
+        readonly property var _overlayManager: OverlayManager
+    }
+
     Bar {}
     OverlayHost {}
 }

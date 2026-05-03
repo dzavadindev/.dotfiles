@@ -13,6 +13,7 @@ import qs.services
 
 import "panels/AudioMixer"
 import "panels/Notifications"
+import "panels/WallpaperCarousel"
 import "ambient"
 
 StyledWindow {
@@ -33,7 +34,9 @@ StyledWindow {
 
     readonly property bool audioMixerActive: OverlayManager.isActive(OverlayManager.panel.audioMixer)
     readonly property bool notificationCenterActive: OverlayManager.isActive(OverlayManager.panel.notificationCenter)
-    readonly property list<PanelSurface> managedSurfaces: [audioMixerSurface, notificationCenterSurface]
+    readonly property bool wallpaperCarouselActive: OverlayManager.isActive(OverlayManager.panel.wallpaperCarousel)
+
+    readonly property list<PanelSurface> managedSurfaces: [wallpaperCarouselSurface, audioMixerSurface, notificationCenterSurface]
     readonly property PanelSurface activeSurface: managedSurfaces.find(surface => surface.open) ?? null
 
     FocusScope {
@@ -43,7 +46,15 @@ StyledWindow {
         focus: OverlayManager.isOpen
 
         Keys.onPressed: event => {
-            if (!root.activeSurface || !root.activeSurface.closeOnAnyKeypress)
+            if (!root.activeSurface)
+                return;
+
+            if (root.activeSurface.handleKeypress(event)) {
+                event.accepted = true;
+                return;
+            }
+
+            if (!root.activeSurface.closeOnAnyKeypress)
                 return;
 
             if (!root.activeSurface.shouldCloseOnKeypress(event))
@@ -61,19 +72,65 @@ StyledWindow {
             width: root.audioMixerActive ? audioMixerSurface.width : 0
             height: root.audioMixerActive ? audioMixerSurface.height : 0
         }
+
         Region {
             x: root.notificationCenterActive ? notificationCenterSurface.x : 0
             y: root.notificationCenterActive ? notificationCenterSurface.y : 0
             width: root.notificationCenterActive ? notificationCenterSurface.width : 0
             height: root.notificationCenterActive ? notificationCenterSurface.height : 0
         }
+
+        Region {
+            x: root.wallpaperCarouselActive ? wallpaperCarouselSurface.x : 0
+            y: root.wallpaperCarouselActive ? wallpaperCarouselSurface.y : 0
+            width: root.wallpaperCarouselActive ? wallpaperCarouselSurface.width : 0
+            height: root.wallpaperCarouselActive ? wallpaperCarouselSurface.height : 0
+        }
+
         Region {
             item: notificationPopupLane
         }
     }
 
+    FadeSurface {
+        id: wallpaperCarouselSurface
+
+        managedPanelId: OverlayManager.panel.wallpaperCarousel
+        open: root.wallpaperCarouselActive
+        closeOnAnyKeypress: true
+
+        function handleKeypress(event): bool {
+            if (event.key === Qt.Key_Left) {
+                wallpaperCarouselPanel.moveLeft();
+                return true;
+            }
+
+            if (event.key === Qt.Key_Right) {
+                wallpaperCarouselPanel.moveRight();
+                return true;
+            }
+
+            if (event.key === Qt.Key_Return || event.key === Qt.Key_Enter) {
+                wallpaperCarouselPanel.applySelected();
+                OverlayManager.closeAll();
+                return true;
+            }
+
+            return false;
+        }
+
+        anchors.bottom: parent.bottom
+        anchors.horizontalCenter: parent.horizontalCenter
+        anchors.bottomMargin: Appearance.padding.md
+
+        WallpaperCarouselPanel {
+            id: wallpaperCarouselPanel
+        }
+    }
+
     EdgeSlideSurface {
         id: audioMixerSurface
+
         managedPanelId: OverlayManager.panel.audioMixer
         open: root.audioMixerActive
         closeOnAnyKeypress: true
@@ -89,6 +146,7 @@ StyledWindow {
 
     EdgeSlideSurface {
         id: notificationCenterSurface
+
         managedPanelId: OverlayManager.panel.notificationCenter
         open: root.notificationCenterActive
         closeOnAnyKeypress: true

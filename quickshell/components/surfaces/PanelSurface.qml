@@ -56,6 +56,10 @@ Item {
         return event.key !== Qt.Key_Shift && event.key !== Qt.Key_Control && event.key !== Qt.Key_Alt && event.key !== Qt.Key_Meta;
     }
 
+    function handleKeypress(_event): bool {
+        return false;
+    }
+
     Item {
         id: contentRoot
 

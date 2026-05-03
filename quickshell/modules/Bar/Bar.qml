@@ -82,10 +82,6 @@ StyledWindow {
             anchors.right: parent.right
             anchors.rightMargin: Appearance.padding.md
 
-            Tray {
-                id: tray
-            }
-
             KeyboardLayout {
                 id: layout
             }

@@ -86,7 +86,8 @@ bashtop discord fastfetch lua lua51 luarocks fzf \
 obs-studio solaar vlc ffmpeg dolphin neovim pass \
 zsh kitty hyprland ttf-firacode-nerd greetd-tuigreet \
 xdg-utils flameshot blueman xdg-desktop-portal-hyprland \
-xdg-desktop-portal-gtk swww hyprpolkitagent cliphist unzip quickshell \
+xdg-desktop-portal-gtk swww hyprpolkitagent cliphist \
+unzip quickshell inotify-tools gnome-keyring \
 
 paru -S --needed --noconfirm opentabletdriver
 
