@@ -2,13 +2,11 @@
 
 ## Fixes
 
-- Fix empty audio mixer being not stuck to the side of the screen
-
 - The fullscreen hiding of the bar smears the elements inside it. Would have been nice to achieve a sort of "per workspace" bar effect, where together with the Hyprland workspace slide animation the bar slided in and out. Kinda like switching screens
 
-## Features 
+- Quantization on the colors can be better. Should modify the color heuristic to pick colors differently. Primary - dark (bit lighter and darker variants too), Secondary - vibrant, Accent - another vibrant
 
-- Add animations when switching tabs in the audiomixer 
+- When switching tabs in the mixer, the panel is visibly detached from the screen edge for a moment. Annoying. Probably good idea to somehow change the logic of the EdgeSlideSurface to anchor to the right from the get go. Even on startup, the panel is rendered on the left, and is moved across the screen to the right with behaviour animations. Should render behind its respective edge and be anchored towards it, so that panel/surface resizing doesn't cause this 'tearing' effect
 
 ## Milestones
 
@@ -18,16 +16,6 @@
 
 - Power menu
 
-- Wallpaper picker
-
 - Lockscreen (Learn shaders to do something cool with it?)
 
 - Wifi menu
-
-## Learning
-
-- What `matugen`. Can I use it for something?
-    - ColorQuantizer is likely enough. Although, for the launcher, `matugen` is a nice pick
-
-- Wifi portals on Linux - How do they work? Like the ones from NS?
-    - Probably fixed this in `NetworkManager` dir. Haven't got a chance to test it.

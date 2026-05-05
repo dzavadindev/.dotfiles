@@ -44,6 +44,9 @@ export LESS_TERMCAP_ue=$'\e[0m'
 # Opencode
 export PATH=/home/dan/.opencode/bin:$PATH
 
+# Cargo bin
+export PATH="$CARGO_HOME/bin:$PATH"
+
 # API Keys
 export CONTEXT7_API_KEY=$(pass show context7-api-key)
 
@@ -51,4 +54,4 @@ export CONTEXT7_API_KEY=$(pass show context7-api-key)
 export GPG_TTY=$(tty)
 
 # Source cargo env
-. "$HOME/.cargo/env"
+[[ -f "$CARGO_HOME/env" ]] && . "$CARGO_HOME/env"

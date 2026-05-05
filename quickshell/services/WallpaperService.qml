@@ -47,6 +47,7 @@ Singleton {
 
     Component.onCompleted: {
         reloadWallpapers();
+        queryProcess.exec(["awww", "query", "-j"]);
         watcherProcess.running = true;
     }
 
@@ -60,6 +61,28 @@ Singleton {
                 root.wallpapers = lines;
                 if (root.currentWallpaper && !root.wallpapers.includes(root.currentWallpaper))
                     root.currentWallpaper = "";
+            }
+        }
+
+        stderr: StdioCollector {
+            onStreamFinished: {
+                if (text.trim().length > 0)
+                    console.log(`WallpaperService list error: ${text.trim()}`);
+            }
+        }
+    }
+
+    // Query current wallpaper
+    Process {
+        id: queryProcess
+
+        stdout: StdioCollector {
+            onStreamFinished: {
+                const raw = JSON.parse(text);
+                // const a = Object.entries(raw).map(([output, state]) => ({ output, ...state }))
+                console.log(JSON.stringify(raw));
+                // if (!root.currentWallpaper)
+                //     root.currentWallpaper = raw[0].displaying.image;
             }
         }
 
