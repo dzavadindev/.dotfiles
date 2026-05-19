@@ -6,7 +6,7 @@ import qs.services
 import qs.config
 import qs.components
 
-Rectangle {
+AnimatedColorRect {
     id: notifications
 
     readonly property bool active: OverlayManager.isActive(OverlayManager.panel.notificationCenter)
@@ -20,13 +20,6 @@ Rectangle {
         anchors.fill: parent
 
         onClicked: OverlayManager.toggle(OverlayManager.panel.notificationCenter)
-    }
-
-    Behavior on color {
-        ColorAnimation {
-            duration: 300
-            easing.type: Easing.OutQuad
-        }
     }
 
     MaterialIcon {

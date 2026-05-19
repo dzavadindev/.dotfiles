@@ -3,6 +3,9 @@
 - Do **not** restate the full plan unless the user explicitly asks for a full recap.
 - Keep clarifying replies short and scoped to the exact answer.
 
+## Guidelines
+To check for the API that are available to implement the described feature, refer to the official documentation online. Using context7 and web-search to make sure its up-to-date. Prefer context7.
+
 ## Delta format (when plan changes)
 When updating the plan, respond in this structure:
 1) **Changed**: what changed from the previous agreed plan

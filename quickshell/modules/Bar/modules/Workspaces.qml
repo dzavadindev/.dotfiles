@@ -5,6 +5,7 @@ import Quickshell
 
 import qs.config
 import qs.services
+import qs.components
 
 // REWRITE
 // Render all workspaces, empty or not >
@@ -29,7 +30,7 @@ Rectangle {
         implicitHeight: layout.implicitHeight
 
         // The sliding background rectangle
-        Rectangle {
+        AnimatedColorRect {
             id: focusBackground
             z: -1
             color: Appearance.colors.secondary

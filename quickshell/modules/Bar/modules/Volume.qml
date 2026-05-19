@@ -13,7 +13,7 @@ WrapperMouseArea {
         OverlayManager.toggle(OverlayManager.panel.audioMixer);
     }
 
-    Rectangle {
+    AnimatedColorRect {
         id: root
 
         readonly property bool active: OverlayManager.isActive(OverlayManager.panel.audioMixer)
@@ -22,13 +22,6 @@ WrapperMouseArea {
 
         implicitWidth: contentRow.implicitWidth + Appearance.padding.sm * 2
         implicitHeight: contentRow.implicitHeight + Appearance.padding.sm
-
-        Behavior on color {
-            ColorAnimation {
-                duration: 300
-                easing.type: Easing.OutQuad
-            }
-        }
 
         Row {
             id: contentRow

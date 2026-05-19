@@ -78,11 +78,17 @@ Singleton {
 
         stdout: StdioCollector {
             onStreamFinished: {
-                const raw = JSON.parse(text);
-                // const a = Object.entries(raw).map(([output, state]) => ({ output, ...state }))
-                console.log(JSON.stringify(raw));
-                // if (!root.currentWallpaper)
-                //     root.currentWallpaper = raw[0].displaying.image;
+                const raw = JSON.parse(text)[""];
+                // TODO: Later for multiple monitors
+                /* const a = Object.entries(raw).map(([output, state]) => ({
+                            state,
+                            output
+                        }));
+                        */
+                if (!root.currentWallpaper) {
+                    root.currentWallpaper = raw[0].displaying.image;
+                    ThemeService.applyPaletteFromImage(root.currentWallpaper);
+                }
             }
         }
 

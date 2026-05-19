@@ -7,7 +7,7 @@ import qs.config
 import qs.components
 import qs.services
 
-Rectangle {
+AnimatedColorRect {
     id: root
 
     color: Appearance.colors.primary_light

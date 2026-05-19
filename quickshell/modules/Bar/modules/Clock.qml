@@ -3,8 +3,9 @@ import QtQuick
 
 import qs.services
 import qs.config
+import qs.components
 
-Rectangle {
+AnimatedColorRect {
 
     implicitHeight: text.implicitHeight + Appearance.padding.md / 2
     implicitWidth: text.implicitWidth + Appearance.padding.md

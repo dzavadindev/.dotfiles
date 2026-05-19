@@ -4,8 +4,9 @@ import Quickshell
 
 import qs.services
 import qs.config
+import qs.components
 
-Rectangle {
+AnimatedColorRect {
     id: root
 
     implicitHeight: app_id.implicitHeight + Appearance.padding.md / 2

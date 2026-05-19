@@ -28,7 +28,7 @@ StyledWindow {
         }
     }
 
-    Rectangle {
+    AnimatedColorRect {
         id: fill
 
         anchors.fill: parent
@@ -37,7 +37,7 @@ StyledWindow {
         visible: WMService.focusedWorkspace.hasFullscreen
     }
 
-    Rectangle {
+    AnimatedColorRect {
         id: child
 
         color: Appearance.colors.primary

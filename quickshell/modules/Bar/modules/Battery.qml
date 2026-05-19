@@ -6,7 +6,7 @@ import qs.config
 import qs.components
 import qs.services
 
-Rectangle {
+AnimatedColorRect {
     id: root
 
     visible: PowerService.isLaptop

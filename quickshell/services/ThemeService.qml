@@ -10,6 +10,8 @@ Singleton {
 
     property string pendingImagePath: ""
 
+    // Schedules a palette extraction pass for a specific image path.
+    // Stores the path for change correlation, then points ColorQuantizer to the file URL.
     function applyPaletteFromImage(path: string) {
         if (!path)
             return;
@@ -18,61 +20,16 @@ Singleton {
         quantizer.source = path.startsWith("file://") ? path : `file://${path}`;
     }
 
-    function fromColor(value): var {
-        if (typeof value === "string") {
-            let hex = value.trim();
-            if (hex.startsWith("#"))
-                hex = hex.slice(1);
-
-            if (hex.length === 8)
-                hex = hex.slice(2);
-
-            if (hex.length === 3)
-                hex = `${hex[0]}${hex[0]}${hex[1]}${hex[1]}${hex[2]}${hex[2]}`;
-
-            if (hex.length !== 6)
-                return {
-                    r: 0,
-                    g: 0,
-                    b: 0
-                };
-
-            return {
-                r: parseInt(hex.slice(0, 2), 16) / 255,
-                g: parseInt(hex.slice(2, 4), 16) / 255,
-                b: parseInt(hex.slice(4, 6), 16) / 255
-            };
-        }
-
-        if (value && value.r !== undefined)
-            return {
-                r: value.r,
-                g: value.g,
-                b: value.b
-            };
-
-        return {
-            r: 0,
-            g: 0,
-            b: 0
-        };
-    }
-
-    function toHex(rgb): string {
-        function comp(v) {
-            const n = Math.max(0, Math.min(255, Math.round(v * 255)));
-            return n.toString(16).padStart(2, "0");
-        }
-
-        return `#${comp(rgb.r)}${comp(rgb.g)}${comp(rgb.b)}`;
-    }
-
+    // Converts gamma-encoded sRGB channel into linear-light space.
+    // Needed before luminance/contrast math for perceptual correctness.
     function linearize(v: real): real {
         if (v <= 0.04045)
             return v / 12.92;
         return Math.pow((v + 0.055) / 1.055, 2.4);
     }
 
+    // Computes relative luminance (WCAG-style) for an RGB color.
+    // Uses linearized channels and Rec. 709 luminance coefficients.
     function luminance(rgb): real {
         const r = linearize(rgb.r);
         const g = linearize(rgb.g);
@@ -80,6 +37,8 @@ Singleton {
         return 0.2126 * r + 0.7152 * g + 0.0722 * b;
     }
 
+    // Computes contrast ratio between two RGB colors.
+    // Returns (lighter+0.05)/(darker+0.05), where higher means more contrast.
     function contrastRatio(a, b): real {
         const l1 = luminance(a);
         const l2 = luminance(b);
@@ -88,75 +47,58 @@ Singleton {
         return (light + 0.05) / (dark + 0.05);
     }
 
-    function saturation(rgb): real {
-        const maxC = Math.max(rgb.r, rgb.g, rgb.b);
-        const minC = Math.min(rgb.r, rgb.g, rgb.b);
-        const delta = maxC - minC;
-
-        if (delta === 0)
-            return 0;
-
-        const l = (maxC + minC) / 2;
-        return delta / (1 - Math.abs(2 * l - 1));
-    }
-
-    function hue(rgb): real {
-        const maxC = Math.max(rgb.r, rgb.g, rgb.b);
-        const minC = Math.min(rgb.r, rgb.g, rgb.b);
-        const delta = maxC - minC;
-
-        if (delta === 0)
-            return 0;
-
-        let h = 0;
-        if (maxC === rgb.r)
-            h = ((rgb.g - rgb.b) / delta) % 6;
-        else if (maxC === rgb.g)
-            h = (rgb.b - rgb.r) / delta + 2;
-        else
-            h = (rgb.r - rgb.g) / delta + 4;
-
-        h *= 60;
-        if (h < 0)
-            h += 360;
-        return h;
-    }
-
+    // Computes shortest circular hue distance in degrees.
+    // Handles wrap-around between 0 and 360 correctly.
     function hueDistance(a: real, b: real): real {
         const d = Math.abs(a - b);
         return Math.min(d, 360 - d);
     }
 
-    function mix(a, b, t: real) {
-        const x = Math.max(0, Math.min(1, t));
-        return {
-            r: a.r + (b.r - a.r) * x,
-            g: a.g + (b.g - a.g) * x,
-            b: a.b + (b.b - a.b) * x
-        };
-    }
-
+    // Maps quantized image colors into the runtime theme palette.
+    // This implementation enforces a dark-base hierarchy:
+    // - primary: dark base color
+    // - primary_dark: darker variant of primary
+    // - primary_light: lighter variant of primary
+    // - secondary/accent: vibrant colors, separated by hue/contrast
     function applyFromQuantizedColors(colors) {
         if (!colors || colors.length === 0)
             return;
 
         const candidates = colors.map(c => {
-            const rgb = fromColor(c);
+            const rgb = {
+                r: c.r,
+                g: c.g,
+                b: c.b
+            };
+
             return {
                 color: c,
                 rgb: rgb,
                 lum: luminance(rgb),
-                sat: saturation(rgb),
-                h: hue(rgb)
+                sat: c.hsvSaturation,
+                h: c.hsvHue < 0 ? 0 : c.hsvHue
             };
         });
 
+        // ==== Select PRIMARY (dark base) ====
+        // target dark luminance and penalize high saturation so primary remains
+        // a stable background anchor instead of a vibrant foreground tone.
+        const targetPrimaryLum = 0.11;
+        const minPrimaryLum = 0.08;
+        const maxPrimaryLum = 0.15;
+
         let primary = null;
         for (const c of candidates) {
-            if (c.lum >= 0.45)
+            if (c.lum < minPrimaryLum || c.lum > maxPrimaryLum)
                 continue;
 
-            const score = (1 - Math.abs(c.lum - 0.28)) + c.sat * 0.35;
+            // Score math:
+            // - lumCloseness: highest when luminance is near targetPrimaryLum
+            // - satPenalty: subtracts points for vivid colors
+            const lumCloseness = 1 - Math.abs(c.lum - targetPrimaryLum);
+            const satPenalty = c.sat * 0.65;
+            const score = lumCloseness - satPenalty;
+
             if (!primary || score > primary.score)
                 primary = {
                     score,
@@ -164,6 +106,7 @@ Singleton {
                 };
         }
 
+        // Fallback if no candidate fits the dark window: choose the darkest color.
         if (!primary) {
             primary = {
                 score: 0,
@@ -173,16 +116,47 @@ Singleton {
 
         const primaryEntry = primary.entry;
 
+        // ==== Select SECONDARY (first vibrant) ====
+        // Prefer colors that strongly contrast with primary; saturation is a tie-breaker.
+        const minSecondaryContrast = 3.0;
         let secondary = candidates[0];
-        let bestContrast = -1;
+        let bestSecondaryScore = -1;
         for (const c of candidates) {
+            if (c === primaryEntry)
+                continue;
+
             const ratio = contrastRatio(primaryEntry.rgb, c.rgb);
-            if (ratio > bestContrast) {
-                bestContrast = ratio;
+
+            if (ratio < minSecondaryContrast)
+                continue;
+
+            // Score math:
+            // - contrast has primary weight for readability against dark base
+            // - saturation adds vibrancy preference
+            const score = ratio * 1.25 + c.sat * 0.9;
+            if (score > bestSecondaryScore) {
+                bestSecondaryScore = score;
                 secondary = c;
             }
         }
 
+        // Fallback if no candidate reaches min contrast: use best raw contrast.
+        if (bestSecondaryScore < 0) {
+            let bestContrast = -1;
+            for (const c of candidates) {
+                if (c === primaryEntry)
+                    continue;
+
+                const ratio = contrastRatio(primaryEntry.rgb, c.rgb);
+                if (ratio > bestContrast) {
+                    bestContrast = ratio;
+                    secondary = c;
+                }
+            }
+        }
+
+        // ==== Select ACCENT (second vibrant) ====
+        // Accent should pop, remain usable on primary, and be hue-distinct.
         let accent = null;
         let accentScore = -1;
         for (const c of candidates) {
@@ -194,7 +168,11 @@ Singleton {
                 continue;
 
             const hueSep = Math.max(hueDistance(c.h, primaryEntry.h), hueDistance(c.h, secondary.h));
-            const score = c.sat * 2 + hueSep / 360 + contrastWithPrimary * 0.15;
+            // Score math:
+            // - saturation is strongly weighted (accent should be energetic)
+            // - hue separation avoids secondary/accent looking too similar
+            // - small contrast bonus keeps visibility on dark surfaces
+            const score = c.sat * 2.2 + hueSep / 360 + contrastWithPrimary * 0.2;
             if (score > accentScore) {
                 accentScore = score;
                 accent = c;
@@ -204,18 +182,12 @@ Singleton {
         if (!accent)
             accent = secondary;
 
-        const primaryLight = mix(primaryEntry.rgb, secondary.rgb, 0.12);
-        const primaryDark = mix(primaryEntry.rgb, {
-            r: 0,
-            g: 0,
-            b: 0
-        }, 0.25);
-
-        Appearance.colors.primary = toHex(primaryEntry.rgb);
-        Appearance.colors.primary_light = toHex(primaryLight);
-        Appearance.colors.primary_dark = toHex(primaryDark);
-        Appearance.colors.secondary = toHex(secondary.rgb);
-        Appearance.colors.accent = toHex(accent.rgb);
+        // ==== Assign selected colors to Appearance ====
+        Appearance.colors.primary = primaryEntry.color;
+        Appearance.colors.primary_light = Qt.lighter(primaryEntry.color, 0.9);
+        Appearance.colors.primary_dark = Qt.darker(primaryEntry.color, 1.2);
+        Appearance.colors.secondary = secondary.color;
+        Appearance.colors.accent = accent.color;
     }
 
     ColorQuantizer {
