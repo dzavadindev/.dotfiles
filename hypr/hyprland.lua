@@ -182,7 +182,7 @@ hl.bind(mainMod .. " + Space", hl.dsp.exec_cmd("qs ipc call overlay togglePanel 
 hl.bind(mainMod .. " + SHIFT + E", hl.dsp.exec_cmd("hamr plugin power"))
 hl.bind(mainMod .. " + V", hl.dsp.exec_cmd("hamr plugin clipboard"))
 
-hl.bind(mainMod .. " + Q", hl.dsp.window.kill())
+hl.bind(mainMod .. " + Q", hl.dsp.window.close())
 hl.bind(mainMod .. " + O", hl.dsp.window.float({ action = "toggle" }))
 hl.bind(mainMod .. " + P", hl.dsp.window.pseudo())
 hl.bind(mainMod .. " + I", hl.dsp.layout("togglesplit"))
