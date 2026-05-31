@@ -88,7 +88,7 @@ hl.config({
 		border_size = 1,
 		col = {
 			active_border = { colors = { "rgba(e0e1ddFF)", "rgba(e0e1ddFF)" }, angle = 45 },
-			inactive_border = { colors = { "rgba(00000000)" } },
+			inactive_border = "rgba(00000000)",
 		},
 		resize_on_border = false,
 		allow_tearing = false,
@@ -178,9 +178,6 @@ hl.bind(mainMod .. " + D", hl.dsp.exec_cmd("discord"))
 
 hl.bind(mainMod .. " + W", hl.dsp.exec_cmd("dionysus toggle"))
 hl.bind(mainMod .. " + Space", hl.dsp.exec_cmd("qs ipc call overlay togglePanel wallpaper_carousel"))
-
-hl.bind(mainMod .. " + SHIFT + E", hl.dsp.exec_cmd("hamr plugin power"))
-hl.bind(mainMod .. " + V", hl.dsp.exec_cmd("hamr plugin clipboard"))
 
 hl.bind(mainMod .. " + Q", hl.dsp.window.close())
 hl.bind(mainMod .. " + O", hl.dsp.window.float({ action = "toggle" }))
@@ -391,3 +388,9 @@ hl.window_rule({
 	},
 	maximize = true,
 })
+
+-------------------
+--- EXPERIMENTS ---
+-------------------
+
+-- hl.bind(mainMod .. " + G", hl.dsp.group.toggle())

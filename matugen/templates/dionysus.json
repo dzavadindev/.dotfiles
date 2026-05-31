@@ -1,0 +1,4 @@
+{
+    "primary": "{{ colors.surface.default.hex }}",
+    "secondary": "{{ colors.primary.default.hex }}"
+}

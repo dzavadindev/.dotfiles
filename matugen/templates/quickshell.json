@@ -1,0 +1,12 @@
+{
+    "primary": {
+        "default": "{{ base16.base01.default.hex }}",
+        "dark": "{{ base16.base01.default.hex | saturate: -25, "hsl" }}",
+        "light": "{{ base16.base01.default.hex | saturate: 25, "hsl" }}"
+    },
+    "secondary": "{{ base16.base06.default.hex }}",
+    "tertiary": {
+        "default": "{{ base16.base08.default.hex }}",
+        "contrast": "{{ base16.base02.default.hex }}"
+    }
+}

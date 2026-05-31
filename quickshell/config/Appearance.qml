@@ -17,10 +17,11 @@ Singleton {
     // Colors -------------------------------------
     component Colors: QtObject {
         property color primary: "#0d1b2a"
+        property color primary_dark: "#0a1420"
         property color primary_light: "#1b263b"
-        property color primary_dark: "#0d2a1c"
         property color secondary: "#e0e1dd"
-        property color accent: "#004080"
+        property color tertiary: "#004080"
+        property color tertiary_contrast: "#e0e1dd"
     }
 
     // ELEMENT SIZES -------------------------------

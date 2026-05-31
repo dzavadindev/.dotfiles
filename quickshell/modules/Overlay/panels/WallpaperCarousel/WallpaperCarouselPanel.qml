@@ -158,7 +158,7 @@ Rectangle {
                     height: viewport.height * 0.92 * scale
 
                     radius: Appearance.rounding.normal
-                    color: Appearance.colors.primary_light
+                    color: Appearance.colors.primary_dark
 
                     border.width: selected ? Appearance.borderWidth.sm : 0
                     border.color: selected ? Appearance.colors.secondary : "transparent"

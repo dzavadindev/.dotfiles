@@ -7,12 +7,6 @@ import qs.config
 import qs.services
 import qs.components
 
-// REWRITE
-// Render all workspaces, empty or not >
-// Show them based on if they have a toplevel or not >
-// Keep the logic of animated bg sliding
-// DEPENDS on if QML has a thing for 'display:none'
-
 Rectangle {
     id: root
     color: "transparent"
@@ -97,7 +91,7 @@ Rectangle {
                             } else if (WMService.workspaces.values.find(el => el.id == modelData + 1)) {
                                 color = Appearance.colors.secondary;
                             } else {
-                                color = Appearance.colors.primary_dark;
+                                color = Appearance.colors.primary_light;
                             }
                             return color;
                         }

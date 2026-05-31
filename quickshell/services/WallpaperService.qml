@@ -31,9 +31,8 @@ Singleton {
             return;
         }
 
-        applyProcess.exec(["awww", "img", "--transition-type", "random", "--transition-duration", "0.5", "--transition-fps", "144", path]);
+        applyProcess.exec(["matugen", "image", path, "--source-color-index", 0]);
         currentWallpaper = path;
-        ThemeService.applyPaletteFromImage(path);
     }
 
     function setWallpaperByIndex(index: int) {
@@ -87,7 +86,7 @@ Singleton {
                         */
                 if (!root.currentWallpaper) {
                     root.currentWallpaper = raw[0].displaying.image;
-                    ThemeService.applyPaletteFromImage(root.currentWallpaper);
+                    ThemeService.reloadFromConfig();
                 }
             }
         }

@@ -87,8 +87,8 @@ Row {
 
                 progress: volume.visualPosition
                 radius: Appearance.rounding.full
-                baseColor: Appearance.colors.accent
-                fillColor: Appearance.colors.secondary
+                baseColor: Appearance.colors.tertiary
+                fillColor: Appearance.colors.tertiary_contrast
             }
         }
 
