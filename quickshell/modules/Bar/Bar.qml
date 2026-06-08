@@ -97,6 +97,10 @@ StyledWindow {
             Notifications {
                 id: notifications
             }
+
+            Date {
+                id: date
+            }
         }
     }
 }

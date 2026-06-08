@@ -118,9 +118,9 @@ hl.config({
 
 		blur = {
 			enabled = true,
-			size = 3,
+			size = 4,
 			passes = 3,
-			vibrancy = 0.1696,
+			vibrancy = 0.15,
 		},
 	},
 
@@ -188,6 +188,7 @@ hl.bind(mainMod .. " + Z", hl.dsp.window.fullscreen_state({ internal = 1, client
 hl.bind(mainMod .. " + Return", hl.dsp.window.fullscreen_state({ internal = 2, client = 2, action = "toggle" }))
 
 hl.bind(mainMod .. " + SHIFT + L", hl.dsp.exec_cmd("swaylock"))
+hl.bind(mainMod .. " + SHIFT + S", hl.dsp.exec_cmd("$HOME/.config/hypr/scripts/screenshot.sh"))
 
 hl.bind(mainMod .. " + h", hl.dsp.focus({ direction = "left" }))
 hl.bind(mainMod .. " + l", hl.dsp.focus({ direction = "right" }))
@@ -208,8 +209,6 @@ for i = 1, 5 do
 	hl.bind(mainMod .. " + " .. i, hl.dsp.focus({ workspace = i }))
 	hl.bind(mainMod .. " + SHIFT + " .. i, hl.dsp.window.move({ workspace = i }))
 end
-
-hl.bind(mainMod .. " + SHIFT + S", hl.dsp.exec_cmd("XDG_CURRENT_DESKTOP=sway flameshot gui"))
 
 hl.bind(mainMod .. " + mouse:272", hl.dsp.window.drag(), { mouse = true })
 hl.bind(mainMod .. " + mouse:273", hl.dsp.window.resize(), { mouse = true })
@@ -245,17 +244,6 @@ hl.bind("XF86AudioPrev", hl.dsp.exec_cmd("playerctl previous"), { locked = true 
 --------------------------------
 ---- WINDOWS AND WORKSPACES ----
 --------------------------------
-
-hl.window_rule({
-	name = "flameshot",
-	match = {
-		class = "flameshot",
-		title = "flameshot",
-	},
-	no_anim = true,
-	float = true,
-	fullscreen = true,
-})
 
 hl.window_rule({
 	name = "suppress-maximize-events",
@@ -389,8 +377,9 @@ hl.window_rule({
 	maximize = true,
 })
 
--------------------
---- EXPERIMENTS ---
--------------------
-
--- hl.bind(mainMod .. " + G", hl.dsp.group.toggle())
+hl.window_rule({
+	match = { class = "com.gabm.satty" },
+	workspace = "special:screenshot silent",
+	float = true,
+	center = true,
+})

@@ -1,7 +1,6 @@
 pragma ComponentBehavior: Bound
 
-import Quickshell
-import Quickshell.Widgets
+import qs.config
 
 import QtQuick
 
@@ -32,7 +31,7 @@ Rectangle {
 
     color: "transparent"
 
-    implicitHeight: isEmpty ? viewport.animatedHeight : 0
+    implicitHeight: viewport.animatedHeight
     implicitWidth: 100 // DEFAULT VALUE
 
     Rectangle {
@@ -68,6 +67,9 @@ Rectangle {
             anchors.horizontalCenter: parent.horizontalCenter
             anchors.top: parent.top
             anchors.bottom: parent.bottom
+
+            topMargin: root.wrapperYPadding
+            bottomMargin: root.wrapperYPadding
 
             spacing: root.spacing
 
@@ -162,12 +164,16 @@ Rectangle {
 
         ListView.onRemove: {
             removeAnim.start();
-            viewport.targetHeight = viewport.targetHeight - (implicitHeight + root.wrapperYPadding);
+
+            const wasOnlyItem = rollingList.count === 0;
+            viewport.targetHeight = viewport.targetHeight - implicitHeight - (wasOnlyItem ? root.wrapperYPadding * 2 : root.spacing);
         }
 
         ListView.onAdd: {
             addAnim.start();
-            viewport.targetHeight = viewport.targetHeight + implicitHeight + root.wrapperYPadding;
+
+            const isFirstItem = rollingList.count === 1;
+            viewport.targetHeight = viewport.targetHeight + implicitHeight + (isFirstItem ? root.wrapperYPadding * 2 : root.spacing);
         }
     }
 }

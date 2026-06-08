@@ -135,6 +135,7 @@ StyledWindow {
         open: root.audioMixerActive
         closeOnAnyKeypress: true
         hostWidth: root.width
+        hostHeight: root.height
 
         anchors.bottom: parent.bottom
         anchors.bottomMargin: Appearance.padding.md
@@ -151,6 +152,7 @@ StyledWindow {
         open: root.notificationCenterActive
         closeOnAnyKeypress: true
         hostWidth: root.width
+        hostHeight: root.height
 
         anchors.bottom: parent.bottom
         anchors.bottomMargin: Appearance.padding.md

@@ -20,6 +20,8 @@ Rectangle {
 
     implicitHeight: layout.implicitHeight + Appearance.padding.lg
     implicitWidth: layout.implicitWidth + Appearance.padding.lg
+    width: parent ? parent.width : implicitWidth
+    height: parent ? parent.height : implicitHeight
 
     topLeftRadius: Appearance.rounding.normal
     bottomLeftRadius: Appearance.rounding.normal
@@ -65,7 +67,9 @@ Rectangle {
             model: root.category === "apps" ? appsModel : root.category === "playbacks" ? sinksModel : micsModel
 
             implicitHeight: Appearance.elementSize.audioMixer_listHeight
-            width: contentItem.childrenRect.width
+            implicitWidth: contentItem.childrenRect.width
+
+            width: implicitWidth
 
             delegate: AudioElement {}
         }

@@ -10,6 +10,7 @@ Item {
 
     readonly property real surfaceWidth: contentRoot.implicitWidth
     readonly property real surfaceHeight: contentRoot.implicitHeight
+    readonly property int easingType: Easing.OutQuad
 
     signal opened
     signal closed
@@ -27,6 +28,20 @@ Item {
 
     enabled: open
     visible: open || transitionRunning
+
+    Behavior on width {
+        NumberAnimation {
+            duration: 400
+            easing.type: root.easingType
+        }
+    }
+
+    Behavior on height {
+        NumberAnimation {
+            duration: 400
+            easing.type: root.easingType
+        }
+    }
 
     onOpenChanged: {
         pendingSignal = true;
@@ -63,7 +78,12 @@ Item {
     Item {
         id: contentRoot
 
-        implicitWidth: childrenRect.width
-        implicitHeight: childrenRect.height
+        readonly property Item firstChild: children.length > 0 ? children[0] : null
+
+        implicitWidth: firstChild ? (firstChild.implicitWidth || firstChild.width) : childrenRect.width
+        implicitHeight: firstChild ? (firstChild.implicitHeight || firstChild.height) : childrenRect.height
+        width: root.width
+        height: root.height
+        clip: true
     }
 }

@@ -5,9 +5,11 @@ import Quickshell
 Singleton {
     id: root
 
-    readonly property date date: clock.date
     readonly property string time: {
         Qt.formatDateTime(clock.date, 'hh:mm');
+    }
+    readonly property string date: {
+        Qt.formatDateTime(clock.date, 'dd.MM.yyyy');
     }
 
     SystemClock {

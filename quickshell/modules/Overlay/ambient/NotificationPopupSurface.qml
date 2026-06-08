@@ -17,6 +17,7 @@ RollingListView {
 
     wrapperColor: Appearance.colors.primary
     wrapperBottomRadius: Appearance.rounding.normal
+    wrapperYPadding: Appearance.padding.sm
 
     implicitWidth: Appearance.elementSize.notificationListItem_width
 
