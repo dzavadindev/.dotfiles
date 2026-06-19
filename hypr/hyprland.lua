@@ -34,7 +34,9 @@ local mainMod = "SUPER"
 -------------------
 
 hl.on("hyprland.start", function()
-	hl.exec_cmd("dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP")
+	hl.exec_cmd("easyeffects -w --service-mode")
+	hl.exec_cmd("systemctl --user import-environment QT_QPA_PLATFORMTHEME")
+	hl.exec_cmd("systemctl --user start hyprland-session.target")
 	hl.exec_cmd("dionysus init &")
 	hl.exec_cmd("qs -d")
 	hl.exec_cmd("hypridle & otd-daemon &")
@@ -53,6 +55,10 @@ end)
 
 hl.on("config.reloaded", function()
 	hl.exec_cmd("pkill qs; qs -d")
+end)
+
+hl.on("hyprland.shutdown", function()
+	os.execute("pkill dionysus awww-daemon; systemctl --user stop hyprland-session.target && sleep 0.1")
 end)
 
 -------------------------------

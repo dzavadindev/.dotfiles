@@ -8,3 +8,4 @@ opencode/bun.lock
 opencode/package.json
 
 hypr/monitors.conf
+zsh/shell/secret-keys.sh
