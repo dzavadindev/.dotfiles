@@ -56,12 +56,13 @@ Singleton {
     }
 
     function isKnownPanel(id: string): bool {
-        return id === panel.audioMixer || id === panel.notificationCenter || id === panel.wallpaperCarousel;
+        return id === panel.audioMixer || id === panel.notificationCenter || id === panel.wallpaperCarousel || id === panel.powerMenu;
     }
 
     component Panel: QtObject {
         readonly property string audioMixer: "audio_mixer"
         readonly property string notificationCenter: "notification_center"
         readonly property string wallpaperCarousel: "wallpaper_carousel"
+        readonly property string powerMenu: "power_menu"
     }
 }

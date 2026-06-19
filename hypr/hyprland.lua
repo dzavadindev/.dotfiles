@@ -184,6 +184,7 @@ hl.bind(mainMod .. " + D", hl.dsp.exec_cmd("discord"))
 
 hl.bind(mainMod .. " + W", hl.dsp.exec_cmd("dionysus toggle"))
 hl.bind(mainMod .. " + Space", hl.dsp.exec_cmd("qs ipc call overlay togglePanel wallpaper_carousel"))
+hl.bind(mainMod .. " + SHIFT + E", hl.dsp.exec_cmd("qs ipc call overlay togglePanel power_menu"))
 
 hl.bind(mainMod .. " + Q", hl.dsp.window.close())
 hl.bind(mainMod .. " + O", hl.dsp.window.float({ action = "toggle" }))

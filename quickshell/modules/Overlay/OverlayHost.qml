@@ -13,6 +13,7 @@ import qs.services
 
 import "panels/AudioMixer"
 import "panels/Notifications"
+import "panels/PowerMenu"
 import "panels/WallpaperCarousel"
 import "ambient"
 
@@ -34,9 +35,10 @@ StyledWindow {
 
     readonly property bool audioMixerActive: OverlayManager.isActive(OverlayManager.panel.audioMixer)
     readonly property bool notificationCenterActive: OverlayManager.isActive(OverlayManager.panel.notificationCenter)
+    readonly property bool powerMenuActive: OverlayManager.isActive(OverlayManager.panel.powerMenu)
     readonly property bool wallpaperCarouselActive: OverlayManager.isActive(OverlayManager.panel.wallpaperCarousel)
 
-    readonly property list<PanelSurface> managedSurfaces: [wallpaperCarouselSurface, audioMixerSurface, notificationCenterSurface]
+    readonly property list<PanelSurface> managedSurfaces: [wallpaperCarouselSurface, audioMixerSurface, notificationCenterSurface, powerMenuSurface]
     readonly property PanelSurface activeSurface: managedSurfaces.find(surface => surface.open) ?? null
 
     FocusScope {
@@ -78,6 +80,13 @@ StyledWindow {
             y: root.notificationCenterActive ? notificationCenterSurface.y : 0
             width: root.notificationCenterActive ? notificationCenterSurface.width : 0
             height: root.notificationCenterActive ? notificationCenterSurface.height : 0
+        }
+
+        Region {
+            x: root.powerMenuActive ? powerMenuSurface.x : 0
+            y: root.powerMenuActive ? powerMenuSurface.y : 0
+            width: root.powerMenuActive ? powerMenuSurface.width : 0
+            height: root.powerMenuActive ? powerMenuSurface.height : 0
         }
 
         Region {
@@ -158,6 +167,44 @@ StyledWindow {
         anchors.bottomMargin: Appearance.padding.md
 
         NotificationCenterPanel {}
+    }
+
+    FadeSurface {
+        id: powerMenuSurface
+
+        managedPanelId: OverlayManager.panel.powerMenu
+        open: root.powerMenuActive
+        closeOnAnyKeypress: true
+
+        onOpened: powerMenuPanel.resetSelection()
+
+        function handleKeypress(event): bool {
+            if (event.key === Qt.Key_Left) {
+                powerMenuPanel.moveLeft();
+                return true;
+            }
+
+            if (event.key === Qt.Key_Right) {
+                powerMenuPanel.moveRight();
+                return true;
+            }
+
+            if (event.key === Qt.Key_Return || event.key === Qt.Key_Enter) {
+                powerMenuPanel.executeSelected();
+                OverlayManager.closeAll();
+                return true;
+            }
+
+            return false;
+        }
+
+        anchors.top: parent.top
+        anchors.horizontalCenter: parent.horizontalCenter
+        anchors.topMargin: Appearance.padding.md
+
+        PowerMenuPanel {
+            id: powerMenuPanel
+        }
     }
 
     // The element to hold the notifications that pop out at the top of the screen
