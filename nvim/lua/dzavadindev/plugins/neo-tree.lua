@@ -11,7 +11,7 @@ return {
   },
   lazy = false,
   keys = {
-    { '\\', ':Neotree reveal<CR>', desc = 'NeoTree reveal', silent = true },
+    { '<Tab>', ':Neotree reveal<CR>', desc = 'NeoTree reveal', silent = true },
   },
   opts = {
     filesystem = {
@@ -20,7 +20,7 @@ return {
       },
       window = {
         mappings = {
-          ['\\'] = 'close_window',
+          ['<Tab>'] = 'close_window',
         },
       },
     },

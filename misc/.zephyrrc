@@ -1,0 +1,1 @@
+export ZEPHYR_BASE="$HOME/zephyrproject"

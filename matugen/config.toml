@@ -1,0 +1,15 @@
+[config]
+reload_apps = false
+
+[config.wallpaper]
+set = true
+command = "awww img --transition-type random --transition-duration 0.5 --transition-fps 144 {{ image }}"
+
+[templates.quickshell]
+input_path = "~/.config/matugen/templates/quickshell.json"
+output_path = "~/.cache/color-themes/quickshell.json"
+post_hook = "qs ipc call theme reload"
+
+[templates.dionysus]
+input_path = "~/.config/matugen/templates/dionysus.json"
+output_path = "~/.cache/color-themes/dionysus.json"

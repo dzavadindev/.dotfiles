@@ -1,0 +1,22 @@
+{
+  "theme": {
+    "colorScheme": "/home/dan/.local/share/color-schemes/FlightDarkColorScheme.colors",
+    "iconTheme": "breeze-dark",
+    "style": "breeze",
+    "font": {
+      "family": "FiraCode Nerd Font Ret",
+      "size": 15,
+      "weight": 0
+    },
+    "fontFixed": {
+      "family": "FiraCode Nerd Font Mono",
+      "size": 15,
+      "weight": -1
+    }
+  },
+  "misc": {
+    "menusHaveIcons": true,
+    "singleClickActivate": false,
+    "shortcutsForContextMenus": true
+  }
+}

@@ -1,0 +1,4 @@
+[submodule "quickshell"]
+	path = quickshell
+	url = git@github.com:dzavadindev/zagreus.git
+    branch = main

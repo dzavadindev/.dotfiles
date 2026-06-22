@@ -1,5 +1,10 @@
 vim.g.have_nerd_font = true
 
+-- default blend for new floating windows
+vim.opt.winblend = 0
+-- popup menu blend
+vim.opt.pumblend = 0
+
 -- Show relative line numbers
 vim.o.relativenumber = true
 
@@ -51,11 +56,21 @@ vim.o.scrolloff = 10
 -- Raise a dialog asking if you wish to preform an operation
 vim.o.confirm = true
 
+-- Enable spellcheck
+vim.opt.spell = true
+vim.opt.spelllang = { 'en_gb' }
+
 -- Tabulation settings
 vim.o.expandtab = true
-vim.o.shiftwidth = 2
-vim.o.softtabstop = 2
-vim.o.tabstop = 2
+vim.o.shiftwidth = 4
+vim.o.softtabstop = 4
+vim.o.tabstop = 4
+
+vim.opt.termguicolors = true
+
+vim.opt.diffopt:append 'vertical'
+vim.opt.diffopt:append 'algorithm:histogram'
+vim.opt.diffopt:append 'linematch:60'
 
 -- Disable statusline highlighting for transparent bg
 vim.api.nvim_create_autocmd('ColorScheme', {
