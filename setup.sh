@@ -66,10 +66,9 @@ mkdir -p "${HOME}/Pictures/Wallpapers"
 cp $DOTFILES/wpp/* ${HOME}/Pictures/Wallpapers
 
 # --- 5. install scripts -------------------------------------------------
-sudo install -Dm755 "$DOTFILES/scripts/powermenu.sh" /usr/local/bin/powermenu
 sudo install -Dm755 "$DOTFILES/scripts/install-zen.sh" /usr/local/bin/install-zen
-sudo install -Dm755 "$DOTFILES/scripts/load_noisetorch.sh" /usr/local/bin/load-noisetorch
 sudo install -Dm755 "$DOTFILES/scripts/custom_krita_launucher.sh" /usr/local/bin/custom-krita-launcher
+sudo install -Dm755 "$DOTFILES/scripts/install-apps-list.sh" /usr/local/bin/install-apps-list
 
 # --- 6. install Material Symbols ----------------------------------------
 mkdir -p $HOME/.local/share/fonts/MaterialDesign/
@@ -80,32 +79,8 @@ curl -sS https://starship.rs/install.sh | sh
 ln -s "$DOTFILES/starship.toml" "$XDG_CONFIG_HOME"
 
 # --- 8. apps and stuff --------------------------------------------------
-sudo pacman -S --needed --noconfirm stlink steam arduino-cli \
-arduino-language-server arm-none-eabi-gdb bat bitwarden \
-bashtop discord fastfetch lua lua51 luarocks fzf \
-obs-studio solaar vlc ffmpeg dolphin neovim pass \
-zsh kitty hyprland ttf-firacode-nerd greetd-tuigreet \
-xdg-utils flameshot blueman xdg-desktop-portal-hyprland \
-xdg-desktop-portal-gtk swww hyprpolkitagent cliphist \
-unzip quickshell inotify-tools gnome-keyring \
 
-paru -S --needed --noconfirm opentabletdriver
-
-QPWGRAPH_PATH="$HOME/Applications/qpwgraph/"
-QPWGRAPH_GIT="git@github.com:rncbc/qpwgraph.git"
-JUMP_BACK=$(pwd)
-
-mkdir -p "$QPWGRAPH_PATH"
-if [ -z "$(find $QPWGRAPH_PATH -mindepth 1 -maxdepth 1)" ]; then
-    git clone -j 5 "$QPWGRAPH_GIT" "$QPWGRAPH_PATH"
-    cd "$QPWGRAPH_PATH"
-    cmake -B build
-    cmake --build build --parallel 5
-    sudo cmake --install build
-    cd "$JUMP_BACK"
-else
-    echo "qpgraph is already installed";
-fi
+install-apps
 
 # --- 9. shell -----------------------------------------------------------
 [[ $SHELL != */zsh ]] && chsh -s /bin/zsh || true
