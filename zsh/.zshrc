@@ -1,7 +1,8 @@
 # External config
 # -----------------------------
-[[ -f "$XDG_CONFIG_HOME/shell/vars"    ]] && source "$XDG_CONFIG_HOME/shell/vars"
-[[ -f "$XDG_CONFIG_HOME/shell/aliases" ]] && source "$XDG_CONFIG_HOME/shell/aliases"
+[[ -f "$XDG_CONFIG_HOME/shell/vars.sh"    ]] && source "$XDG_CONFIG_HOME/shell/vars.sh"
+[[ -f "$XDG_CONFIG_HOME/shell/aliases.sh" ]] && source "$XDG_CONFIG_HOME/shell/aliases.sh"
+[[ -f "$XDG_CONFIG_HOME/shell/secret-keys.sh" ]] && source "$XDG_CONFIG_HOME/shell/secret-keys.sh"
 
 # Zsh init
 # -----------------------------
