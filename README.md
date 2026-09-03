@@ -1,17 +1,21 @@
+# PSA: DO NOT EVER JUST RUN SCRIPTS FROM THE INTERNET
+
+```
+IF FOR WHATEVER REASON YOU WANT TO USE THIS, MAKE BACKUPS OF ANY TOOLS YOU ARE INSTALLING (SEE BELOW, CHECK THE `./install.sh` SCRIPT).
+```
+
 # My Dotfiles
 
-This repository contains my personal configuration files (dotfiles) for ZSH, Neovim, Quickshell and more.
-
-THE SETUP SCRIPT LITERALLY DELETES ALL THE LISTED EXISTING CONFIGURATION FILES FROM YOUR `.config` BEFORE INSTALLING THE NEW ONES. I ONLY USE IT ON FRESH INSTALLS AND WHEN I HAVE ALREADY RAN IT ONCE AND KEEP UPDATING MY CONFIGS. 
-
-IF FOR WHATEVER REASON YOU WANT TO USE THIS, MAKE BACKUPS OF ANY TOOLS YOU ARE INSTALLING (SEE BELOW, CHECK THE `./install.sh` SCRIPT).
+This repository contains my personal configuration files (dotfiles) for zsh, hyprland, nvim, opencode and more.
 
 ## How to Use
 
-1. Clone the repo to `~/dotfiles`:
+1. Clone the repo to `~/dotfiles` (make sure to grab submodules):
 
 ```bash
-git clone https://github.com/dzavadindev/.dotfiles.git ~/dotfiles
+git clone --recursive https://github.com/dzavadindev/.dotfiles.git ~/dotfiles
+# or for existing repos
+git submodules update --init --recursive
 ```
 
 2. Run the setup script. 
@@ -25,14 +29,8 @@ cd ~/dotfiles
 
 ### Tools Used
 
-- `flameshot` - Screenshot utility. A bit funky on hypr, but does the job for me.
-- WIP `hamr` - As much as I wanted to write my own launcher with quickshell, this just has everything
-- `greetd` and `tui-greet` - Using a simple TUI based display manager
-- `hyprland` - window manager
-- `kitty` - terminal emulator
-- `nvim` - text editor
-- `quickshell` - custom shell elements like the waybar
-- `yazi` - TUI file explorer
+// THIS NEEDS TO BE REDONE :D
+// I ALSO NEED TO CLEAN THE REPO
 
 ### Known bugs
 
