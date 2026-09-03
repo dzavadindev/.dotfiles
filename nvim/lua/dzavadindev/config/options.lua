@@ -71,11 +71,3 @@ vim.opt.termguicolors = true
 vim.opt.diffopt:append 'vertical'
 vim.opt.diffopt:append 'algorithm:histogram'
 vim.opt.diffopt:append 'linematch:60'
-
--- Disable statusline highlighting for transparent bg
-vim.api.nvim_create_autocmd('ColorScheme', {
-  pattern = '*',
-  callback = function()
-    vim.cmd 'hi StatusLine guibg=NONE'
-  end,
-})

@@ -47,5 +47,11 @@ export PATH=/home/dan/.opencode/bin:$PATH
 # Cargo bin
 export PATH="$CARGO_HOME/bin:$PATH"
 
+# GO apps
+export PATH="$HOME/go/bin:$PATH"
+
+# Discord Canary Build
+export PATH="/opt/discord-canary:$PATH"
+
 # Source cargo env
 [[ -f "$CARGO_HOME/env" ]] && . "$CARGO_HOME/env"
