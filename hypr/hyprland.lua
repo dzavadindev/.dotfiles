@@ -204,7 +204,10 @@ hl.bind(mainMod .. " + Return", hl.dsp.window.fullscreen_state({ internal = 2, c
 
 hl.bind(mainMod .. " + SHIFT + L", hl.dsp.exec_cmd("swaylock"))
 hl.bind(mainMod .. " + SHIFT + S", hl.dsp.exec_cmd("$HOME/.config/hypr/scripts/screenshot.sh"))
-hl.bind(mainMod .. " + CTRL + SHIFT + S", hl.dsp.exec_cmd("$HOME/.config/hypr/scripts/screenshot-save.sh"))
+hl.bind(
+	mainMod .. " + CTRL + SHIFT + S",
+	hl.dsp.exec_cmd("grim -g '$(slurp)' -t ppm - | satty --filename - --fullscreen")
+)
 
 hl.bind(mainMod .. " + h", hl.dsp.focus({ direction = "left" }))
 hl.bind(mainMod .. " + l", hl.dsp.focus({ direction = "right" }))
@@ -391,13 +394,6 @@ hl.window_rule({
 		title = "org.gnome.Meld",
 	},
 	maximize = true,
-})
-
-hl.window_rule({
-	match = { class = "com.gabm.satty" },
-	workspace = "special:screenshot silent",
-	float = true,
-	center = true,
 })
 
 hl.window_rule({

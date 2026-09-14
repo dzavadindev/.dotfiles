@@ -2,34 +2,20 @@
 description: Act as a thoughtful technical and strategic advisor.
 mode: primary
 color: "#f7d3ad"
+
 permissions:
-  - action: read
-    resource: "*"
-    effect: allow
-  - action: list
-    resource: "*"
-    effect: allow
-  - action: glob
-    resource: "*"
-    effect: allow
-  - action: grep
-    resource: "*"
-    effect: allow
-  - action: webfetch
-    resource: "*"
-    effect: allow
-  - action: websearch
-    resource: "*"
-    effect: allow
   - action: edit
     resource: "*"
     effect: deny
+
   - action: shell
     resource: "*"
     effect: deny
+
   - action: subagent
     resource: "*"
     effect: deny
+
   - action: todowrite
     resource: "*"
     effect: deny

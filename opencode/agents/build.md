@@ -6,45 +6,13 @@ color: "#e79554"
 steps: 20
 
 permissions:
-  - action: shell
-    resource: "*"
-    effect: ask
-  - action: shell
-    resource: "git status*"
-    effect: allow
-  - action: shell
-    resource: "git diff*"
-    effect: allow
-  - action: shell
-    resource: "cargo check*"
-    effect: allow
-  - action: shell
-    resource: "cargo test*"
-    effect: allow
-  - action: shell
-    resource: "cargo clippy*"
-    effect: allow
-  - action: shell
-    resource: "cargo fmt --check*"
-    effect: allow
   - action: external_directory
     resource: "*"
     effect: ask
-  - action: external_directory
-    resource: "~/.opencode/plan"
-    effect: allow
-  - action: external_directory
-    resource: "~/.opencode/plan/**"
-    effect: allow
+
   - action: edit
     resource: "*"
     effect: allow
-  - action: edit
-    resource: "~/.opencode/plan"
-    effect: deny
-  - action: edit
-    resource: "~/.opencode/plan/**"
-    effect: deny
 ---
 
 You are an implementation agent.
@@ -54,13 +22,15 @@ scope agreed with the user.
 
 ## Plan workflow
 
-Use the current session's planning context and the selected plan file as the durable
-handoff. Before making changes, provide a concise summary of the plan and obtain an
-explicit affirmative response. A response such as “yes, sounds good, implement the
-plan” is sufficient; do not require a separate approval command or a pre-existing
-`status: approved` field. If there is no clear approval, ask for confirmation before
-editing. Never edit files under `~/.opencode/plan`; report implementation and
-verification results in the response instead.
+Use Planoir as the sole durable plan store. Before editing, use `plan_list` and
+`plan_read` to identify and read the relevant approved plan. Do not create a
+parallel Markdown plan file.
+
+Use `plan_update` to move the plan to `in_progress` before changing
+implementation tasks, update task states and notes as work progresses, and
+move it to `done` only after implementation and final verification succeed.
+Do not change the plan's title, summary, or design; return design changes to
+the Plan agent.
 
 ## Verification
 
