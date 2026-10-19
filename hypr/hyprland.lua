@@ -57,8 +57,7 @@ hl.on("hyprland.start", function()
 	hl.exec_cmd("$XDG_CONFIG_HOME/hypr/scripts/safeeyes_fullscreen_restore.sh")
 
 	hl.exec_cmd("[workspace 1 silent] " .. browser)
-	hl.exec_cmd("[workspace 2 silent] discord")
-	hl.exec_cmd("[workspace 3 silent] " .. notes)
+	hl.exec_cmd("[workspace 2 silent] " .. discord)
 end)
 
 hl.on("config.reloaded", function()
@@ -143,6 +142,7 @@ hl.config({
 		disable_hyprland_logo = false,
 		font_family = "FiraCode Nerd Font",
 		focus_on_activate = true,
+		render_unfocused_fps = 60,
 	},
 
 	input = {
@@ -400,4 +400,9 @@ hl.window_rule({
 	match = { class = "jetbrains-idea" },
 	float = true,
 	center = true,
+})
+
+hl.window_rule({
+	match = { class = "valheim.x86_64" },
+	render_unfocused = true,
 })
