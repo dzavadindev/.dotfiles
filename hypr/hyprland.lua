@@ -42,22 +42,27 @@ local mainMod = "SUPER"
 -------------------
 
 hl.on("hyprland.start", function()
-	hl.exec_cmd("easyeffects -w --service-mode")
+	hl.exec_cmd("dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP")
 	hl.exec_cmd("systemctl --user import-environment QT_QPA_PLATFORMTHEME")
 	hl.exec_cmd("systemctl --user start hyprland-session.target")
+	hl.exec_cmd("systemctl --user start hyprpolkitagent")
+
+	hl.exec_cmd("easyeffects -w --service-mode")
 	hl.exec_cmd("dionysus init &")
 	hl.exec_cmd("qs -d")
-	hl.exec_cmd("hypridle & otd-daemon &")
-	hl.exec_cmd("systemctl --user start hyprpolkitagent")
+	hl.exec_cmd("hypridle &")
+	hl.exec_cmd("otd-daemon &")
+	hl.exec_cmd("safeeyes")
 	hl.exec_cmd("gnome-keyring-daemon --start --components=secrets")
 	hl.exec_cmd("awww-daemon")
+
 	hl.exec_cmd("wl-paste --type text --watch cliphist store")
 	hl.exec_cmd("wl-paste --type image --watch cliphist store")
-	hl.exec_cmd("safeeyes")
+
 	hl.exec_cmd("$XDG_CONFIG_HOME/hypr/scripts/safeeyes_fullscreen_restore.sh")
 
 	hl.exec_cmd("[workspace 1 silent] " .. browser)
-	hl.exec_cmd("[workspace 2 silent] " .. discord)
+	hl.exec_cmd("[workspace 2 silent] " .. "discord")
 end)
 
 hl.on("config.reloaded", function()
@@ -147,7 +152,7 @@ hl.config({
 
 	input = {
 		kb_layout = "us, ua",
-		kb_options = "ctrl:nocaps,grp:toggle,compose:rctrl",
+		kb_options = "ctrl:nocaps,grp:toggle",
 		repeat_delay = 400,
 		follow_mouse = 1,
 		sensitivity = 0,
@@ -202,7 +207,6 @@ hl.bind(mainMod .. " + I", hl.dsp.layout("togglesplit"))
 hl.bind(mainMod .. " + Z", hl.dsp.window.fullscreen_state({ internal = 1, client = 1, action = "toggle" }))
 hl.bind(mainMod .. " + Return", hl.dsp.window.fullscreen_state({ internal = 2, client = 2, action = "toggle" }))
 
-hl.bind(mainMod .. " + SHIFT + L", hl.dsp.exec_cmd("swaylock"))
 hl.bind(mainMod .. " + SHIFT + S", hl.dsp.exec_cmd("$HOME/.config/hypr/scripts/screenshot.sh"))
 hl.bind(
 	mainMod .. " + CTRL + SHIFT + S",
