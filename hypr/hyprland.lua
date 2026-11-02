@@ -2,13 +2,15 @@
 ---- MONITORS ----
 ------------------
 
+-- Main monitor via DP
 hl.monitor({
-	output = "HDMI-A-1",
+	output = "DP-2",
 	mode = "1920x1080@144",
 	position = "0x0",
 	scale = 1,
 })
 
+-- Main Laptop monitor
 hl.monitor({
 	output = "eDP-1",
 	mode = "1920x1080@60",
@@ -147,7 +149,7 @@ hl.config({
 
 	input = {
 		kb_layout = "us, ua",
-		kb_options = "ctrl:nocaps,grp:toggle,compose:rctrl",
+		kb_options = "grp:toggle,compose:caps",
 		repeat_delay = 400,
 		follow_mouse = 1,
 		sensitivity = 0,
