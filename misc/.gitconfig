@@ -13,16 +13,6 @@
 
 [core]
 	editor = nvim
-    pager = delta
-
-[interactive]
-    diffFilter = delta --color-only
-
-[delta]
-    navigate = true  # use n and N to move between diff sections
-    dark = true
-    side-by-side = true 
-
 [merge]
     tool = meld
     conflictstyle = zdiff3
@@ -34,3 +24,7 @@
 [mergetool "meld"]
     cmd = meld --output "$MERGED" "$LOCAL" "$BASE" "$REMOTE"
     trustExitCode = false
+[diff]
+	tool = critique
+[difftool "critique"]
+	cmd = critique difftool \"$LOCAL\" \"$REMOTE\"

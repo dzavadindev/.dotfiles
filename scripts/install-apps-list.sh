@@ -4,10 +4,10 @@ obs-studio solaar vlc ffmpeg dolphin neovim matugen \
 zsh kitty hyprland ttf-firacode-nerd greetd-tuigreet \
 xdg-utils flameshot blueman xdg-desktop-portal-hyprland \
 xdg-desktop-portal-gtk awww hyprpolkitagent cliphist \
-unzip quickshell inotify-tools gnome-keyring git-delta \
-eza
+unzip quickshell inotify-tools gnome-keyring \
+eza zed
 
-paru -S --needed --noconfirm opentabletdriver
+paru -S --needed --noconfirm opentabletdriver timg
 
 QPWGRAPH_PATH="$HOME/Applications/qpwgraph/"
 QPWGRAPH_GIT="git@github.com:rncbc/qpwgraph.git"

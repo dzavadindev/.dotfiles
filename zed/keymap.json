@@ -1,0 +1,26 @@
+[
+  {
+    "context": "ProjectPanel && not_editing",
+    "bindings": {
+      "a": "project_panel::NewFile",
+      "shift-a": "project_panel::NewDirectory",
+
+      "x": "project_panel::Cut",
+      "y": "project_panel::Copy",
+      "p": "project_panel::Paste",
+      "r": "project_panel::Rename",
+
+      "shift-j": "menu::SelectNext",
+      "shift-k": "menu::SelectPrevious"
+    }
+  },
+  {
+    "context": "Editor",
+    "unbind": {
+      "ctrl-shift-j": "editor::JoinLines"
+    },
+    "bindings": {
+      "ctrl-shift-j": "agent::ToggleFocus",
+    }
+  },
+]

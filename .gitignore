@@ -6,6 +6,7 @@ hamr/config.json
 opencode/node_modules
 opencode/bun.lock
 opencode/package.json
+opencode/service.json
 
 hypr/monitors.conf
 zsh/shell/secret-keys.sh
