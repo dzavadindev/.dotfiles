@@ -152,7 +152,7 @@ hl.config({
 
 	input = {
 		kb_layout = "us, ua",
-		kb_options = "ctrl:nocaps,grp:toggle",
+		kb_options = "grp:toggle,compose:caps",
 		repeat_delay = 400,
 		follow_mouse = 1,
 		sensitivity = 0,
