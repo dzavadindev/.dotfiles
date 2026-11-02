@@ -1,4 +1,8 @@
-export PATH=$PATH:$HOME/bin:$HOME/.local/bin:/usr/local/bin:$HOME/flutter-sdk/flutter/bin:/usr/local/android-studio/android-studio:$HOME/dotnet:$HOME/.dotnet/tools:$HOME/.opencode/bin:$PATH
+export PATH="$PATH:/usr/local/bin:$HOME/bin:$HOME/.local/bin"
+
+export PATH="$PATH:$HOME/.bun/bin"
+export PATH="$PATH:$HOME/dotnet:$HOME/.dotnet/tools"
+export PATH="$PATH:$HOME/.opencode/bin"
 
 export DOTFILES_DIR="$HOME/.dotfiles"
 
@@ -19,3 +23,5 @@ export LC_TIME=nl_NL.UTF-8
 export NVM_DIR="$HOME/.config/nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
+
+export OPENCODE_PLUGINS="$HOME/projects/opencode-plugins/"
